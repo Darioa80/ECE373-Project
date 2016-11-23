@@ -2,6 +2,7 @@ package base;
 
 import base.Location;
 import ships.*;
+import ships.Equipment;
 public class Coordinate {
 
 	private Location Coord;
@@ -11,7 +12,7 @@ public class Coordinate {
 	public Coordinate(){
 		this.Coord = new Location();
 		this.isOccupied = false;
-		this.isOccupiedBy = new Equipment();
+		this.isOccupiedBy = null;		//cannot instantiate an abrstract class, will leave this null once the ship is defined, it could be setter function
 	}
 	
 	public Location getCoord(){
@@ -32,7 +33,7 @@ public class Coordinate {
 		return;
 	}
 	
-	public Equipment getisOccupiedBy(){
+	public Equipment getIsOccupiedBy(){
 		return this.isOccupiedBy;
 	}
 	
