@@ -1,16 +1,17 @@
 package base;
 
 import base.Location;
+import ships.*;
 public class Coordinate {
 
 	private Location Coord;
 	private boolean isOccupied;
-	// private Equpiment isOccupiedBy;
+	private Equipment isOccupiedBy;
 	
 	public Coordinate(){
 		this.Coord = new Location();
 		this.isOccupied = false;
-		// this.isOccupiedBY = new Equpment();
+		this.isOccupiedBy = new Equipment();
 	}
 	
 	public Location getCoord(){
@@ -28,6 +29,15 @@ public class Coordinate {
 	
 	public void setIsOccupied(boolean Is){
 		this.isOccupied = Is;
+		return;
+	}
+	
+	public Equipment getisOccupiedBy(){
+		return this.isOccupiedBy;
+	}
+	
+	public void setIsOccupiedBy(Equipment newEquipment){
+		this.isOccupiedBy = newEquipment;
 		return;
 	}
 	

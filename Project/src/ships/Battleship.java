@@ -24,7 +24,7 @@ public class Battleship extends Ship{
 				tempLocation.setNum(centerSpot.getCoord().getNum() + i);
 				tempLocation.setLetter(centerSpot.getCoord().getLetter() + j);
 				tempCoordinate.setCoord(tempLocation);
-					if (tempCoordinate.getisOccupied() == true){		//if an enemy boat is in the corrdinate, the hits on the enemy ship will be updated
+					if (tempCoordinate.getisOccupied() == true){		//if an enemy boat is in the coordinate, the hits on the enemy ship will be updated
 						tempCoordinate.getOccupiedby().getLocations();
 						
 					}
