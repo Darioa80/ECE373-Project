@@ -2,16 +2,21 @@ package ships;
 
 import base.Location;
 import base.Coordinate;
+import base.*;
 import java.util.ArrayList;
+
 
 public class Battleship extends Ship{
 	private int timesUsed;
 	public static final int tomahawkArea = 9;
+	public static final int gridHeight = 10;
+	public static final int gridWidth = 10;
+	
 	public Battleship(){
 		this.timesUsed = 0;
 	}
 	
-	public int getTimesUsed(){
+	public int getTimesUsed() {
 		return this.timesUsed;
 	}
 	
@@ -26,10 +31,12 @@ public class Battleship extends Ship{
 		int k = 0;			//will cycle through the hits array
 		int hitscounter;
 		boolean hitAnything = false;
+		
 		for (j=-1; j < 2; j++){
-			for (i=-1; i < 2; i++){						//The double for loop will go through the 3x3 area the tomahawk targets.
+			for (i=-1; i < 2; i++){						//The double for loop will go through the 3x3 area the tomahawk target
+				
 				Coordinate tempCoordinate = new Coordinate();
-				Location tempLocation = new Location();
+				Location tempLocation = new Location();					//thiese 3 lines are wrong, i need to access the gameboard private member
 				tempLocation.setNum(centerSpot.getCoord().getNum() + i);
 				tempLocation.setLetter(centerSpot.getCoord().getLetter() + j);
 				tempCoordinate.setCoord(tempLocation);
@@ -48,7 +55,6 @@ public class Battleship extends Ship{
 						}
 						//else check if the ship has already been destroyed
 					}
-				//hits[k] = tempCoordinate.getisOccupied(); 
 		}
 		}
 		timesUsed++;
