@@ -12,7 +12,7 @@ public class Coordinate {
 	public Coordinate(){
 		this.Coord = new Location();
 		this.isOccupied = false;
-		this.isOccupiedBy = null;		//cannot instantiate an abrstract class, will leave this null once the ship is defined, it could be setter function
+		this.isOccupiedBy = null;		//cannot instantiate an abstract class, will leave this null once the ship is defined, it could be setter function
 	}
 	
 	public Location getCoord(){

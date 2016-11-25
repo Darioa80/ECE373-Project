@@ -6,24 +6,27 @@ public abstract class Ship extends Equipment {
 	private boolean direction;
 	private boolean sunk;
 	private int specialsLeft;
-	
-	//default contructor
+	private int size; //NAOMI ADDED THIS, it's the size of the ship (AirCraftCarrier = 5, Battleship = 4 , Destroyer & Submarine = 3, PTBoat = 2)
+
+	//default constructor
 	public Ship(){
 		super();
 		direction = true;
 		sunk = false;
 		specialsLeft = 0;
+		size = 0;	//NAOMI ADDED THIS
 	}
 	
 	//setters and getters
 	public void setDir(boolean D){this.direction = D; return;}
 	public void setSunk(boolean S){this.sunk = S; return; }
 	public void setSpecialsLeft(int left){this.specialsLeft = left; return; }
+	public void setSize(int shipLength) {this.size = shipLength;}	//NAOMI ADDED THIS
 	
 	public boolean getDir(){return this.direction; }
 	public boolean getSunk(){return this.sunk; }
 	public int getSpecialsLeft () {return this.specialsLeft;}
-	
+	public int getSize() {return size;}	//NAOMI ADDED THIS
 	
 	
 	

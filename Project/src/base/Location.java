@@ -12,6 +12,10 @@ public class Location {
 		return;
 		
 	}
+	public Location(int newLetter, int newNum) {	//Added this constructor because when we make locations, we will already know the Letter and number location on the gameboard
+		this.Letter = newLetter;
+		this.Num = newNum;
+	}
 	
 	public int getNum(){
 		return this.Num;

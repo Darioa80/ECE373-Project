@@ -2,9 +2,12 @@ package ships;
 import java.util.ArrayList;
 
 public class AirCraftCarrier extends Ship {
-	private ArrayList<Plane> Planes = new ArrayList<Plane>();
+	private ArrayList<Plane> Planes;
 	
-	
+	public AirCraftCarrier(){
+		this.setSize(5);
+		Planes = new ArrayList<Plane>();
+	}
 	// I changed it so that the window can ask the user which firingPattern
 	// And if they say in the shape of a cross, "firingPattern" will be true
 	// If they say in the shape of an X, "firingPattern" will be false
