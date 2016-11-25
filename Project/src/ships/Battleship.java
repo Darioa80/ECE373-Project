@@ -36,10 +36,7 @@ public class Battleship extends Ship{
 			for (i=-1; i < 2; i++){						//The double for loop will go through the 3x3 area the tomahawk target
 				
 				Coordinate tempCoordinate = new Coordinate();
-				Location tempLocation = new Location();					//thiese 3 lines are wrong, i need to access the gameboard private member
-				tempLocation.setNum(centerSpot.getCoord().getNum() + i);
-				tempLocation.setLetter(centerSpot.getCoord().getLetter() + j);
-				tempCoordinate.setCoord(tempLocation);
+				tempCoordinate = GameBoard.Spaces[centerSpot.getCoord().getLetter()+i][centerSpot.getCoord().getNum()+j];
 					if (tempCoordinate.getisOccupied() == true){		//if an enemy boat is in the coordinate, the hits on the enemy ship will be updated
 						//hits  = tempCoordinate.getIsOccupiedBy().getHits();
 						for (k = 0; k < tempCoordinate.getIsOccupiedBy().getHits().size(); k++){		//now that we've identified an enemy ship the hits on that ship must be updated
@@ -53,7 +50,7 @@ public class Battleship extends Ship{
 								hitAnything = true;
 							}
 						}
-						//else check if the ship has already been destroyed
+						//else check if the ship has already been destroyed or should be destroyed
 					}
 		}
 		}
