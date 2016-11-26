@@ -24,32 +24,18 @@ public class Destroyer extends Ship {
 	public void Apache(Coordinate centerSpot, boolean direction, GameBoard Board){
 		int i;
 		int k;
-		int numHits = 0;
 		//false => horizontal direction
 		
-		if (this.getSpecialsLeft() < 1){
+		if (this.getSpecialsLeft() < 1){		//double checks special can be used
 			return;
 		}
+
 		for(i=-1; i < 2; i++){
-			if(direction == false){
-			if(Board.getSpaces()[centerSpot.getCoord().getLetter()][centerSpot.getCoord().getNum()+i].getBeenHit() == true){
-				System.out.println("One of these coordinates has already been targetted. Please choose another coordinate to use the Apache missile.");
-				return;
-				
-			}
-			}
-			else {
-				if(Board.getSpaces()[centerSpot.getCoord().getLetter()+i][centerSpot.getCoord().getNum()].getBeenHit() == true){
-					System.out.println("One of these coordinates has already been targetted. Please choose another coordinate to use the Apache missile.");
-					return;
-				}
-			}
-		}
-		
-		
-		for(i=-1; i < 2; i++){
-			Coordinate tempCoordinate = new Coordinate();
 			if (direction == false){
+			if(Board.getSpaces()[centerSpot.getCoord().getLetter()][centerSpot.getCoord().getNum()+i].getBeenHit() == true){
+			}
+			else{
+				Coordinate tempCoordinate = new Coordinate();
 				tempCoordinate = Board.getSpaces()[centerSpot.getCoord().getLetter()][centerSpot.getCoord().getNum()+i];
 					if (tempCoordinate.getisOccupied() == true){
 						for (k = 0; k < tempCoordinate.getIsOccupiedBy().getHits().size(); k++){		//now that we've identified an enemy ship the hits on that ship must be updated
@@ -60,12 +46,16 @@ public class Destroyer extends Ship {
 								//}
 									
 								break;
+							}
+						}
 					}
+				}
 			}
-		}
-			
-	}
 			else {
+				if(Board.getSpaces()[centerSpot.getCoord().getLetter()+i][centerSpot.getCoord().getNum()].getBeenHit() == true){
+				}
+				else{
+				Coordinate tempCoordinate = new Coordinate();
 				tempCoordinate = Board.getSpaces()[centerSpot.getCoord().getLetter()+i][centerSpot.getCoord().getNum()];
 				if (tempCoordinate.getisOccupied() == true){
 					for (k = 0; k < tempCoordinate.getIsOccupiedBy().getHits().size(); k++){		//now that we've identified an enemy ship the hits on that ship must be updated
@@ -76,6 +66,7 @@ public class Destroyer extends Ship {
 				}
 				}
 			}
+			}	
 		}
 		this.setSpecialsLeft(getSpecialsLeft()-1);
 	}
