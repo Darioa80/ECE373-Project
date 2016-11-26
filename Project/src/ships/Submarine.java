@@ -1,71 +1,153 @@
 package ships;
+import java.util.ArrayList;
+
 import base.*;
 
 public class Submarine extends Ship{
-	public int torpedoesLeft;
 	
 	public Submarine() {
-		this.setSize(3);
-		torpedoesLeft = 2;
+		//The variables in Equipment
+			this.setSize(3);							//Set the size of the ship
+			this.setName("Submarine");					//Set the name
+			//When is the location array set?
+			for(int i = 0; i < this.getSize(); ++i) {	//Set the hits array list to false since it hasn't been hit
+				this.getHits().add(false);
+			}
+			//When is ownedBy set?
+
+		//The variables in Ship
+			//When is the direction set?
+			//Sunk = false is set in Ship class
+			this.setSpecialsLeft(2);					//Set the number of specials left
 	}
 	
-	public boolean Torpedo(Coordinate spotChosen){
-		//FIXME
-		//In the GUI:
-		//"Pick a spot along the edges of the grid."
+	public void Torpedo(Coordinate spotChosen, boolean direction, GameBoard board){
+		int i = 0, j =0;
+		
 		/*
-		 * if (spot != along the edge) {
+		 * In the GUI:
+		 * "Pick a spot along the edges of the grid."
+		 * if (spot != along the edge) {	//If the spot is not along the edge
 		 * 		Window("Error, the location you selected is not on the edge. 
-		 * 				Please select a location on the edge of the grid."
+		 * 				Please select a location on the edge of the grid.");
 		 * }
-		 * if ((spot == A1) || (spot == A10) || (spot == J1) || (spot == J10)) {
-		 * 
+		 * else if ((spot == A1) || (spot == A10) || (spot == J1) || (spot == J10)) {	//If the spot is a corner
+		 * 		Window("Would you like to hit horizontally or vertically?");
+		 * 		if(vertically) {
+		 * 			Torpedo(spot, true);
+		 * 		else {
+		 * 			Torpedo(spot, false);
+		 * }
+		 * else {		//If the spot is along the edge and is not a corner
+		 * 		if((row == 1) || (row == 10)) {	//the direction they chose was vertical
+		 * 			Torpedo(spot, true);
+		 * 		}
+		 * 		if((col == 1) || (col == 10)) {	//the direction they chose was horizontal
+		 * 			Torpedo(spot, false);
+		 * 		}
+		 * }
 		 * 
 		 */
 		
 		
 		/*
 		 * For the Torpedo, a spot at the edge of the grid will be chosen. 
-		 * The direction of the Torpedo depends on the spot that is selected 
-		 * along the edges. If a spot is selected along the vertical edges 
-		 * of the grid, the Torpedo will fire at the corresponding row. If a 
-		 * spot is selected along the horizontal edges, the Torpedo will fire 
-		 * at the corresponding column. Once a column/row has been decided 
-		 * the Torpedo will then hit every spot from one end of the grid 
-		 * until either it hits an enemy ship in that row/column or it reaches 
-		 * the other edge of the grid. If an enemy ship is hit, fire from the 
-		 * Torpedo will stop. The player can only fire two Torpedoes per game 
-		 * and are lost if used or if the Submarine is sunk.
+		 * If a spot is selected along the vertical edges of the grid, the 
+		 * Torpedo will fire at the corresponding row. 
+		 * If a spot is selected along the horizontal edges, the Torpedo 
+		 * will fire at the corresponding column.  
+		 * The Torpedo will hit every spot in that row / column until it 
+		 * finds a location with an enemy ship. 
+		 * It'll shoot that location and the torpedo will stop.
+		 * The player can fire two Torpedoes per game and are lost if used 
+		 * or if the Submarine is sunk.
 		 * 
 		 */
 		
-		if(torpedoesLeft > 0) {
-			/* SHOOT THE FUCK OUT OF THOSE SPACES
-			 * If the spot chosen = a corner (A1, A10, J1, J10 / 1,1 ; 1,10 ; 10,1 ; 10,10)
-			 * Ask the user whether to shoot vertically or horizontally
-			 * if() 
-			 * 
-			 */
-			//			
-			
+		if(this.getSpecialsLeft() > 0) {		
+			if(direction == true) { //Torpedo is shot vertically, so column j stays the same
+				j = spotChosen.getCoord().getNum(); //column j stays the same since the torpedo is shot in the vertical direction
+				for(i = 0; i < 10; i++) {			//iterate through the rows
+					if(board.getSpaces()[i][j].getBeenHit() == false) {			//If this location hasn't been hit
+						if(board.getSpaces()[i][j].getisOccupied() == true){ 	//checks if this location is occupied by something
+							board.getSpaces()[i][j].setBeenHit(true);			//hit the spots that are occupied
+							return;	//The second it hits a spot, get out of this method
+						}
+					}
+				}
+				
+				
+			}
+			else {					//Torpedo is shot horizontally
+				i = spotChosen.getCoord().getLetter();	//row i stays the same since the torpedo is shot in the horizontal direction
+				for(j = 0; j < 10; j++) {				//iterate through the columns
+					if(board.getSpaces()[i][j].getBeenHit() == false) {			//checks if this location hasn't been hit
+						if(board.getSpaces()[i][j].getisOccupied() == true){ 	//checks if this location is occupied by something
+							board.getSpaces()[i][j].setBeenHit(true);			//hit the spots that are occupied
+							return; //The second it hits a spot, get out of this method
+						}
+					}
+				}
+			}
 			
 		}
 		else { //no torpedoes left :'(
-			//Return an error message??
+			//Return an error message?? I mean, it should never even get here.
 		}
 		
 		
-		torpedoesLeft = torpedoesLeft - 1;
-		if (torpedoesLeft <= 0) {
+		this.setSpecialsLeft(this.getSpecialsLeft()-1);
+		if (this.getSpecialsLeft() <= 0) {
 			//Deactivate button??
 			//Simply print out an error msgs when you try to press the button again??
 			//Find out in the next episode of DBZ!!!
 		}
 		
-		return true;
+		return;
 	}
-	public boolean Sonar(){
-		//FIXME
-		return true;
+	public boolean Sonar(Coordinate centerCoor, GameBoard board){	//Returns true if it found a ship in that 3x3 square. Returns false otherwise
+		int i = 0, j = 0;
+		/*
+		 * Sonar does not damage the enemy ships and has no limit to the number of 
+		 * times it can be used. The player picks a 3x3 square and  the Sonar tells
+		 * the player if any enemy ship is located there, but does not tell the user 
+		 * the exact location of the enemy ship.
+		 * If the submarine is sunk, the user can't use the Sonar. 
+		 */
+		
+		/*
+		 * IN THE GUI:
+		 * if (Sonar(coor, enemyBoard) == true) {
+		 * 		Window("There is a ship in one of these nine locations.");
+		 * }
+		 * else {
+		 * 		Window("There is no ship in one of these nine locations.");
+		 * }
+		 * 
+		 */
+		for(i = centerCoor.getCoord().getLetter() - 1; i <= centerCoor.getCoord().getLetter() + 1; i++){ //iterates through the row above and below the row that was selected  
+			for(j = centerCoor.getCoord().getNum() - 1; j <= centerCoor.getCoord().getNum() + 1; j++) {	//iterates through the column above and below the column that was selected
+				if((i >= 0) && (i < 10) && (j >= 0) && (j < 10)) {	//if the location is within the bounds
+					if(board.getSpaces()[i][j].getBeenHit() == false) {		//If this location hasn't been hit
+						if(board.getSpaces()[i][j].getisOccupied() == true){ //checks if this location is occupied by something
+							return true; //returns true if the enemy's board has a boat located in that position
+						}
+					}
+				}
+			}
+		}
+		return false; //Returns false if no ship is located in that 3x3 square
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
