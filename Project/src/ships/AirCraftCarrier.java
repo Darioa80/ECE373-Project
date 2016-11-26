@@ -45,25 +45,32 @@ public class AirCraftCarrier extends Ship {
 		 *  
 		 */
 		
-		int i = 0, j = 0;
+		int i = 0, j = 0, k =0;
+		int sizeOfHitArrayList = 0;
 		if(this.getSpecialsLeft() > 0) {			//There are exocet missles that you can fire :)
 			
 			if (firingPattern == true) {		//attack using a firing pattern that resembles a cross	
 				i = centerCoor.getCoord().getLetter();
 				for(j = centerCoor.getCoord().getNum() - 1; j <= centerCoor.getCoord().getNum() + 1; j++) {	//iterates through the column above and below the column that was selected
-					/*
-					 * if(occupiedByAShip) {
-					 *		hit that bitch
-					 *}
-					 *else if (not occupiedByAShip) {
-					 *		update that board space as hit
-					 *}
-					 * 
-					 * 
-					 */
-						
-				}
-				
+					if((j >= 0) && (j < 10)) {	//if the location is within the bounds
+						if(board.getSpaces()[i][j].getBeenHit() == false) {			//If this location hasn't been hit
+							if(board.getSpaces()[i][j].getisOccupied() == true){ 	//checks if this location is occupied by something
+								board.getSpaces()[i][j].setBeenHit(true);			//hit the spot that is occupied
+								
+								sizeOfHitArrayList = board.getSpaces()[i][j].getIsOccupiedBy().getHits().size(); 
+								for (k = 0; k < sizeOfHitArrayList; k++){		//We need to update the hits array of enemy's ship we hit
+									if(board.getSpaces()[i][j].getIsOccupiedBy().getHits().get(k) == false) {	//Finds the first item listed as "false" and updates it to true
+										board.getSpaces()[i][j].getIsOccupiedBy().getHits().set(k, true); 	//sets one of the arrayList's items to true (meaning it's true that it has been hit)
+										if(k == sizeOfHitArrayList - 1){	//if k = the last spot in that arrayList, that means the entire array is filled with "trues" which means the entire ship has been sunk!!!! 
+											board.getSpaces()[i][j].getIsOccupiedBy().setSunk(true);
+										}
+										break;
+									}
+								}
+							}
+						}
+					}	
+				}				
 				
 				
 				for(i = centerCoor.getCoord().getLetter() - 1; i <= centerCoor.getCoord().getLetter() + 1; i++){ //iterates through the row above and below the row that was selected  

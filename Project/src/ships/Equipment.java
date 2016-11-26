@@ -8,14 +8,15 @@ public abstract class Equipment {
 	private ArrayList<Boolean> hits;
 	private int size;
 	private boolean ownedBy;
-	
+	private boolean sunk;
 	
 	public Equipment(){
 		this.name = "";
 		this.location = new ArrayList<Location>(); //Naomi changed this from a single Location to an ArrayList of Locations
 		this.hits = new ArrayList<Boolean>();
 		this.size = 1;
-		this.ownedBy = true;		
+		this.ownedBy = true;	
+		this.sunk = false;
 	}
 	
 	
@@ -29,13 +30,14 @@ public abstract class Equipment {
 													//Instead we are able to update the hits of an equipment by passing in an index and a boolean element.
 		this.getHits().set(index, hit);
 	};
+	public void setSunk(boolean S){this.sunk = S; return; }
 	
 	public String getName(){return this.name;}
 	public ArrayList<Location> getLocation () {return location;}	//Naomi changed this from a single Location to an ArrayList of Locations
 	public ArrayList<Boolean> getHits() {return this.hits;}
 	public int getSize() { return this.size; }
 	public boolean getOwner() {return this.ownedBy; }
-	
+	public boolean getSunk(){return this.sunk; }
 	
 
 }
