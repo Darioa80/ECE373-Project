@@ -3,10 +3,12 @@ import java.util.ArrayList;
 
 public class AirCraftCarrier extends Ship {
 	private ArrayList<Plane> Planes;
+	private int exocetMissilesLeft;
 	
 	public AirCraftCarrier(){
 		this.setSize(5);
 		Planes = new ArrayList<Plane>();
+		exocetMissilesLeft = 2;
 	}
 	// I changed it so that the window can ask the user which firingPattern
 	// And if they say in the shape of a cross, "firingPattern" will be true

@@ -9,6 +9,12 @@ public class NaomiTesting {
 		Location location = new Location();
 		GameBoard userGameBoard = new GameBoard();
 		
+		/*
+		 * this.Coord = new Location();
+		 * this.isOccupied = false;
+		 * this.isOccupiedBy = null;
+		 */
+		
 		//idkCoordinate.setCoord(newLoc);
 		AirCraftCarrier newAirCraft = new AirCraftCarrier();
 		
@@ -24,7 +30,7 @@ public class NaomiTesting {
 		//newAirCraft.setLocation();
 		
 		//Okay so call a method (setAllLocations) that tries to set all the locations
-		//Within that method call another method (checkIfSpacesAreClear) that makes sure that the other spaces are free
+		//Within that method call another method (CheckIfSpaceIsClear) that makes sure that the other spaces are free
 		//And that all the spaces are within the board (in case they select space A10 and want the ship to be placed horizontally)
 		//if one of the spaces is occupied or off the board, that method returns false 
 		//A window then pops up and displays either "Could not place ship in desired location. One or more spaces are occupied."
