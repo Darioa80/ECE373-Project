@@ -22,8 +22,8 @@ public class Submarine extends Ship{
 	}
 	
 	public void Torpedo(Coordinate spotChosen, boolean direction, GameBoard board){
-		int i = 0, j =0;
-		
+		int i = 0, j =0, k=0;
+		int sizeOfHitArrayList = 0;
 		/*
 		 * In the GUI:
 		 * "Pick a spot along the edges of the grid."
@@ -68,10 +68,23 @@ public class Submarine extends Ship{
 			if(direction == true) { //Torpedo is shot vertically, so column j stays the same
 				j = spotChosen.getCoord().getNum(); //column j stays the same since the torpedo is shot in the vertical direction
 				for(i = 0; i < 10; i++) {			//iterate through the rows
+					
 					if(board.getSpaces()[i][j].getBeenHit() == false) {			//If this location hasn't been hit
 						if(board.getSpaces()[i][j].getisOccupied() == true){ 	//checks if this location is occupied by something
-							board.getSpaces()[i][j].setBeenHit(true);			//hit the spots that are occupied
-							return;	//The second it hits a spot, get out of this method
+							board.getSpaces()[i][j].setBeenHit(true);			//hit the spot that is occupied
+							
+							sizeOfHitArrayList = board.getSpaces()[i][j].getIsOccupiedBy().getHits().size(); 
+							for (k = 0; k < sizeOfHitArrayList; k++){		//We need to update the hits array of enemy's ship we hit
+								if(board.getSpaces()[i][j].getIsOccupiedBy().getHits().get(k) == false) {	//Finds the first item listed as "false" and updates it to true
+									board.getSpaces()[i][j].getIsOccupiedBy().getHits().set(k, true); 	//sets one of the arrayList's items to true (meaning it's true that it has been hit)
+									if(k == sizeOfHitArrayList - 1){	//if k = the last spot in that arrayList, that means the entire array is filled with "trues" which means the entire ship has been sunk!!!! 
+										board.getSpaces()[i][j].getIsOccupiedBy().setSunk(true);		//So change the sunk variable from false to true
+									}
+									break; //break out of this arrayList for loop
+								}
+							}
+							
+							return; //The second it hits a spot, get out of this method
 						}
 					}
 				}
@@ -81,12 +94,26 @@ public class Submarine extends Ship{
 			else {					//Torpedo is shot horizontally
 				i = spotChosen.getCoord().getLetter();	//row i stays the same since the torpedo is shot in the horizontal direction
 				for(j = 0; j < 10; j++) {				//iterate through the columns
-					if(board.getSpaces()[i][j].getBeenHit() == false) {			//checks if this location hasn't been hit
+					
+					if(board.getSpaces()[i][j].getBeenHit() == false) {			//If this location hasn't been hit
 						if(board.getSpaces()[i][j].getisOccupied() == true){ 	//checks if this location is occupied by something
-							board.getSpaces()[i][j].setBeenHit(true);			//hit the spots that are occupied
+							board.getSpaces()[i][j].setBeenHit(true);			//hit the spot that is occupied
+							
+							sizeOfHitArrayList = board.getSpaces()[i][j].getIsOccupiedBy().getHits().size(); 
+							for (k = 0; k < sizeOfHitArrayList; k++){		//We need to update the hits array of enemy's ship we hit
+								if(board.getSpaces()[i][j].getIsOccupiedBy().getHits().get(k) == false) {	//Finds the first item listed as "false" and updates it to true
+									board.getSpaces()[i][j].getIsOccupiedBy().getHits().set(k, true); 	//sets one of the arrayList's items to true (meaning it's true that it has been hit)
+									if(k == sizeOfHitArrayList - 1){	//if k = the last spot in that arrayList, that means the entire array is filled with "trues" which means the entire ship has been sunk!!!! 
+										board.getSpaces()[i][j].getIsOccupiedBy().setSunk(true);		//So change the sunk variable from false to true
+									}
+									break; //break out of this arrayList for loop
+								}
+							}
+							
 							return; //The second it hits a spot, get out of this method
 						}
 					}
+					
 				}
 			}
 			
