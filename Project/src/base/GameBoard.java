@@ -21,11 +21,21 @@ public class GameBoard {
 	
 	public static final int GRID_HEIGHT = 10;
 	public static final int GRID_WIDTH = 10;
-	public static Coordinate[][] Spaces = new Coordinate[GRID_HEIGHT][GRID_WIDTH];	//This is the board spaces of type coordinate?
+	public static Coordinate[][] Spaces;	//This is the board spaces of type coordinate?
 
 	
 	public GameBoard(){
-		//this.Spaces = new Coordinate[GRID_HEIGHT][GRID_WIDTH];
+		this.Spaces = new Coordinate[GRID_HEIGHT][GRID_WIDTH];
+		int i = 0; int j = 0;
+		Location tempLocation = new Location();
+		for (j = 0; j < GRID_HEIGHT; j++){
+			for (i = 0; i < GRID_WIDTH; i++){
+				Spaces[j][i] = new Coordinate();
+				tempLocation.setLetter(i);
+				tempLocation.setNum(j);
+				Spaces[j][i].setCoord(tempLocation);
+			}
+		}
 	}
 
 	public Coordinate[][] getSpaces(){
@@ -34,10 +44,12 @@ public class GameBoard {
 	
 	public void setSpace(Coordinate newCoordinate){
 		int i = 0, j = 0;
-		for (i = 0; i < GRID_WIDTH; i++){
-			for (j = 0; j < GRID_HEIGHT; j ++){
-				if (newCoordinate.getCoord() == getSpaces()[i][j].getCoord()){
-					getSpaces()[i][j] = newCoordinate;
+		for (j = 0; j < GRID_HEIGHT; j++){
+			for (i = 0; i < GRID_HEIGHT; i ++){
+				if (newCoordinate.getCoord().getLetter() == getSpaces()[j][i].getCoord().getLetter()){
+					if(newCoordinate.getCoord().getNum() == getSpaces()[j][i].getCoord().getNum()){
+						getSpaces()[j][i] = newCoordinate;
+					}
 				}
 			}
 		}

@@ -10,6 +10,7 @@ public class Destroyer extends Ship {
 	private int missilesUsed;
 	
 	public Destroyer(){
+		this.setSize(3);
 		missilesUsed = 0;
 	}
 	
@@ -22,7 +23,7 @@ public class Destroyer extends Ship {
 		for(i=-1; i < 2; i++){
 			Coordinate tempCoordinate = new Coordinate();
 			if (direction == false){
-			tempCoordinate = GameBoard.Spaces[centerSpot.getCoord().getLetter()+i][centerSpot.getCoord().getNum()];
+			tempCoordinate = GameBoard.Spaces[centerSpot.getCoord().getLetter()][centerSpot.getCoord().getNum()+i];
 			if (tempCoordinate.getisOccupied() == true){
 				for (k = 0; k < tempCoordinate.getIsOccupiedBy().getHits().size(); k++){		//now that we've identified an enemy ship the hits on that ship must be updated
 					if(tempCoordinate.getIsOccupiedBy().getHits().get(k) == false){				//cycles through the hits arraylist until it finds a false 

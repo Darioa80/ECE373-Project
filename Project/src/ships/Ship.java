@@ -7,7 +7,10 @@ public abstract class Ship extends Equipment {
 	private boolean sunk;
 	private int specialsLeft;
 	private int size; //NAOMI ADDED THIS, it's the size of the ship (AirCraftCarrier = 5, Battleship = 4 , Destroyer & Submarine = 3, PTBoat = 2)
-
+	public static final int GRID_HEIGHT = 10;
+	public static final int GRID_WIDTH = 10;
+	
+	
 	//default constructor
 	public Ship(){
 		super();
@@ -62,7 +65,38 @@ public abstract class Ship extends Equipment {
 		}
 		
 		
+	public void setShip(Coordinate frontCoordinate, boolean direction){	//This function will be used to place the ships in the grid.
+		int size = this.getSize();  //gets the size of the ship
+		int i;
+		int j;
+		if(direction == false){ //if direction is horizontal 
+			if ((frontCoordinate.getCoord().getNum() + size) > (GRID_WIDTH - 1)){	//minus 1 because the grid goes from 0-9 not 1-10
+			System.out.println("Coordinate is out of bounds, pick a different Coordinate or direction.");
+			return;
+				}
+			else {
+				for (i = 0; i < size; i++){	//iterates through the columns due to horizontal displacement.
+					GameBoard.Spaces[frontCoordinate.getCoord().getLetter()][frontCoordinate.getCoord().getNum()+i].setIsOccupiedBy(this);
+					GameBoard.Spaces[frontCoordinate.getCoord().getLetter()][frontCoordinate.getCoord().getNum()+i].setIsOccupied(true);
+				}
+			}
+
+			}
+		else{	//direction is vertical
+			if((frontCoordinate.getCoord().getLetter()+size) > (GRID_HEIGHT -1)){
+				System.out.println("Coordinate is out of bounds, pick a different Coordinate or direction.");
+				return;	
+			}
+			else {
+				for (j = 0; j < size; j++){		//iterates through rows
+					GameBoard.Spaces[frontCoordinate.getCoord().getLetter()+j][frontCoordinate.getCoord().getNum()].setIsOccupiedBy(this);
+					GameBoard.Spaces[frontCoordinate.getCoord().getLetter()+j][frontCoordinate.getCoord().getNum()].setIsOccupied(true);
+				}
+			}
+		}
 		
+		
+	}
 		
 		
 		

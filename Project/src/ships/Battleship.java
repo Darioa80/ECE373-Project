@@ -9,10 +9,11 @@ import java.util.ArrayList;
 public class Battleship extends Ship{
 	private int timesUsed;
 	public static final int tomahawkArea = 9;
-	public static final int gridHeight = 10;
-	public static final int gridWidth = 10;
+	public static final int GRID_HEIGHT = 10;
+	public static final int GRID_WIDTH = 10;
 	
 	public Battleship(){
+		this.setSize(4);
 		this.timesUsed = 0;
 	}
 	
@@ -36,7 +37,7 @@ public class Battleship extends Ship{
 			for (i=-1; i < 2; i++){						//The double for loop will go through the 3x3 area the tomahawk target
 				
 				Coordinate tempCoordinate = new Coordinate();
-				tempCoordinate = GameBoard.Spaces[centerSpot.getCoord().getLetter()+i][centerSpot.getCoord().getNum()+j];
+				tempCoordinate = GameBoard.Spaces[centerSpot.getCoord().getLetter()+j][centerSpot.getCoord().getNum()+i];
 					if (tempCoordinate.getisOccupied() == true){		//if an enemy boat is in the coordinate, the hits on the enemy ship will be updated
 						//hits  = tempCoordinate.getIsOccupiedBy().getHits();
 						for (k = 0; k < tempCoordinate.getIsOccupiedBy().getHits().size(); k++){		//now that we've identified an enemy ship the hits on that ship must be updated
@@ -57,5 +58,7 @@ public class Battleship extends Ship{
 		timesUsed++;
 		return hitAnything;
 	}
+	
+
 
 }
