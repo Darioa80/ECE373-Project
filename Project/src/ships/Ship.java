@@ -6,7 +6,6 @@ public abstract class Ship extends Equipment {
 	private boolean direction;
 	private boolean sunk;
 	private int specialsLeft;
-	private int size; //NAOMI ADDED THIS, it's the size of the ship (AirCraftCarrier = 5, Battleship = 4 , Destroyer & Submarine = 3, PTBoat = 2)
 	public static final int GRID_HEIGHT = 10;
 	public static final int GRID_WIDTH = 10;
 	
@@ -17,19 +16,16 @@ public abstract class Ship extends Equipment {
 		direction = true;
 		sunk = false;
 		specialsLeft = 0;
-		size = 0;	//NAOMI ADDED THIS
 	}
 	
 	//setters and getters
 	public void setDir(boolean D){this.direction = D; return;}
 	public void setSunk(boolean S){this.sunk = S; return; }
 	public void setSpecialsLeft(int left){this.specialsLeft = left; return; }
-	public void setSize(int shipLength) {this.size = shipLength;}	//NAOMI ADDED THIS
 	
 	public boolean getDir(){return this.direction; }
 	public boolean getSunk(){return this.sunk; }
 	public int getSpecialsLeft () {return this.specialsLeft;}
-	public int getSize() {return size;}	//NAOMI ADDED THIS
 	
 	
 	
@@ -65,7 +61,7 @@ public abstract class Ship extends Equipment {
 		}
 		
 		
-	public void setShip(Coordinate frontCoordinate, boolean direction){	//This function will be used to place the ships in the grid.
+	public void setShip(Coordinate frontCoordinate, boolean direction, GameBoard Board){	//This function will be used to place the ships in the grid.
 		int size = this.getSize();  //gets the size of the ship
 		int i;
 		int j;
@@ -76,8 +72,9 @@ public abstract class Ship extends Equipment {
 				}
 			else {
 				for (i = 0; i < size; i++){	//iterates through the columns due to horizontal displacement.
-					GameBoard.Spaces[frontCoordinate.getCoord().getLetter()][frontCoordinate.getCoord().getNum()+i].setIsOccupiedBy(this);
-					GameBoard.Spaces[frontCoordinate.getCoord().getLetter()][frontCoordinate.getCoord().getNum()+i].setIsOccupied(true);
+					Board.getSpaces()[frontCoordinate.getCoord().getLetter()][frontCoordinate.getCoord().getNum()+i].setIsOccupiedBy(this);
+					Board.getSpaces()[frontCoordinate.getCoord().getLetter()][frontCoordinate.getCoord().getNum()+i].setIsOccupied(true);
+					this.setLocation(Board.getSpaces()[frontCoordinate.getCoord().getLetter()][frontCoordinate.getCoord().getNum()+i].getCoord());
 				}
 			}
 
@@ -89,8 +86,9 @@ public abstract class Ship extends Equipment {
 			}
 			else {
 				for (j = 0; j < size; j++){		//iterates through rows
-					GameBoard.Spaces[frontCoordinate.getCoord().getLetter()+j][frontCoordinate.getCoord().getNum()].setIsOccupiedBy(this);
-					GameBoard.Spaces[frontCoordinate.getCoord().getLetter()+j][frontCoordinate.getCoord().getNum()].setIsOccupied(true);
+					Board.getSpaces()[frontCoordinate.getCoord().getLetter()+j][frontCoordinate.getCoord().getNum()].setIsOccupiedBy(this);
+					Board.getSpaces()[frontCoordinate.getCoord().getLetter()+j][frontCoordinate.getCoord().getNum()].setIsOccupied(true);
+					this.setLocation(Board.getSpaces()[frontCoordinate.getCoord().getLetter()+j][frontCoordinate.getCoord().getNum()].getCoord());
 				}
 			}
 		}

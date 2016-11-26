@@ -21,19 +21,18 @@ public class GameBoard {
 	
 	public static final int GRID_HEIGHT = 10;
 	public static final int GRID_WIDTH = 10;
-	public static Coordinate[][] Spaces;	//This is the board spaces of type coordinate?
+	public Coordinate[][] Spaces;	//This is the board spaces of type coordinate?
 
 	
 	public GameBoard(){
 		this.Spaces = new Coordinate[GRID_HEIGHT][GRID_WIDTH];
-		int i = 0; int j = 0;
-		Location tempLocation = new Location();
+		int i = 0; 
+		int j = 0;
 		for (j = 0; j < GRID_HEIGHT; j++){
 			for (i = 0; i < GRID_WIDTH; i++){
 				Spaces[j][i] = new Coordinate();
-				tempLocation.setLetter(i);
-				tempLocation.setNum(j);
-				Spaces[j][i].setCoord(tempLocation);
+				Spaces[j][i].getCoord().setNum(i);
+				Spaces[j][i].getCoord().setLetter(j);
 			}
 		}
 	}

@@ -25,6 +25,10 @@ public abstract class Equipment {
 	public void setHit(ArrayList<Boolean> newHits){this.hits =  newHits; return;}
 	public void setSize(int s){this.size = s; return;}
 	public void setOwner(boolean O){this.ownedBy = O ; return;}
+	public void setAHit(int index, boolean hit){	//added a new set function to equpment in order to not have to pass in an arrayList of hits. 
+													//Instead we are able to update the hits of an equipment by passing in an index and a boolean element.
+		this.getHits().set(index, hit);
+	};
 	
 	public String getName(){return this.name;}
 	public ArrayList<Location> getLocation () {return location;}	//Naomi changed this from a single Location to an ArrayList of Locations
