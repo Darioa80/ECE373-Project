@@ -24,6 +24,8 @@ public class Destroyer extends Ship {
 	public void Apache(Coordinate centerSpot, boolean direction, GameBoard Board){
 		int i;
 		int k;
+		int centerSpotColumn = centerSpot.getCoord().getNum();
+		int centerSpotRow = centerSpot.getCoord().getLetter();
 		//false => horizontal direction
 		
 		if (this.getSpecialsLeft() < 1){		//double checks special can be used
@@ -35,15 +37,13 @@ public class Destroyer extends Ship {
 			if(Board.getSpaces()[centerSpot.getCoord().getLetter()][centerSpot.getCoord().getNum()+i].getBeenHit() == true){
 			}
 			else{
-				Coordinate tempCoordinate = new Coordinate();
-				tempCoordinate = Board.getSpaces()[centerSpot.getCoord().getLetter()][centerSpot.getCoord().getNum()+i];
-					if (tempCoordinate.getisOccupied() == true){
-						for (k = 0; k < tempCoordinate.getIsOccupiedBy().getHits().size(); k++){		//now that we've identified an enemy ship the hits on that ship must be updated
-							if(tempCoordinate.getIsOccupiedBy().getHits().get(k) == false){				//cycles through the hits arraylist until it finds a false 
-								tempCoordinate.getIsOccupiedBy().getHits().set(k, true);
-								//if (k == (tempCoordinate.getIsOccupiedBy().getHits().size() - 1)){
-								//	tempCoordinate.getIsOccupiedBy().set
-								//}
+					if (Board.getSpaces()[centerSpotRow][centerSpotColumn+i].getisOccupied() == true){
+						for (k = 0; k < Board.getSpaces()[centerSpotRow][centerSpotColumn+i].getIsOccupiedBy().getHits().size(); k++){		//now that we've identified an enemy ship the hits on that ship must be updated
+							if(Board.getSpaces()[centerSpotRow][centerSpotColumn+i].getIsOccupiedBy().getHits().get(k) == false){				//cycles through the hits arraylist until it finds a false 
+								Board.getSpaces()[centerSpotRow][centerSpotColumn+i].getIsOccupiedBy().getHits().set(k, true);
+								if(k == (Board.getSpaces()[centerSpotRow+i][centerSpotColumn].getIsOccupiedBy().getHits().size()-1)){
+									Board.getSpaces()[centerSpotRow+i][centerSpotColumn].getIsOccupiedBy().setSunk(true);
+								}
 									
 								break;
 							}
@@ -55,12 +55,13 @@ public class Destroyer extends Ship {
 				if(Board.getSpaces()[centerSpot.getCoord().getLetter()+i][centerSpot.getCoord().getNum()].getBeenHit() == true){
 				}
 				else{
-				Coordinate tempCoordinate = new Coordinate();
-				tempCoordinate = Board.getSpaces()[centerSpot.getCoord().getLetter()+i][centerSpot.getCoord().getNum()];
-				if (tempCoordinate.getisOccupied() == true){
-					for (k = 0; k < tempCoordinate.getIsOccupiedBy().getHits().size(); k++){		//now that we've identified an enemy ship the hits on that ship must be updated
-						if(tempCoordinate.getIsOccupiedBy().getHits().get(k) == false){				//cycles through the hits arraylist until it finds a false 
-						tempCoordinate.getIsOccupiedBy().getHits().set(k, true);
+				if (Board.getSpaces()[centerSpotRow+i][centerSpotColumn].getisOccupied() == true){
+					for (k = 0; k < Board.getSpaces()[centerSpotRow+i][centerSpotColumn].getIsOccupiedBy().getHits().size(); k++){		//now that we've identified an enemy ship the hits on that ship must be updated
+						if(Board.getSpaces()[centerSpotRow+i][centerSpotColumn].getIsOccupiedBy().getHits().get(k) == false){				//cycles through the hits arraylist until it finds a false 
+							Board.getSpaces()[centerSpotRow+i][centerSpotColumn].getIsOccupiedBy().getHits().set(k, true);
+								if(k == (Board.getSpaces()[centerSpotRow+i][centerSpotColumn].getIsOccupiedBy().getHits().size()-1)){
+									Board.getSpaces()[centerSpotRow+i][centerSpotColumn].getIsOccupiedBy().setSunk(true);
+								}
 						break;
 						}
 				}
