@@ -5,38 +5,69 @@ import ships.*;
 
 public class NaomiTesting {
 	public static void main(String[] args) {
-		Coordinate idkCoordinate = new Coordinate();
-		Location location = new Location();
-		GameBoard userGameBoard = new GameBoard();
+		GameBoard userBoard = new GameBoard();	//Set the user's board
+		GameBoard compBoard = new GameBoard();	//Set the computer's board
 		
-		/*
-		 * this.Coord = new Location();
-		 * this.isOccupied = false;
-		 * this.isOccupiedBy = null;
-		 */
-		
-		//idkCoordinate.setCoord(newLoc);
-		AirCraftCarrier newAirCraft = new AirCraftCarrier();
-		
-		//"Where would you like to place your AirCraftCarrier?"
-		//User enters A1
-		location = new Location(1,1);
-		idkCoordinate.setCoord(location);
-		
-		//"Would you like to place the ship vertically or horizontally?
-		//User enters vertically, aka ship direction is "True" 		//for now True corresponds to vertical and false corresponds to horizontal
-		newAirCraft.setDir(true);
-		
-		//newAirCraft.setLocation();
-		
-		//Okay so call a method (setAllLocations) that tries to set all the locations
-		//Within that method call another method (CheckIfSpaceIsClear) that makes sure that the other spaces are free
-		//And that all the spaces are within the board (in case they select space A10 and want the ship to be placed horizontally)
-		//if one of the spaces is occupied or off the board, that method returns false 
-		//A window then pops up and displays either "Could not place ship in desired location. One or more spaces are occupied."
-		//or "Could not place ship in desired location. One or more spaces are off the board."
-		//or idk SOMETHING occurs letting 
-		
-		userGameBoard.setSpace(idkCoordinate);
+		//User's Aircraft Carrier
+			AirCraftCarrier userAirCraft = new AirCraftCarrier();
+			userAirCraft.setOwner(true);
+			Coordinate userAirCraftCoordinate = new Coordinate();
+			Location userAirCraftLocation = new Location();
+			
+			//"Where would you like to place your AirCraftCarrier?": 			A1
+			userAirCraftLocation = new Location(0,0);
+			userAirCraftCoordinate.setCoord(userAirCraftLocation);
+			
+			//"Would you like to place the ship vertically or horizontally?": 	Horizontally, aka false
+			userAirCraft.setDir(false);
+			userAirCraft.setShip(userAirCraftCoordinate, userAirCraft.getDir(), userBoard);	//Set's ALL of the ships locations
+			
+		//Computer's Submarine
+			Submarine compSubmarine = new Submarine();
+			compSubmarine.setOwner(false);
+			Coordinate compSubmarineCoordinate = new Coordinate();
+			Location compSubmarineLocation = new Location();
+			
+			//"Where would you like to place your AirCraftCarrier?": 			A10
+			compSubmarineLocation = new Location(0, 9);
+			compSubmarineCoordinate.setCoord(compSubmarineLocation);
+			
+			//"Would you like to place the ship vertically or horizontally?": 	Vertically, aka true
+			compSubmarine.setDir(true);
+			compSubmarine.setShip(compSubmarineCoordinate, compSubmarine.getDir(), compBoard);
+			
+			
+		//User shoots the computer's screen with the aircraft carrier
+			Coordinate shootCoor = new Coordinate();
+			Location shootLocation = new Location(1,8);
+			shootCoor.setCoord(shootLocation);
+			
+			userAirCraft.Exocet(false, shootCoor, compBoard);
+			
+			boolean result;
+		//Computer shoots the user's screen with Submarine 
+			Coordinate compShootCoor = new Coordinate();
+			Location compShootLocation = new Location(1,1);
+			compShootCoor.setCoord(compShootLocation);
+			
+			//compSubmarine.Torpedo(compShootCoor, true, userBoard);
+			
+			result = compSubmarine.Sonar(compShootCoor, userBoard);
+			if(result == false) {
+				System.out.println("No ships were found");
+			}
+			else {
+				System.out.println("One or more ships were located in this area.");
+			}
+
+			
+		//User shoots the computer's screen with the aircraft carrier
+			userAirCraft.Exocet(true, shootCoor, compBoard);
+
+			
+		//Computer shoots the user's screen with Submarine
+			compShootLocation.setLetter(1);
+			compSubmarine.Torpedo(compShootCoor, false, userBoard);
+	
 	}
 }

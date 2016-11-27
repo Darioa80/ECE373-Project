@@ -15,7 +15,7 @@ public abstract class Equipment {
 		this.location = new ArrayList<Location>(); //Naomi changed this from a single Location to an ArrayList of Locations
 		this.hits = new ArrayList<Boolean>();
 		this.size = 1;
-		this.ownedBy = true;	
+		this.ownedBy = true;		//Naomi is going to guess that "true" means ownedBy user and "false" means ownedBy Computer	
 		this.sunk = false;
 	}
 	

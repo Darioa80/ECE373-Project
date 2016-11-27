@@ -13,11 +13,11 @@ public class Submarine extends Ship{
 			for(int i = 0; i < this.getSize(); ++i) {	//Set the hits array list to false since it hasn't been hit
 				this.getHits().add(false);
 			}
-			//When is ownedBy set?
+			//ownedBy is be set in the driver.
 
 		//The variables in Ship
-			//When is the direction set?
-			//Sunk = false is set in Ship class
+			//Direction is set in the driver.
+			//Sunk is set in Ship class.	
 			this.setSpecialsLeft(2);					//Set the number of specials left
 	}
 	
@@ -64,14 +64,26 @@ public class Submarine extends Ship{
 		 * 
 		 */
 		
-		if(this.getSpecialsLeft() > 0) {		
+		if(this.getSpecialsLeft() > 0) {
+			this.setSpecialsLeft(this.getSpecialsLeft()-1); //Update the amount of specials left
+			
+			if (this.getSpecialsLeft() <= 0) {
+				//Deactivate button??
+				//Simply print out an error msgs when you try to press the button again??
+				//Find out in the next episode of DBZ!!!
+			}
+			
+			/*
+			 * Deactivate button
+			 */
+			
 			if(direction == true) { //Torpedo is shot vertically, so column j stays the same
 				j = spotChosen.getCoord().getNum(); //column j stays the same since the torpedo is shot in the vertical direction
 				for(i = 0; i < 10; i++) {			//iterate through the rows
 					
 					if(board.getSpaces()[i][j].getBeenHit() == false) {			//If this location hasn't been hit
+						board.getSpaces()[i][j].setBeenHit(true);			//hit the spot that is occupied
 						if(board.getSpaces()[i][j].getisOccupied() == true){ 	//checks if this location is occupied by something
-							board.getSpaces()[i][j].setBeenHit(true);			//hit the spot that is occupied
 							
 							sizeOfHitArrayList = board.getSpaces()[i][j].getIsOccupiedBy().getHits().size(); 
 							for (k = 0; k < sizeOfHitArrayList; k++){		//We need to update the hits array of enemy's ship we hit
@@ -96,8 +108,8 @@ public class Submarine extends Ship{
 				for(j = 0; j < 10; j++) {				//iterate through the columns
 					
 					if(board.getSpaces()[i][j].getBeenHit() == false) {			//If this location hasn't been hit
+						board.getSpaces()[i][j].setBeenHit(true);			//hit the spot that is occupied
 						if(board.getSpaces()[i][j].getisOccupied() == true){ 	//checks if this location is occupied by something
-							board.getSpaces()[i][j].setBeenHit(true);			//hit the spot that is occupied
 							
 							sizeOfHitArrayList = board.getSpaces()[i][j].getIsOccupiedBy().getHits().size(); 
 							for (k = 0; k < sizeOfHitArrayList; k++){		//We need to update the hits array of enemy's ship we hit
@@ -120,14 +132,6 @@ public class Submarine extends Ship{
 		}
 		else { //no torpedoes left :'(
 			//Return an error message?? I mean, it should never even get here.
-		}
-		
-		
-		this.setSpecialsLeft(this.getSpecialsLeft()-1);
-		if (this.getSpecialsLeft() <= 0) {
-			//Deactivate button??
-			//Simply print out an error msgs when you try to press the button again??
-			//Find out in the next episode of DBZ!!!
 		}
 		
 		return;
