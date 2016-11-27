@@ -20,7 +20,7 @@ public class NaomiTesting {
 			
 			//"Would you like to place the ship vertically or horizontally?": 	Horizontally, aka false
 			userAirCraft.setDir(false);
-			userAirCraft.setShip(userAirCraftCoordinate, userAirCraft.getDir(), userBoard);	//Set's ALL of the ships locations
+			userAirCraft.setShip(userAirCraftCoordinate, userBoard);	//Set's ALL of the ships locations
 			
 		//Computer's Submarine
 			Submarine compSubmarine = new Submarine();
@@ -34,7 +34,7 @@ public class NaomiTesting {
 			
 			//"Would you like to place the ship vertically or horizontally?": 	Vertically, aka true
 			compSubmarine.setDir(true);
-			compSubmarine.setShip(compSubmarineCoordinate, compSubmarine.getDir(), compBoard);
+			compSubmarine.setShip(compSubmarineCoordinate, compBoard);
 			
 			
 		//User shoots the computer's screen with the aircraft carrier
