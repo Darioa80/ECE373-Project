@@ -57,11 +57,19 @@ public abstract class Ship extends Equipment {
 		}
 		
 		
-	public void setShip(Coordinate frontCoordinate, boolean direction, GameBoard Board){	//This function will be used to place the ships in the grid.
+	public void setShip(Coordinate frontCoordinate, GameBoard Board){	//This function will be used to place the ships in the grid.
 		int size = this.getSize();  //gets the size of the ship
 		int i;
 		int j;
-		if(direction == false){ //if direction is horizontal 
+		int frontCoordRow = frontCoordinate.getCoord().getLetter();
+		int frontCoordColumn = frontCoordinate.getCoord().getNum();
+		if(this.getDir() == false){ //if direction is horizontal 
+			for(i =0; i < size; i++){
+				if (Board.getSpaces()[frontCoordRow][frontCoordColumn+i].getisOccupied() == true){
+					System.out.println("One of the desired coordinates is occupied, choose a new coordinate or direction for " + this.getName());
+					return;
+				}
+			}
 			if ((frontCoordinate.getCoord().getNum() + size) > (GRID_WIDTH - 1)){	//minus 1 because the grid goes from 0-9 not 1-10
 			System.out.println("Coordinate is out of bounds, pick a different Coordinate or direction.");
 			return;
@@ -76,6 +84,12 @@ public abstract class Ship extends Equipment {
 
 			}
 		else{	//direction is vertical
+			for(i =0; i < size; i++){
+				if (Board.getSpaces()[frontCoordRow+i][frontCoordColumn].getisOccupied() == true){
+					System.out.println("One of the desired coordinates is occupied, choose a new coordinate or direction for " + this.getName());
+					return;
+				}
+			}
 			if((frontCoordinate.getCoord().getLetter()+size) > (GRID_HEIGHT -1)){
 				System.out.println("Coordinate is out of bounds, pick a different Coordinate or direction.");
 				return;	

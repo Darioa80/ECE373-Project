@@ -24,7 +24,7 @@ public class Battleship extends Ship{
 	
 	public boolean TomaHawk(Coordinate centerSpot, GameBoard Board){		//not sure why this is boolean
 				//records the misses/hits of the tomahawk missile
-		if (this.getSpecialsLeft() > 0){	
+		if (this.getSpecialsLeft() < 1){	
 			return false;
 		}
 		
@@ -36,14 +36,18 @@ public class Battleship extends Ship{
 		int centerSpotColumn = centerSpot.getCoord().getNum();
 		for (j=-1; j < 2; j++){
 			for (i=-1; i < 2; i++){						//The double for loop will go through the 3x3 area the tomahawk target
-				if(Board.getSpaces()[centerSpot.getCoord().getLetter()+j][centerSpot.getCoord().getNum()+i].getBeenHit() == true){
+				if(((centerSpotRow+j) > (GRID_HEIGHT -1)) || ((centerSpotColumn+i) > (GRID_WIDTH -1))){
+					}
+				else {
+				if(Board.getSpaces()[centerSpotRow+j][centerSpotColumn+i].getBeenHit() == true){
 				}
 				else {
 					if (Board.getSpaces()[centerSpotRow+j][centerSpotColumn+i].getisOccupied() == true){		//if an enemy boat is in the coordinate, the hits on the enemy ship will be updated
 						for (k = 0; k < Board.getSpaces()[centerSpotRow+j][centerSpotColumn+i].getIsOccupiedBy().getHits().size(); k++){		//now that we've identified an enemy ship the hits on that ship must be updated
 							if(Board.getSpaces()[centerSpotRow+j][centerSpotColumn+i].getIsOccupiedBy().getHits().get(k) == false){				//cycles through the hits arraylist until it finds a false 
+								Board.getSpaces()[centerSpotRow+j][centerSpotColumn+i].setBeenHit(true);			//sets the current Coordinate to been hit
 								Board.getSpaces()[centerSpotRow+j][centerSpotColumn+i].getIsOccupiedBy().getHits().set(k, true);
-								if(k == (Board.getSpaces()[centerSpotRow+i][centerSpotColumn].getIsOccupiedBy().getHits().size()-1)){
+								if(k == (Board.getSpaces()[centerSpotRow+j][centerSpotColumn+i].getIsOccupiedBy().getHits().size()-1)){
 									Board.getSpaces()[centerSpotRow+i][centerSpotColumn].getIsOccupiedBy().setSunk(true);
 								}
 								hitAnything = true;
@@ -55,6 +59,7 @@ public class Battleship extends Ship{
 				}
 			}
 		}
+	}
 		this.setSpecialsLeft(getSpecialsLeft()-1);
 		return hitAnything;
 	}
