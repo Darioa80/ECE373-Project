@@ -14,7 +14,7 @@ public class AAGun {
 	
 	
 	
-	public void Fire(Location loc, GameBoard Board, ArrayList<Plane> planes){
+	public boolean Fire(Location loc, GameBoard Board, ArrayList<Plane> planes){
 		
 		
 		if(enabled){
@@ -30,11 +30,12 @@ public class AAGun {
 			
 			if(planes.get(0).isDestroyed() == true && planes.get(1).isDestroyed() == true)
 				this.enabled = false;
-			return;
+				
+			return true;
 		
 		}
 		else
 			//print error message about AA gun being disabled/ unavailable
-			return;
+			return false;
 	}
 }
