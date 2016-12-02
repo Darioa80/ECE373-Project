@@ -4,7 +4,6 @@ import base.*;
 
 public abstract class Ship extends Equipment {
 	private boolean direction;
-	private int specialsLeft;
 	public static final int GRID_HEIGHT = 10;
 	public static final int GRID_WIDTH = 10;
 	
@@ -13,15 +12,12 @@ public abstract class Ship extends Equipment {
 	public Ship(){
 		super();
 		direction = true;
-		specialsLeft = 0;
 	}
 	
 	//setters and getters
 	public void setDir(boolean D){this.direction = D; return;}
-	public void setSpecialsLeft(int left){this.specialsLeft = left; return; }
 	
 	public boolean getDir(){return this.direction; }
-	public int getSpecialsLeft () {return this.specialsLeft;}
 	
 	
 	
