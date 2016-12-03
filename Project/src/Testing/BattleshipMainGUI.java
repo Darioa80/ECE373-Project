@@ -12,14 +12,16 @@ public class BattleshipMainGUI extends JFrame {
 	
 	private JButton[][] userButtonGrid = new JButton[10][10];
 	private JButton[][] enemyButtonGrid = new JButton[10][10];
+	private int mode;
 	
     JButton mainMenuButton;
     JButton helpButton;
     JButton restartButton;
     JButton abilityButton;
 	
-	public BattleshipMainGUI() {
+	public BattleshipMainGUI(int modeSelected) {
 		super("BATTLESHIP");
+		mode = modeSelected;
 		setSize(1500,600);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    buildGUI();
@@ -112,29 +114,27 @@ public class BattleshipMainGUI extends JFrame {
 		}
 	    
 	    //GAME BUTTONS PANEL
-	    JPanel gameButtonsPanel = new JPanel();
-	    JPanel mainMenuButtonPanel = new JPanel();
-	    JPanel helpButtonPanel = new JPanel();
-	    JPanel restartButtonPanel = new JPanel();
-	    JPanel abilityButtonPanel = new JPanel();
+	    JPanel gameButtonsPanel = new JPanel();	    
 	    gameButtonsPanel.setLayout(new GridLayout(10,1));
 	    
 	    mainMenuButton = new JButton("Main Menu");
 	    helpButton = new JButton("Help");
 	    restartButton = new JButton("Restart");
-	    abilityButton = new JButton("Ability");
-	    abilityButton.setBackground(Color.GREEN);
-	    
+
 	    mainMenuButton.addActionListener(new SideButtonsListener());
 	    helpButton.addActionListener(new SideButtonsListener());
 	    restartButton.addActionListener(new SideButtonsListener());
-	    abilityButton.addActionListener(new SideButtonsListener());
-	    
 	    
 	    gameButtonsPanel.add(mainMenuButton);
 	    gameButtonsPanel.add(helpButton);
 	    gameButtonsPanel.add(restartButton);
-	    gameButtonsPanel.add(abilityButton);
+	    if(mode == 3) {
+		    abilityButton = new JButton("Ability");
+		    abilityButton.setBackground(Color.GREEN);
+		    abilityButton.addActionListener(new SideButtonsListener());
+	    	gameButtonsPanel.add(abilityButton);
+	    }
+	    
 	    
 	    getContentPane().add(userPanel, BorderLayout.WEST);
 	    getContentPane().add(enemyPanel, BorderLayout.CENTER);
@@ -186,16 +186,35 @@ public class BattleshipMainGUI extends JFrame {
 			Object source = e.getSource();
 		    
 			if (source == mainMenuButton) {
-				//FIXME
+				int value;
+				value = JOptionPane.showConfirmDialog(null, "Are you sure? Progress will be lost.", "plz don't leave", JOptionPane.YES_NO_OPTION); 					//Pop up window. "Are you sure? Game will be lost."
+				if (value == JOptionPane.YES_OPTION) {				//If the person wants to to exit the game, they will be sent to the main menu
+					dispose();
+					setVisible(false);
+					OpeningWindow mainMenu = new OpeningWindow();
+					mainMenu.setVisible(true);
+				}				
 			}
 			else if (source == helpButton) {
-				//FIXME
+				if(mode == 1){
+					RulesWindow rulesMenu = new RulesWindow(1);
+				}
+				else if(mode == 2){
+					RulesWindow rulesMenu = new RulesWindow(2);
+				}				
+				else if(mode == 3){
+					RulesWindow rulesMenu = new RulesWindow(3);
+				}
 			}
 			else if (source == restartButton) {
+				dispose();			//Close the current window
+				setVisible(false);
 				//FIXME
+				BattleshipMainGUI newGame = new BattleshipMainGUI(mode);	//This should work, right??
 			}
 			else if (source == abilityButton) {
-				//FIXME
+				AbilitiesWindow abilitiesMenu = new AbilitiesWindow();
+				abilitiesMenu.setVisible(true);
 			}
 		}
 	}
