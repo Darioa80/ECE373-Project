@@ -73,7 +73,9 @@ public class SecondWindow extends JFrame {
 		btnNewButton_1.setFont(new Font("Verdana", Font.PLAIN, 18));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				BattleshipMainGUI bs = new BattleshipMainGUI(mode);
+				bs.setVisible(true);
+				close();
 			}
 		});
 		
