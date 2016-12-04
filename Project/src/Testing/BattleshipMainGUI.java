@@ -28,7 +28,12 @@ public class BattleshipMainGUI extends JFrame {
     GameBoard compBoard;
     Player player;
 	
-	public BattleshipMainGUI(int modeSelected) {
+    private boolean dirHasBeenChosen = false;
+    private Coordinate coor;
+    
+    public boolean gameOn = false;		//If true, it means the player has set all the ships and is ready to play. 
+    
+    public BattleshipMainGUI(int modeSelected) {
 		super("BATTLESHIP");
 		final int width = 1500;
 		final int height = 600;
@@ -162,16 +167,17 @@ public class BattleshipMainGUI extends JFrame {
 	    getContentPane().add(blankPanel, BorderLayout.SOUTH);
 	    
 	    this.setVisible(true);
+	    
 	    try{						//DELAY FOR 1 SECOND
 	    	Thread.sleep(1000);
 	    } catch (InterruptedException ex) {
 	    	Thread.currentThread().interrupt();
 	    }
-	    handlePlacingShips();
+	    
+	    handlePlacingShips();		//Calling the JFrame that tells the user to click where they want to place their ships
 	}
+	
 	public void handlePlacingShips() {
-			
-			
 			JOptionPane.showMessageDialog(null, "<HTML><center>Where would you like to place your " 
 										+ player.getOwnedShips().get(ship).getName() + 
 										"? It has a length of " + player.getOwnedShips().get(ship).getSize() + "." +
@@ -183,33 +189,28 @@ public class BattleshipMainGUI extends JFrame {
 	private class UserButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			int i, j;
+
 			Object source = e.getSource();
-			int settingWasSuccessful;
 			for(i = 0; i < 10; i++) {
 				for(j = 0; j < 10; j++){
 					if (source == userButtonGrid[i][j]) {
-						//FIXME
-						//place(i,j);
-						//setShip(Coordinate frontCoordinate, GameBoard Board)
-						//But we first have to know what ship it is. 
-						Coordinate coor = new Coordinate();
+						coor = new Coordinate();
 						Location loc = new Location(i,j);
-						coor.setCoord(loc);
-						
-						settingWasSuccessful = player.getOwnedShips().get(ship).setShip(coor, userBoard);
-						if (ship < 5) {		//Meaning we're still initializing the ships
-							if(settingWasSuccessful == 0 && ship < 5) {	//Setting was a success!
-								AskForDirectionFrame();
+						coor.setCoord(loc);	
+						if(gameOn == false) {
+							if(userBoard.getSpaces()[i][j].getisOccupied() == true) {		//Space clicked on is occupied :(
+								JOptionPane.showMessageDialog(null, "<HTML><center>The desired coordinate is occupied,"
+										+ "<BR> choose a new coordinate or direction for " 
+										+ player.getOwnedShips().get(ship).getName() + "</center></HTML>");
+								handlePlacingShips();
 							}
-							else if (settingWasSuccessful == 1) {		//One of the locations is occupied
-								JOptionPane.showMessageDialog(null, "<HTML><center>One of the desired coordinates is occupied,"
-														+ "<BR> choose a new coordinate or direction for " 
-														+ player.getOwnedShips().get(ship).getName() + "</center></HTML>");
+							else if(userBoard.getSpaces()[i][j].getisOccupied() == false) {	//Space clicked on is clear!!
+								SelectDirectionFrame();
+								//FIXME CJ, idk anything about the planes placement and shit							
 							}
-							else if (settingWasSuccessful == 1) {		//One of the locations would be off the board
-								JOptionPane.showMessageDialog(null, "<HTML><center>Coordinate is out of bounds," 
-														+ "<BR>pick a different Coordinate or direction.</center></HTML>");
-							}
+						}
+						else if (mode == 3) {
+							//FIXME CJ, idk anything about the planes shooting and stuff
 						}
 						return;
 					}
@@ -218,6 +219,7 @@ public class BattleshipMainGUI extends JFrame {
 		}
 	}
 	
+		
 	private class EnemyButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			int i, j;
@@ -247,30 +249,23 @@ public class BattleshipMainGUI extends JFrame {
 					mainMenu.setVisible(true);
 				}				
 			}
-			else if (source == helpButton) {
-				if(mode == 1){
-					RulesWindow rulesMenu = new RulesWindow(1);
-				}
-				else if(mode == 2){
-					RulesWindow rulesMenu = new RulesWindow(2);
-				}				
-				else if(mode == 3){
-					RulesWindow rulesMenu = new RulesWindow(3);
-				}
+			else if (source == helpButton) {								//Calls the appropriate RulesWindow based on the mode that was selected
+				RulesWindow rulesMenu = new RulesWindow(mode);			
+				rulesMenu.setVisible(true);
 			}
-			else if (source == restartButton) {
+			else if (source == restartButton) {								//Starts a brand spanking new game
 				dispose();			//Close the current window
 				setVisible(false);
-				//FIXME
-				BattleshipMainGUI newGame = new BattleshipMainGUI(mode);	//This should work, right??
+				BattleshipMainGUI newGame = new BattleshipMainGUI(mode);
 			}
-			else if (source == abilityButton) {
+			else if (source == abilityButton) {								//Calls the abilities window
 				AbilitiesWindow abilitiesMenu = new AbilitiesWindow();
 				abilitiesMenu.setVisible(true);
 			}
 		}
 	}
-	public void AskForDirectionFrame() {
+
+	public void SelectDirectionFrame() {
 		frameAskForDirection = new JFrame("Select the direction to place your ship");
 		JButton vertically = new JButton("Vertically");
 		vertically.addActionListener(new directionButtonListener());
@@ -290,8 +285,8 @@ public class BattleshipMainGUI extends JFrame {
 		pack();
 		frameAskForDirection.setVisible(true);
 		super.setSize(1500,600);
-		
 	}
+	
 	private class directionButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			String actionCommand = e.getActionCommand();
@@ -301,16 +296,77 @@ public class BattleshipMainGUI extends JFrame {
 			else if(actionCommand.equals("Horizontally")) {
 				player.getOwnedShips().get(ship).setDir(false);
 			}
+			dirHasBeenChosen = true;		//the user has selected the direction 
 			frameAskForDirection.dispose();
 			frameAskForDirection.setVisible(false);
 			
-			//FIXME SET SHIP
-			
-			ship = ship + 1;
-			if(ship <5) {
+			checkPlacingSuccess();			//Checks if placing the ship was a success and if it wasn't an error message pops up
+		}
+	}
+	
+	public void checkPlacingSuccess() {
+		//Checks if placing the ship was a success and if it wasn't an error message pops up
+		
+		int settingWasSuccessful;
+		
+		if(dirHasBeenChosen == true) {
+			settingWasSuccessful = player.getOwnedShips().get(ship).setShip(coor, userBoard);	//Checks to see if all the locations the ship will get set in are clear to get set
+			if(settingWasSuccessful == 0) {	//Setting was a success!
+				initButtonColor();			//Change the colors of the buttons
+				if(ship == 4) {				//All ships have been set!
+					JOptionPane.showMessageDialog(null, "<HTML><center>Excellent! All your ships have been set. "
+										+ "Time to demolish the enemy.</center></HTML>");
+					gameOn = true;			//Time to shoot some villains!!
+				}
+				ship = ship + 1;			//Go to the next ship in the player's ships arrayList
+				dirHasBeenChosen = false;
+				if(ship <5) {				//If we're still placing ships on the board, call this function to let the user know what ship is going to get set next
+					handlePlacingShips();
+				}
+				
+			}
+			else if (settingWasSuccessful == 1) {		//One of the locations is occupied
+				JOptionPane.showMessageDialog(null, "<HTML><center>One of the desired coordinates is occupied,"
+										+ "<BR> choose a new coordinate or direction for " 
+										+ player.getOwnedShips().get(ship).getName() + "</center></HTML>");
+				dirHasBeenChosen = false;
+				handlePlacingShips();
+			}
+			else if (settingWasSuccessful == 2) {		//One of the locations would be off the board
+				JOptionPane.showMessageDialog(null, "<HTML><center>Coordinate is out of bounds," 
+										+ "<BR>pick a different Coordinate or direction.</center></HTML>");
+				dirHasBeenChosen = false;
 				handlePlacingShips();
 			}
 		}
 	}
+	
+	public void initButtonColor() {
+		//After the person clicks where to set their ship,
+		//this function changes the color of those locations 
+		//from blue to grey
+		int i;
+		int m, n;
+		int size;
+		boolean dir;
+		
+		m = player.getOwnedShips().get(ship).getLocation().get(0).getLetter();
+		n = player.getOwnedShips().get(ship).getLocation().get(0).getNum();
+		size = player.getOwnedShips().get(ship).getSize();
+		dir = player.getOwnedShips().get(ship).getDir();
+		if(dir == true) { 		//Vertical
+			//vertical so n stays the same
+			for(i = 0; i <size; i++) {
+				userButtonGrid[m+i][n].setBackground(Color.GRAY);
+			}
+		}
+		else if(dir == false) {	//Horizontal
+			//horizontal so m stays the same
+			for(i = 0; i <size; i++) {
+				userButtonGrid[m][n+i].setBackground(Color.GRAY);
+			}
+		}
+		
+		return;
+	}
 }
-
