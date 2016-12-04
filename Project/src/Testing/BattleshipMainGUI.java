@@ -1,11 +1,12 @@
 package Testing;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import base.Coordinate;
-import base.GameBoard;
+import base.*;
+import ships.*;
 
 
 public class BattleshipMainGUI extends JFrame {
@@ -18,26 +19,41 @@ public class BattleshipMainGUI extends JFrame {
     JButton helpButton;
     JButton restartButton;
     JButton abilityButton;
+    
+    public int ship;	//This iterates thru the OwnedShips ArrayList that the player has
+    public JFrame frameAskForDirection;		//When a ship is lost at sea, it can ask the nearest ship for directions back home. JK it asks the player whether to set the ship vertically or horizontally
+    
+    //INITIALIZING THE GAME
+    GameBoard userBoard;
+    GameBoard compBoard;
+    Player player;
 	
 	public BattleshipMainGUI(int modeSelected) {
 		super("BATTLESHIP");
+		final int width = 1500;
+		final int height = 600;
 		mode = modeSelected;
-		setSize(1500,600);
+		setSize(width, height);
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    buildGUI();
 	    setVisible(true);	    
 	}
-	
+
 	private void buildGUI() {
 		int i, j;
 		getContentPane().setLayout(new BorderLayout());
+		
+		//INITIALIZING THE GAME
+		userBoard = new GameBoard();	//Set the user's board
+		compBoard = new GameBoard();	//Set the computer's board
+		player = new Player();
+		ship = 0;
 		
 		//TITLE:		
 		JPanel titlePanel = new JPanel();
 		JLabel title = new JLabel("BATTLESHIP");
 		title.setFont(new Font("Impact", Font.PLAIN, 45));
 		titlePanel.add(title);
-		
 		//USER PANEL:
 	    JPanel userPanel = new JPanel();
 	    userPanel.setLayout(new GridLayout(12,11));
@@ -135,14 +151,37 @@ public class BattleshipMainGUI extends JFrame {
 	    	gameButtonsPanel.add(abilityButton);
 	    }
 	    
+	    //SOUTH PANEL (Blank)
+	    JPanel blankPanel = new JPanel();	//Just to make some space at the bottom of the window
 	    
+	    
+	    getContentPane().add(titlePanel, BorderLayout.NORTH);
 	    getContentPane().add(userPanel, BorderLayout.WEST);
 	    getContentPane().add(enemyPanel, BorderLayout.CENTER);
 	    getContentPane().add(gameButtonsPanel,BorderLayout.EAST);
-	    getContentPane().add(titlePanel, BorderLayout.NORTH); 
+	    getContentPane().add(blankPanel, BorderLayout.SOUTH);
 	    
 	    this.setVisible(true);
-		
+	    try{						//DELAY FOR 1 SECOND
+	    	Thread.sleep(1000);
+	    } catch (InterruptedException ex) {
+	    	Thread.currentThread().interrupt();
+	    }
+	    handlePlacingShips();
+	}
+	public void handlePlacingShips() {
+		//User's Aircraft Carrier
+			AirCraftCarrier userAirCraft = new AirCraftCarrier();
+			userAirCraft.setOwner(true);
+			Coordinate userAirCraftCoordinate = new Coordinate();
+			Location userAirCraftLocation = new Location();
+			
+			
+			JOptionPane.showMessageDialog(null, "<HTML><center>Where would you like to place your " 
+										+ player.getOwnedShips().get(ship).getName() + 
+										"? It has a length of " + player.getOwnedShips().get(ship).getSize() + "." +
+										"<BR> Please Select a location on your grid, the left grid, "
+										+ "<BR>otherwise nothing will happen.</center></HTML>");
 	}
 	
 	private class UserButtonListener implements ActionListener {
@@ -157,6 +196,9 @@ public class BattleshipMainGUI extends JFrame {
 						//place(i,j);
 						//setShip(Coordinate frontCoordinate, GameBoard Board)
 						//But we first have to know what ship it is. 
+						if(ship < 5) {	//Meaning we're still initializing the ships
+							AskForDirectionFrame();
+						}
 						return;
 					}
 				}
@@ -172,9 +214,7 @@ public class BattleshipMainGUI extends JFrame {
 			for(i = 0; i < 10; i++) {
 				for(j = 0; j < 10; j++){
 					if (source == enemyButtonGrid[i][j]) {
-						//FIXME
-						//shoot(i,j);
-						return;
+						
 					}
 				}
 			}
@@ -218,6 +258,47 @@ public class BattleshipMainGUI extends JFrame {
 			}
 		}
 	}
-	
+	public void AskForDirectionFrame() {
+		frameAskForDirection = new JFrame("Select the direction to place your ship");
+		JButton vertically = new JButton("Vertically");
+		vertically.addActionListener(new directionButtonListener());
+		
+		JButton horizontally = new JButton("Horizontally");
+		horizontally.addActionListener(new directionButtonListener());
+		
+		JLabel words = new JLabel("<HTML><center>Would you like to place the ship vertically or horizontally?</center></HMTL>");
+		
+		JPanel panel = new JPanel();
+		frameAskForDirection.setSize(375,100);
+		panel.add(words);
+		panel.add(vertically, new FlowLayout(FlowLayout.CENTER));
+		panel.add(horizontally,new FlowLayout(FlowLayout.CENTER));
+		
+		frameAskForDirection.add(panel);
+		pack();
+		frameAskForDirection.setVisible(true);
+		super.setSize(1500,600);
+		
+	}
+	private class directionButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			String actionCommand = e.getActionCommand();
+			if(actionCommand.equals("Vertically")) {
+				player.getOwnedShips().get(ship).setDir(true);
+			}
+			else if(actionCommand.equals("Horizontally")) {
+				player.getOwnedShips().get(ship).setDir(false);
+			}
+			frameAskForDirection.dispose();
+			frameAskForDirection.setVisible(false);
+			
+			//FIXME SET SHIP
+			
+			ship = ship + 1;
+			if(ship <5) {
+				handlePlacingShips();
+			}
+		}
+	}
 }
 

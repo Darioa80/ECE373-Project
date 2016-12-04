@@ -10,19 +10,11 @@ public class NaomiTesting {
 	public static void main(String[] args) {
 		
 		BattleshipMainGUI newGUI = new BattleshipMainGUI(3);	//using 3 so that it can include the ability button 4 testing
-		
+/*		
 		GameBoard userBoard = new GameBoard();	//Set the user's board
 		GameBoard compBoard = new GameBoard();	//Set the computer's board
 		
 		
-		for(int i = 0; i < 10; i++) {
-			for(int j=0; j < 10; j++) {
-				String buttonName = new String(Character.toString((char) (i + 65)));
-				buttonName = buttonName.concat(Integer.toString(j+1));
-								
-				System.out.println(buttonName);
-			}
-		}
 		//User's Aircraft Carrier
 			AirCraftCarrier userAirCraft = new AirCraftCarrier();
 			userAirCraft.setOwner(true);
@@ -83,6 +75,6 @@ public class NaomiTesting {
 		//Computer shoots the user's screen with Submarine
 			compShootLocation.setLetter(1);
 			compSubmarine.Torpedo(compShootCoor, false, userBoard);
-	
+	*/
 	}
 }
