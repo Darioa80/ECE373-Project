@@ -170,11 +170,6 @@ public class BattleshipMainGUI extends JFrame {
 	    handlePlacingShips();
 	}
 	public void handlePlacingShips() {
-		//User's Aircraft Carrier
-			AirCraftCarrier userAirCraft = new AirCraftCarrier();
-			userAirCraft.setOwner(true);
-			Coordinate userAirCraftCoordinate = new Coordinate();
-			Location userAirCraftLocation = new Location();
 			
 			
 			JOptionPane.showMessageDialog(null, "<HTML><center>Where would you like to place your " 
@@ -183,12 +178,13 @@ public class BattleshipMainGUI extends JFrame {
 										"<BR> Please Select a location on your grid, the left grid, "
 										+ "<BR>otherwise nothing will happen.</center></HTML>");
 	}
+
 	
 	private class UserButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			int i, j;
 			Object source = e.getSource();
-			
+			int settingWasSuccessful;
 			for(i = 0; i < 10; i++) {
 				for(j = 0; j < 10; j++){
 					if (source == userButtonGrid[i][j]) {
@@ -196,8 +192,24 @@ public class BattleshipMainGUI extends JFrame {
 						//place(i,j);
 						//setShip(Coordinate frontCoordinate, GameBoard Board)
 						//But we first have to know what ship it is. 
-						if(ship < 5) {	//Meaning we're still initializing the ships
-							AskForDirectionFrame();
+						Coordinate coor = new Coordinate();
+						Location loc = new Location(i,j);
+						coor.setCoord(loc);
+						
+						settingWasSuccessful = player.getOwnedShips().get(ship).setShip(coor, userBoard);
+						if (ship < 5) {		//Meaning we're still initializing the ships
+							if(settingWasSuccessful == 0 && ship < 5) {	//Setting was a success!
+								AskForDirectionFrame();
+							}
+							else if (settingWasSuccessful == 1) {		//One of the locations is occupied
+								JOptionPane.showMessageDialog(null, "<HTML><center>One of the desired coordinates is occupied,"
+														+ "<BR> choose a new coordinate or direction for " 
+														+ player.getOwnedShips().get(ship).getName() + "</center></HTML>");
+							}
+							else if (settingWasSuccessful == 1) {		//One of the locations would be off the board
+								JOptionPane.showMessageDialog(null, "<HTML><center>Coordinate is out of bounds," 
+														+ "<BR>pick a different Coordinate or direction.</center></HTML>");
+							}
 						}
 						return;
 					}

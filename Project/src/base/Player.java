@@ -7,7 +7,12 @@ public class Player {
 
 	public ArrayList<Ship> OwnedShips;
 	public ArrayList<Plane> OwnedPlanes; //C.J. Added this initially for use with the AA gun Firing
-	
+		AirCraftCarrier userACC;
+		Battleship userBS;
+		Destroyer userD;
+		Submarine userS;
+		PTBoat userPT;
+		
 	public Player(){
 		//Ship = 1 means Aircraft Carrier 
 		//Ship = 2 means Battleship
@@ -16,18 +21,13 @@ public class Player {
 		//Ship = 5 means Submarine
 		this.OwnedShips = new ArrayList<Ship>(5);
 		
-		AirCraftCarrier acc = new AirCraftCarrier();
-		Battleship bs = new Battleship();
-		Destroyer d = new Destroyer();
-		Submarine s = new Submarine();
-		PTBoat pt = new PTBoat();
+		createShipsCoorAndLoc();	//Creates all the 5 ships, their coordinates, and locations (NOT the updated coordinates or locations)
 		
-		this.OwnedShips.add(acc);
-		this.OwnedShips.add(bs);
-		this.OwnedShips.add(d);
-		this.OwnedShips.add(s);
-		this.OwnedShips.add(pt);
-		
+		this.OwnedShips.add(userACC);
+		this.OwnedShips.add(userBS);
+		this.OwnedShips.add(userD);
+		this.OwnedShips.add(userS);
+		this.OwnedShips.add(userPT);
 		
 		for (int i = 0; i < 5; i++){
 			this.OwnedShips.get(i).setOwner(true);
@@ -39,6 +39,38 @@ public class Player {
 	}
 	public ArrayList<Ship> getOwnedShips() {
 		return OwnedShips;
+	}
+	
+	public void createShipsCoorAndLoc() {
+		//User's Aircraft Carrier
+			userACC = new AirCraftCarrier();
+			Coordinate userACCCoordinate = new Coordinate();
+			Location userACCtLocation = new Location();
+			userACCCoordinate.setCoord(userACCtLocation);
+			
+		//User's Battleship
+			userBS = new Battleship();
+			Coordinate userBSCoordinate = new Coordinate();
+			Location userBSLocation = new Location();
+			userBSCoordinate.setCoord(userBSLocation);
+			
+		//User's Destroyer
+			userD = new Destroyer();
+			Coordinate userDCoordinate = new Coordinate();
+			Location userDLocation = new Location();
+			userDCoordinate.setCoord(userDLocation);
+			
+		//User's Submarine
+			userS = new Submarine();
+			Coordinate userSCoordinate = new Coordinate();
+			Location userSLocation = new Location();
+			userSCoordinate.setCoord(userSLocation);
+
+		//User's Patrol Boat
+			userPT = new PTBoat();
+			Coordinate userPTCoordinate = new Coordinate();
+			Location userPTLocation = new Location();
+			userPTCoordinate.setCoord(userPTLocation);
 	}
 	
 	public void initSettingAllShips(int mode, int ship) { 
