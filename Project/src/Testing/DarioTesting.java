@@ -7,7 +7,9 @@ import ships.*;
 	
 public class DarioTesting {
 	public static void main(String[] args) {
-		GameBoard Board1 = new GameBoard();
+		OpeningWindow Test = new OpeningWindow();
+	}
+		/*GameBoard Board1 = new GameBoard();
 		GameBoard Board2 = new GameBoard();
 		
 		Battleship Battleship1 = new Battleship();
@@ -50,5 +52,5 @@ public class DarioTesting {
 		
 		Battleship1.TomaHawk(frontDest2, Board2);
 		Dest2.Apache(frontBattle1, true, Board1);
-	}
+	}*/
 }

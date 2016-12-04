@@ -1,56 +1,85 @@
 package Testing;
 
 import java.awt.BorderLayout;
+import java.util.Scanner;
 import java.awt.EventQueue;
-
+import java.io.*;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JTextArea;
 
 public class RulesWindow extends JFrame {
+	public RulesWindow(int mode) {
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(250, 250, 700, 300);
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(0, 0, 139));
+		JLabel label = new JLabel("RULES");
+		label.setForeground(new Color(255, 255, 255));
+		label.setBackground(new Color(0, 0, 139));
+		label.setFont(new Font("Verdana", Font.PLAIN, 22));
+				
+		JTextArea textArea = new JTextArea(50, 30);
+		textArea.setText(Read(mode).toString());
+		JScrollPane scroll = new JScrollPane(textArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scroll.setPreferredSize(new Dimension(650, 250));
+		panel.add(label, BorderLayout.NORTH);
+		panel.add(scroll, BorderLayout.CENTER);
+		this.add(panel);
+		this.setVisible(true);
+	}
 
-	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RulesWindow frame = new RulesWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+	
+	
+	public StringBuilder Read(int mode){
+		String currOut =  new String();
+		StringBuilder Out = new StringBuilder();
+		try{
+			if (mode == 1){
+			File myFile = new File("C:/Users/Angel/Desktop/Java/ClassicInstructions.txt");
+			Scanner scan = new Scanner(myFile);
+			while(scan.hasNext()){
+				currOut = scan.nextLine();
+				Out.append(currOut);
+				Out.append("\n");
 			}
-		});
-	}
+			}
+			else if (mode == 2){
+			File myFile = new File("C:/Users/Angel/Desktop/Java/SalvoInstructions.txt");
+			Scanner scan = new Scanner(myFile);
+			while(scan.hasNext()){
+				currOut = scan.nextLine();
+				Out.append(currOut);
+				Out.append("\n");
+			}
+			}
+			else if (mode == 3){
+			File myFile = new File("C:/Users/Angel/Desktop/Java/AdvancedInstructions.txt");	
+			Scanner scan = new Scanner(myFile);
+			while(scan.hasNext()){
+				currOut = scan.nextLine();
+				Out.append(currOut);
+				Out.append("\n");
+			}
+			}
 
-	/**
-	 * Create the frame.
-	 */
-	public RulesWindow() {
-		GroupLayout groupLayout = new GroupLayout(getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 434, Short.MAX_VALUE)
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 261, Short.MAX_VALUE)
-		);
-		getContentPane().setLayout(groupLayout);
-		//An empty one will never be called. I just needed to create it so that the main method could stop crying
-	}
-	public RulesWindow(int mode) {	//mode = 1 is classic, 2 is salvo, 3 is advanced  
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+			
+			} catch (FileNotFoundException e){
+				e.printStackTrace();
+			}
+		return Out;
 	}
 }

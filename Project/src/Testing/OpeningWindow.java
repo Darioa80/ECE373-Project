@@ -10,11 +10,13 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
 
 public class OpeningWindow extends JFrame {
 
@@ -23,7 +25,7 @@ public class OpeningWindow extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -34,7 +36,7 @@ public class OpeningWindow extends JFrame {
 				}
 			}
 		});
-	}
+		*/
 
 	/**
 	 * Create the frame.
@@ -42,7 +44,7 @@ public class OpeningWindow extends JFrame {
 	public OpeningWindow() {
 		setBackground(Color.BLUE);
 		setForeground(Color.WHITE);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 0, 139));
@@ -69,21 +71,38 @@ public class OpeningWindow extends JFrame {
 		);
 		
 		JButton btnNewButton = new JButton("CLASSIC MODE");
+		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				JFrame window2 = new SecondWindow(1);
+				window2.setVisible(true);
+				close();
+				
 			}
 		});
 		btnNewButton.setFont(new Font("Verdana", Font.PLAIN, 18));
 		
-		JButton btnNewButton_1 = new JButton("ADVANCED MISSION");
+		JButton btnNewButton_1 = new JButton("SALVO");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JFrame window2 = new SecondWindow(2);
+				window2.setVisible(true);
+				close();
 			}
 		});
 		btnNewButton_1.setFont(new Font("Verdana", Font.PLAIN, 18));
 		
-		JButton btnNewButton_2 = new JButton("SALVO");
+		JButton btnNewButton_2 = new JButton("ADVANCED MISSION");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame window2 = new SecondWindow(3);
+				window2.setVisible(true);
+				close();
+			}
+		});
 		btnNewButton_2.setFont(new Font("Verdana", Font.PLAIN, 18));
+		
+
 		
 		JLabel lblBattleship = new JLabel("BATTLESHIP");
 		lblBattleship.setBackground(Color.LIGHT_GRAY);
@@ -93,37 +112,41 @@ public class OpeningWindow extends JFrame {
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap(22, Short.MAX_VALUE)
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(btnNewButton_2)
-							.addGap(87))
-						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
-							.addComponent(btnNewButton_1)
-							.addGap(18))))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(60)
-					.addComponent(lblBattleship, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(61, Short.MAX_VALUE))
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(42)
-					.addComponent(btnNewButton)
-					.addContainerGap(46, Short.MAX_VALUE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(60)
+							.addComponent(lblBattleship, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(35)
+							.addComponent(btnNewButton))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGap(73)
+							.addComponent(btnNewButton_1))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnNewButton_2)))
+					.addContainerGap(30, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblBattleship, GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+					.addComponent(lblBattleship, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGap(18)
 					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addGap(28)
 					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-					.addGap(21))
+					.addGap(26)
+					.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+					.addGap(23))
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
+		super.setVisible(true);
+	}
+	
+	public void close(){
+		WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
+		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
 	}
 }
