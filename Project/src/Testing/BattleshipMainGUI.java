@@ -53,6 +53,7 @@ public class BattleshipMainGUI extends JFrame {
 		compBoard = new GameBoard();	//Set the computer's board
 		player = new Player();
 		ship = 0;
+		//SET THE ENEMIES SHIP
 		
 		//TITLE:		
 		JPanel titlePanel = new JPanel();
@@ -228,7 +229,15 @@ public class BattleshipMainGUI extends JFrame {
 			for(i = 0; i < 10; i++) {
 				for(j = 0; j < 10; j++){
 					if (source == enemyButtonGrid[i][j]) {
-						
+						if(gameOn == true) {	//If the game has started, it's time to fire some shots pew pew
+							
+							/*if(shot!) {
+								userButtonGrid[m+i][n].setBackground(Color.RED);
+							}
+							if(missed:()) {
+								userButtonGrid[i][j].setBackground(Color.WHITE);
+							}*/
+						}
 					}
 				}
 			}

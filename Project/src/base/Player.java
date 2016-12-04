@@ -73,30 +73,4 @@ public class Player {
 			userPTCoordinate.setCoord(userPTLocation);
 	}
 	
-	public void initSettingAllShips(int mode, int ship) { 
-		//mode = 1 means Classic. mode = 2 means Salvo. mode = 3 means Advanced.
-		//Ship = 1 means Aircraft Carrier 
-		//Ship = 2 means Battleship
-		//Ship = 3 means Destroyer
-		//Ship = 4 means Submarine
-		//Ship = 5 means Patrol Boat
-		if(ship == 0) {			//Aircraft Carrier
-			
-		}
-		else if (ship == 1) {	//Battleship
-			
-		} 
-		else if (ship == 2) {	//Destroyer
-			
-		}		
-		else if (ship == 3) {	//Submarine
-			
-		}
-		else if (ship == 4) {	//Patrol Boat
-			
-		}
-		
-		//FIXME idk where planes get set 
-	}
-	
 }

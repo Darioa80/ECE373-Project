@@ -8,8 +8,8 @@ import ships.*;
 
 public class NaomiTesting {
 	public static void main(String[] args) {
-		
-		BattleshipMainGUI newGUI = new BattleshipMainGUI(3);	//using 3 so that it can include the ability button 4 testing
+		//OpeningWindow newOpeningGUI = new OpeningWindow();
+		BattleshipMainGUI newBattlshipGUI = new BattleshipMainGUI(3);	//using 3 so that it can include the ability button 4 testing
 /*		
 		GameBoard userBoard = new GameBoard();	//Set the user's board
 		GameBoard compBoard = new GameBoard();	//Set the computer's board
