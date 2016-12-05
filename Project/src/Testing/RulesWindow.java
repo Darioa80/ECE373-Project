@@ -47,39 +47,52 @@ public class RulesWindow extends JFrame {
 	public StringBuilder Read(int mode){
 		String currOut =  new String();
 		StringBuilder Out = new StringBuilder();
-		try{
 			if (mode == 1){
-			File myFile = new File("C:/Users/Angel/Desktop/Java/ClassicInstructions.txt");
-			Scanner scan = new Scanner(myFile);
-			while(scan.hasNext()){
-				currOut = scan.nextLine();
-				Out.append(currOut);
-				Out.append("\n");
-			}
-			}
-			else if (mode == 2){
-			File myFile = new File("C:/Users/Angel/Desktop/Java/SalvoInstructions.txt");
-			Scanner scan = new Scanner(myFile);
-			while(scan.hasNext()){
-				currOut = scan.nextLine();
-				Out.append(currOut);
-				Out.append("\n");
-			}
-			}
-			else if (mode == 3){
-			File myFile = new File("C:/Users/Angel/Desktop/Java/AdvancedInstructions.txt");	
-			Scanner scan = new Scanner(myFile);
-			while(scan.hasNext()){
-				currOut = scan.nextLine();
-				Out.append(currOut);
-				Out.append("\n");
-			}
-			}
-
+				try{
+			FileInputStream fstream = new FileInputStream("ClassicInstructions");
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			
-			} catch (FileNotFoundException e){
-				e.printStackTrace();
+			while ((currOut = br.readLine()) != null){
+				Out.append(currOut);
+				Out.append("\n");
 			}
+			in.close(); } catch (Exception e){
+				System.err.println("Error!" + e.getMessage());
+				}
+			}
+			
+			else if (mode == 2){
+				try{
+			FileInputStream fstream = new FileInputStream("SalvoInstructions");
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			
+			while ((currOut = br.readLine()) != null){
+				Out.append(currOut);
+				Out.append("\n");
+			}
+			in.close(); } catch (Exception e){
+				System.err.println("Error!" + e.getMessage());
+				}
+			}
+			
+			else if (mode == 3){
+				try{
+			FileInputStream fstream = new FileInputStream("AdvancedInstructions");
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			
+			while ((currOut = br.readLine()) != null){
+				Out.append(currOut);
+				Out.append("\n");
+			}
+			in.close(); } catch (Exception e){
+				System.err.println("Error!" + e.getMessage());
+				}
+			}
+			
+		
 		return Out;
 	}
 }
