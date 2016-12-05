@@ -19,14 +19,15 @@ public class BattleshipMainGUI extends JFrame {
     JButton helpButton;
     JButton restartButton;
     JButton abilityButton;
+    JButton refreshButton;
     
     public int ship;	//This iterates thru the OwnedShips ArrayList that the player has
     public JFrame frameAskForDirection;		//When a ship is lost at sea, it can ask the nearest ship for directions back home. JK it asks the player whether to set the ship vertically or horizontally
     
     //INITIALIZING THE GAME
-    GameBoard userBoard;
-    GameBoard compBoard;
-    Player player;
+    public GameBoard userBoard;
+    public GameBoard compBoard;
+    public Player player;
 	
     private boolean dirHasBeenChosen = false;
     private Coordinate coor;
@@ -155,6 +156,10 @@ public class BattleshipMainGUI extends JFrame {
 		    abilityButton.setBackground(Color.GREEN);
 		    abilityButton.addActionListener(new SideButtonsListener());
 	    	gameButtonsPanel.add(abilityButton);
+	    	
+	    	refreshButton = new JButton("<HTML><center>Refresh:<BR>Use after<BR>Ability</center></HMTL>");
+	    	refreshButton.addActionListener(new SideButtonsListener());
+	    	gameButtonsPanel.add(refreshButton);
 	    }
 	    
 	    //SOUTH PANEL (Blank)
@@ -271,8 +276,29 @@ public class BattleshipMainGUI extends JFrame {
 				BattleshipMainGUI newGame = new BattleshipMainGUI(mode);
 			}
 			else if (source == abilityButton) {								//Calls the abilities window
-				AbilitiesWindow abilitiesMenu = new AbilitiesWindow();
+				AbilitiesWindow abilitiesMenu = new AbilitiesWindow(player, compBoard);
 				abilitiesMenu.setVisible(true);
+			}
+			else if (source == refreshButton) {
+				checkEnemyBoardChanges();
+			}
+		}
+	}
+	
+	public void checkEnemyBoardChanges() {
+		//Checks the whole board after the ability button has been pressed.
+		//If a new board location has been hit, change its color 
+		int i, j;
+		for(i = 0; i < 10; i++) {
+			for(j = 0; j < 10; j++) {
+				if (compBoard.getSpaces()[i][j].getBeenHit() == true) {
+					if (compBoard.getSpaces()[i][j].getisOccupied() == true) {
+						enemyButtonGrid[i][j].setBackground(Color.RED);
+					}
+					else {
+						enemyButtonGrid[i][j].setBackground(Color.WHITE);
+					}
+				}
 			}
 		}
 	}
