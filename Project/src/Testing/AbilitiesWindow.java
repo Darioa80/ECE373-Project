@@ -39,6 +39,11 @@ import ships.*;
 	private Coordinate coord;
 	JRadioButton crossExocet;
 	JRadioButton xExocet;
+	
+	private JFrame SonarPreferenceFrame;
+	private JButton okaySonar;
+	private JButton cancelSonar;
+	private JTextField sonarCoor;
 	/**
 	 * Create the frame.
 	 */
@@ -74,9 +79,9 @@ import ships.*;
 		btnFireExocetMissile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				ExocetPreferenceFrame = new JFrame("Please Select Your Preference");
+				ExocetPreferenceFrame = new JFrame("Exocet Preference");
 				ExocetPreferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-				ExocetPreferenceFrame.setLayout(new GridLayout(3,4));
+				ExocetPreferenceFrame.getContentPane().setLayout(new GridLayout(3,4));
 				ExocetPreferenceFrame.setSize(375, 150);
 				ExocetPreferenceFrame.setResizable(false);
 				
@@ -109,12 +114,12 @@ import ships.*;
 				panel5.add(okayExocet);
 				panel6.add(cancelExocet);
 				
-				ExocetPreferenceFrame.add(panel1);
-				ExocetPreferenceFrame.add(panel2);
-				ExocetPreferenceFrame.add(panel3);
-				ExocetPreferenceFrame.add(panel4);
-				ExocetPreferenceFrame.add(panel5);
-				ExocetPreferenceFrame.add(panel6);
+				ExocetPreferenceFrame.getContentPane().add(panel1);
+				ExocetPreferenceFrame.getContentPane().add(panel2);
+				ExocetPreferenceFrame.getContentPane().add(panel3);
+				ExocetPreferenceFrame.getContentPane().add(panel4);
+				ExocetPreferenceFrame.getContentPane().add(panel5);
+				ExocetPreferenceFrame.getContentPane().add(panel6);
 				
 				ExocetPreferenceFrame.setVisible(true);
 			}
@@ -127,6 +132,44 @@ import ships.*;
 		JButton btnFireTorpedo = new JButton("Fire Torpedo");
 		
 		JButton btnUseSonarScanner = new JButton("Use Sonar Scanner");
+		btnUseSonarScanner.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				SonarPreferenceFrame = new JFrame("Sonar Scanner Preference");
+				SonarPreferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				SonarPreferenceFrame.getContentPane().setLayout(new GridLayout(2,2));
+				SonarPreferenceFrame.setSize(600, 125);
+				SonarPreferenceFrame.setResizable(false);
+				
+				
+				JPanel panel1 = new JPanel();
+				JPanel panel2 = new JPanel();
+				JPanel panel3 = new JPanel();
+				JPanel panel4 = new JPanel();
+				
+				JLabel scanLabel = new JLabel("<HTML><center>Where would you like to scan? "
+									+ "<BR>Please enter the middle coordinate in this form, A1:</center></HTML>");
+				sonarCoor = new JTextField(10);
+
+				okaySonar = new JButton("Okay");
+				okaySonar.addActionListener(new AbilitiesButtonListener());
+				cancelSonar = new JButton("Cancel");
+				cancelSonar.addActionListener(new AbilitiesButtonListener());
+				
+				panel1.add(scanLabel);
+				panel2.add(sonarCoor);
+				panel3.add(okaySonar);
+				panel4.add(cancelSonar);
+				
+				SonarPreferenceFrame.getContentPane().add(panel1);
+				SonarPreferenceFrame.getContentPane().add(panel2);
+				SonarPreferenceFrame.getContentPane().add(panel3);
+				SonarPreferenceFrame.getContentPane().add(panel4);
+				
+				SonarPreferenceFrame.setVisible(true);
+				
+			}
+		});
 		
 		JButton btnUseReconPlanes = new JButton("Use Recon Planes Scanner");
 		
@@ -287,9 +330,9 @@ import ships.*;
 			JButton source = (JButton)(e.getSource());
 			if(source.equals(okayExocet)) {
 				if(user.getOwnedShips().get(0).getSpecialsLeft() > 0) {
-					if(checkInputOK() == false) {		//Checks that the input was a coordinate and not random stuff
+					if(checkInputOK(0) == false) {		//Checks that the input was a coordinate and not random stuff
 						JOptionPane.showMessageDialog(null, "<HTML><center>Your input was incorrect."
-												+ "the launch of the Exocet missle was caneled.</center></HTML>");
+												+ "the launch of the Exocet missle was canceled.</center></HTML>");
 						ExocetPreferenceFrame.dispose();
 						ExocetPreferenceFrame.setVisible(false);
 					}
@@ -309,7 +352,7 @@ import ships.*;
 				}
 				else {
 					JOptionPane.showMessageDialog(null, "<HTML><center>You have no Exocet missles left. "
-												+ "<BR>Please select a differnt option</center></HTML>");
+												+ "<BR>Please select a different option</center></HTML>");
 				}
 			}
 			if(source.equals(cancelExocet)) {
@@ -317,13 +360,52 @@ import ships.*;
 				ExocetPreferenceFrame.setVisible(false);
 				close();
 			}
+			if(source.equals(okaySonar)) {
+				if(checkInputOK(4) == false) {		//Checks that the input was a coordinate and not random stuff
+					JOptionPane.showMessageDialog(null, "<HTML><center>Your input was incorrect."
+											+ "<BR>Sonar scanner was canceled.</center></HTML>");
+					SonarPreferenceFrame.dispose();
+					SonarPreferenceFrame.setVisible(false);
+				}
+				else {
+					Submarine s = new Submarine();
+					boolean shipsFound = s.Sonar(coord, board);
+					if(shipsFound == false) {
+						JOptionPane.showMessageDialog(null, "<HTML><center>No ships were found "
+											+ "inside the 3x3 square.</center></HTML>");
+					}
+					else if (shipsFound == true) {
+						JOptionPane.showMessageDialog(null, "<HTML><center>A ship was found in one of these locations!"
+											+ "<BR>But where?"
+											+ "<BR>dun DUN DUUUN!!!</center></HTML>");
+					}
+				}
+				SonarPreferenceFrame.dispose();
+				SonarPreferenceFrame.setVisible(false);
+				close(); 
+			}
+			if(source.equals(cancelSonar)) {
+				SonarPreferenceFrame.dispose();
+				SonarPreferenceFrame.setVisible(false);
+				close();
+			}
 		}
 	}
-	public boolean checkInputOK() {
+	public boolean checkInputOK(int buttonNum) {
 		int letter;
 		int num;
+		String checkString;
 		//String checkString = new String(exoShootCoor.toString());
-		String checkString = new String(exoShootCoor.getText());
+		if(buttonNum == 0) {
+			checkString = new String(exoShootCoor.getText());
+		}
+		else if(buttonNum == 4) {
+			checkString = new String(sonarCoor.getText());
+		}
+		else {
+			return false;
+		}
+		
 		checkString.toCharArray();
 		if(checkString.length() > 1) {
 			//Checking that the first character is a letter

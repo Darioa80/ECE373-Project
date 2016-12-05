@@ -14,11 +14,12 @@ public class Player {
 		PTBoat userPT;
 		
 	public Player(){
-		//Ship = 1 means Aircraft Carrier 
-		//Ship = 2 means Battleship
-		//Ship = 3 means Destroyer
+		//Ship = 0 means Aircraft Carrier 
+		//Ship = 1 means Battleship
+		//Ship = 2 means Destroyer
+		//Ship = 3 means Submarine
 		//Ship = 4 means Patrol Boat
-		//Ship = 5 means Submarine
+		
 		this.OwnedShips = new ArrayList<Ship>(5);
 		
 		createShipsCoorAndLoc();	//Creates all the 5 ships, their coordinates, and locations (NOT the updated coordinates or locations)
