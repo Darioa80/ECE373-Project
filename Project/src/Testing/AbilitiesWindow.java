@@ -5,41 +5,47 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
+import Testing.BattleshipMainGUI;
+import base.*;
+import ships.*;
 
-public class AbilitiesWindow extends JFrame {
+;public class AbilitiesWindow extends JFrame {
 
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AbilitiesWindow frame = new AbilitiesWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	private Player user;
+	private GameBoard board;
+	
+	private JButton okayExocet;
+	private JButton cancelExocet;
+	private JTextField exoShootCoor;
+	private JFrame ExocetPreferenceFrame;
+	private Coordinate coord;
+	JRadioButton crossExocet;
+	JRadioButton xExocet;
 	/**
 	 * Create the frame.
 	 */
-	public AbilitiesWindow() {
+	public AbilitiesWindow(Player aUser, GameBoard aBoard) {
+		user = aUser;
+		board = aBoard;
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 650, 600);
@@ -65,6 +71,54 @@ public class AbilitiesWindow extends JFrame {
 		JLabel lblAntiaircraftMissilesChecks = new JLabel("<HTML><center>Anti-Aircraft Missiles checks a spot to see if an enemy recon plane is located at that spot and shoots it.</center></HTML>");
 		
 		JButton btnFireExocetMissile = new JButton("Fire Exocet Missile");
+		btnFireExocetMissile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ExocetPreferenceFrame = new JFrame("Please Select Your Preference");
+				ExocetPreferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				ExocetPreferenceFrame.setLayout(new GridLayout(3,4));
+				ExocetPreferenceFrame.setSize(375, 150);
+				ExocetPreferenceFrame.setResizable(false);
+				
+				
+				JPanel panel1 = new JPanel();
+				JPanel panel2 = new JPanel();
+				JPanel panel3 = new JPanel();
+				JPanel panel4 = new JPanel();
+				JPanel panel5 = new JPanel();
+				JPanel panel6 = new JPanel();
+				
+				JLabel shootLabel = new JLabel("Where would you like to shoot?");
+				exoShootCoor = new JTextField(10);
+				
+				crossExocet = new JRadioButton("Cross Firing Pattern");
+				xExocet = new JRadioButton("X Firing Pattern");
+				ButtonGroup bg = new ButtonGroup();
+				bg.add(crossExocet);
+				bg.add(xExocet);
+
+				okayExocet = new JButton("Okay");
+				okayExocet.addActionListener(new AbilitiesButtonListener());
+				cancelExocet = new JButton("Cancel");
+				cancelExocet.addActionListener(new AbilitiesButtonListener());
+				
+				panel1.add(shootLabel);
+				panel2.add(exoShootCoor);
+				panel3.add(crossExocet);
+				panel4.add(xExocet);
+				panel5.add(okayExocet);
+				panel6.add(cancelExocet);
+				
+				ExocetPreferenceFrame.add(panel1);
+				ExocetPreferenceFrame.add(panel2);
+				ExocetPreferenceFrame.add(panel3);
+				ExocetPreferenceFrame.add(panel4);
+				ExocetPreferenceFrame.add(panel5);
+				ExocetPreferenceFrame.add(panel6);
+				
+				ExocetPreferenceFrame.setVisible(true);
+			}
+		});
 		
 		JButton btnFireTomahawkMissile = new JButton("Fire Tomahawk Missile");
 		
@@ -80,13 +134,13 @@ public class AbilitiesWindow extends JFrame {
 		
 		JButton btnFireAntiaircraftMissle = new JButton("Fire Anti-Aircraft Missle");
 		
-		JLabel lblUsesLeft = new JLabel("Uses Left: ");				//FIXME AIRCRAFT CARRIER SPECIALS LEFT
+		JLabel lblUsesLeft = new JLabel("Uses Left: " + user.getOwnedShips().get(0).getSpecialsLeft() );				//AIRCRAFT CARRIER SPECIALS LEFT
+
+		JLabel lblUsesLeft_1 = new JLabel("Uses Left: " + user.getOwnedShips().get(1).getSpecialsLeft());			//BATTLESHIP SPECIALS LEFT
 		
-		JLabel lblUsesLeft_1 = new JLabel("Uses Left: ");			//FIXME BATTLESHIP SPECIALS LEFT
+		JLabel lblUsesLeft_2 = new JLabel("Uses Left: " + user.getOwnedShips().get(2).getSpecialsLeft());			//DESTROYER SPECIALS LEFT
 		
-		JLabel lblUsesLeft_2 = new JLabel("Uses Left: ");			//FIXME DESTROYER SPECIALS LEFT
-		
-		JLabel lblUsesLeft_3 = new JLabel("Uses Left: ");			//FIXME SUBMARINE SPECIALS LEFT
+		JLabel lblUsesLeft_3 = new JLabel("Uses Left: " + user.getOwnedShips().get(3).getSpecialsLeft());			//SUBMARINE SPECIALS LEFT
 		
 		JLabel lblUsesLeft_4 = new JLabel("Uses Left: No Limit");
 		
@@ -227,5 +281,87 @@ public class AbilitiesWindow extends JFrame {
 					.addComponent(btnCancel))
 		);
 		contentPane.setLayout(gl_contentPane);
+	}
+	private class AbilitiesButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JButton source = (JButton)(e.getSource());
+			if(source.equals(okayExocet)) {
+				if(user.getOwnedShips().get(0).getSpecialsLeft() > 0) {
+					if(checkInputOK() == false) {		//Checks that the input was a coordinate and not random stuff
+						JOptionPane.showMessageDialog(null, "<HTML><center>Your input was incorrect."
+												+ "the launch of the Exocet missle was caneled.</center></HTML>");
+						ExocetPreferenceFrame.dispose();
+						ExocetPreferenceFrame.setVisible(false);
+					}
+					else {
+						AirCraftCarrier acc = new AirCraftCarrier();
+						user.getOwnedShips().get(0).setSpecialsLeft(user.getOwnedShips().get(0).getSpecialsLeft()-1);
+						if(crossExocet.isSelected()) {
+							acc.Exocet(true, coord, board);
+						}
+						else if (xExocet.isSelected()) {
+							acc.Exocet(false, coord, board);
+						}
+					}
+					ExocetPreferenceFrame.dispose();
+					ExocetPreferenceFrame.setVisible(false);
+					close(); 
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "<HTML><center>You have no Exocet missles left. "
+												+ "<BR>Please select a differnt option</center></HTML>");
+				}
+			}
+			if(source.equals(cancelExocet)) {
+				ExocetPreferenceFrame.dispose();
+				ExocetPreferenceFrame.setVisible(false);
+				close();
+			}
+		}
+	}
+	public boolean checkInputOK() {
+		int letter;
+		int num;
+		//String checkString = new String(exoShootCoor.toString());
+		String checkString = new String(exoShootCoor.getText());
+		checkString.toCharArray();
+		if(checkString.length() > 1) {
+			//Checking that the first character is a letter
+			if((checkString.charAt(0) >= 'A') && (checkString.charAt(0) <= 'J')) {
+				letter = checkString.charAt(0) - 65;
+			}
+			else if((checkString.charAt(0) >= 'a') && (checkString.charAt(0) <= 'j')) {
+				letter = checkString.charAt(0) - 97;
+			}
+			else {
+				return false;	//Appropriate letter was not selected
+			}
+			
+			//Now checking that the second character is a number
+			if((checkString.charAt(1) >= 1) && (checkString.charAt(1) >= 9)){
+				if((checkString.charAt(1) == 1) && (checkString.charAt(2) == 0)){
+					num = 10;
+					coord = new Coordinate();
+					Location loc = new Location(letter,num);
+					coord.setCoord(loc);
+					return true; //Yay!!! Correct shit was inputed!!
+				}
+				else {
+					num = checkString.charAt(1) - 49;
+					coord = new Coordinate();
+					Location loc = new Location(letter,num);
+					coord.setCoord(loc);
+					return true; //Yay!! Correct shit was inputed!!
+				}
+			}
+			else {
+				return false; //Number was not selected
+			}
+		}
+		return false;	//Not enough characters were written
+	}
+	public void close(){
+		WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
+		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
 	}
 }
