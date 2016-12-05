@@ -1,0 +1,9 @@
+You and the enemy each get 5 ships: an Aircraft Carrier, Battleship, Patrol Boat, Submarine, and a
+Destroyer. The goal is to find all of the enemy’s ships and destroy them before he destroys all of your
+ships. The winner is the one who destroys all of their opponent’s ships. 
+
+Salvo Mode: In this game mode, the amount of shots you are able to take per turn depends on the number of
+ships that have not sunk on your grid. For example, when the game starts and you have 5
+ships, you are able to shoot at 5 different spots on the opponent’s grid per turn. Once you lose a ship,
+the number of shots you can take per turn will be reduced by 1.  You do not get an extra turn when an
+enemy ship is hit.

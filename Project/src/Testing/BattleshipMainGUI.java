@@ -230,7 +230,10 @@ public class BattleshipMainGUI extends JFrame {
 				for(j = 0; j < 10; j++){
 					if (source == enemyButtonGrid[i][j]) {
 						if(gameOn == true) {	//If the game has started, it's time to fire some shots pew pew
-							
+							coor = new Coordinate();
+							Location loc = new Location(i,j);
+							coor.setCoord(loc);
+							Shoot();
 							/*if(shot!) {
 								userButtonGrid[m+i][n].setBackground(Color.RED);
 							}
@@ -378,4 +381,40 @@ public class BattleshipMainGUI extends JFrame {
 		
 		return;
 	}
+	
+	public boolean Shoot(){
+		int j = coor.getCoord().getLetter();
+		int i = coor.getCoord().getNum();
+		if (compBoard.getSpaces()[i][j].getBeenHit() == true){
+			return false;
+		}
+		else {
+			if (compBoard.getSpaces()[i][j].getisOccupied() == true){
+				if (compBoard.getSpaces()[i][j].getIsOccupiedBy().getSunk() == false){
+					for (int k = 0; k < compBoard.getSpaces()[i][j].getIsOccupiedBy().getHits().size(); k++){
+						if (compBoard.getSpaces()[i][j].getIsOccupiedBy().getHits().get(k) == false){
+							compBoard.getSpaces()[i][j].getIsOccupiedBy().setAHit(k, true);
+							compBoard.getSpaces()[i][j].setBeenHit(true);
+							enemyButtonGrid[i][j].setBackground(Color.RED);
+							if (k == compBoard.getSpaces()[i][j].getIsOccupiedBy().getHits().size()){
+								compBoard.getSpaces()[i][j].getIsOccupiedBy().setSunk(true);
+							}		
+							break;
+						}
+					}
+				}
+				else {
+					enemyButtonGrid[i][j].setBackground(Color.WHITE);
+					return false;
+				}
+			}
+			else {
+				
+				return false;
+			}
+		}
+		
+		return true;
+	}
 }
+

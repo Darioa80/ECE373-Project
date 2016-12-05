@@ -1,0 +1,64 @@
+You and the enemy each get 5 ships: an Aircraft Carrier, Battleship, Patrol Boat, Submarine, and a
+Destroyer. The goal is to find all of the enemy’s ships and destroy them before he destroys all of your
+ships. The winner is the one who destroys all of their opponent’s ships.
+Advanced Mode: 
+
+Each ship has a new weapon, except the Patrol Boat. This game mode also introduces 2 Recon Planes
+and an Anti-Aircraft Missile Battery. The recon planes will aid with scanning for and finding enemy ships.
+The Anti-Air Missile is used to counter the enemy’s Recon Planes. More about these newly introduced
+units will be discussed shortly.
+
+	Aircraft Carrier:The Aircraft Carrier is able to fire 2 Exocet Missiles per game, which can attack 
+multiple spots on the opponent's grid at once. Each Exocet will target 5 squares in the opponent’s grid. 
+You have the choice of attacking with the firing pattern that resembles an “X” or a cross. If your Aircraft
+Carrier is destroyed before both Exocet missiles are used, the missiles will be lost along with the Aircraft
+Carrier. 
+
+
+	Battleship: The Battleship gains the ability to use a Tomahawk missile. The Tomahawk missile is
+able to strike a 3x3 square of nine total squares at once. If the Battleship is sunk before the Tomahawk
+missile is used, you will not be able to use the Tomahawk missile for the rest of the game.  Only one
+Tomahawk missile can be used per game. 
+
+
+	Destroyer: The Destroyer gains the ability to use Apache missiles. Apache missiles are able to
+target a horizontal or vertical line of 3 squares. Up to 2 Apache missiles can be used in one game. If the
+destroyer is sunk before the Apache missiles are used, the Apache missiles will no longer be available for 
+use. 
+
+
+	Submarine: The Submarine has the option of choosing one of two special abilities. These special
+abilities are Torpedoes or Underwater Sonar Scanning.  
+	For the Torpedo, a spot at the edge of the grid will be chosen. The direction of the Torpedo
+depends on the spot that is selected along the edges. If a spot is selected along the vertical edges of the
+grid, the Torpedo will fire at the corresponding row. If a spot is selected along the horizontal edges, the
+Torpedo will fire at the corresponding column. Once a column/row has been decided the Torpedo will
+then hit every spot from one end of the grid until either it hits an enemy ship in that row/column or it
+reaches the other edge of the grid. If an enemy ship is hit, fire from the Torpedo will stop. You can only
+fire two Torpedoes per game and are lost if used or if the Submarine is sunk. 
+	The Underwater Sonar Scanning does not damage the enemy ships but has no limit to the
+number of times it can be used. This ability allows the player to pick a square of size 3x3. The Sonar
+Scanner informs the player if any enemy ship is located in that 3x3 space. The sonar system does not let
+the user know the exact location of the enemy ship in the selected area. If the submarine is sunk, you are
+no longer able to use the Underwater Sonar Scanning ability.
+
+
+Recon Planes: These planes start off on the Aircraft Carrier but one of them can be moved in
+place of you taking a shot at the enemy’s grid. Recon Planes allow the user to scan around a specific spot
+on the enemy’s grid and it will inform you if an enemy ship is hidden at that spot. When you choose a
+point to scan, the Recon Planes will scan four surrounding spots. You can scan the 4 spots located
+diagonally from the chosen spot, or the 4 spots that are next to (in contact) with the selected spot. You
+can choose the scanning pattern each time you decide to scan. If a Recon Plane is moved, you cannot fire
+at the enemy or use Recon Planes to scan a spot in the enemy’s grid. If the recon plane finds an enemy
+ship, that spot is highlighted green. Any spots that were scanned and were found to be empty turn
+white. The Recon planes must be moved from the Aircraft carrier in order to scan the battlefield.  If the
+Aircraft carrier is sunk, the user can still use the recon planes if: 
+	1. The Recon planes were not on the Aircraft Carrier. 
+	2. The Recon planes were not hit while on the Aircraft Carrier. 
+	3. The recon planes have not been shot down by Anti-Aircraft Missile. 
+
+
+	Anti-Aircraft Missile Battery: To use it, you must select the Anti-Aircraft Missile and select a spot
+on your own grid. If an enemy recon plane is located at that spot, the enemy’s Recon Plane will be hit. 
+Once both of the enemy’s Recon Planes have been shot down, the Anti-Aircraft Missile Battery is
+deactivated.
