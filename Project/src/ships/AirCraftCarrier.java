@@ -60,9 +60,9 @@ public class AirCraftCarrier extends Ship {
 			if (firingPattern == true) {		//attack using a firing pattern that resembles a cross	
 
 				//FIRING IN A CROSS: This fires in the horizontal direction of that cross
-				i = centerCoor.getCoord().getLetter();	//Row stays the same
-				for(j = centerCoor.getCoord().getNum() - 1; j <= centerCoor.getCoord().getNum() + 1; j++) {	//iterates through the column above and below the column that was selected
-					if((j >= 0) && (j < 10)) {	//if the location is within the bounds
+				j = centerCoor.getCoord().getLetter();	//Row stays the same
+				for(i = centerCoor.getCoord().getNum() - 1; i <= centerCoor.getCoord().getNum() + 1; i++) {	//iterates through the column above and below the column that was selected
+					if((i >= 0) && (i < 10)) {	//if the location is within the bounds
 						if(board.getSpaces()[i][j].getBeenHit() == false) {			//If this location hasn't been hit
 							board.getSpaces()[i][j].setBeenHit(true);			//hit the spot that is occupied
 							if(board.getSpaces()[i][j].getisOccupied() == true){ 	//checks if this location is occupied by something
@@ -83,9 +83,9 @@ public class AirCraftCarrier extends Ship {
 				}
 				
 				//FIRING IN A CROSS: This fires in the vertical direction of that cross
-				j = centerCoor.getCoord().getNum();	//Column stays the same
-				for(i = centerCoor.getCoord().getLetter() - 1; i <= centerCoor.getCoord().getLetter() + 1; i++){ //iterates through the row above and below the row that was selected
-					if((i >= 0) && (i < 10)) {	//if the location is within the bounds
+				i = centerCoor.getCoord().getNum();	//Column stays the same
+				for(j = centerCoor.getCoord().getLetter() - 1; j <= centerCoor.getCoord().getLetter() + 1; j++){ //iterates through the row above and below the row that was selected
+					if((j >= 0) && (j < 10)) {	//if the location is within the bounds
 						if(board.getSpaces()[i][j].getBeenHit() == false) {			//If this location hasn't been hit
 							board.getSpaces()[i][j].setBeenHit(true);			//hit the spot that is occupied
 							if(board.getSpaces()[i][j].getisOccupied() == true){ 	//checks if this location is occupied by something
@@ -105,24 +105,14 @@ public class AirCraftCarrier extends Ship {
 					}
 			
 				}				
-				
-				
-				/*for(i = centerCoor.getCoord().getLetter() - 1; i <= centerCoor.getCoord().getLetter() + 1; i++){ //iterates through the row above and below the row that was selected  
-					for(j = centerCoor.getCoord().getNum() - 1; j <= centerCoor.getCoord().getNum() + 1; j++) {	//iterates through the column above and below the column that was selected
-						if((i >= 0) && (i < 10) && (j >= 0) && (j < 10)) {	//if the location is within the bounds
-							//FIRE!!! make it so that it fires in a cross
-							
-						}
-					}
-				}*/
 			}
 			
 			else if (firingPattern == false) {	//attack using a firing pattern that resembles an X	
-				int m = centerCoor.getCoord().getLetter();	//m equals the Letter / row that the user selected to hit
-				int n = centerCoor.getCoord().getNum();		//n equals the Number / column that the user selected to hit
+				int n = centerCoor.getCoord().getLetter();	//m equals the Letter / row that the user selected to hit
+				int m = centerCoor.getCoord().getNum();		//n equals the Number / column that the user selected to hit
 				
-				for(i = centerCoor.getCoord().getLetter() - 1; i <= centerCoor.getCoord().getLetter() + 1; i++){ //iterates through the row above and below the row that was selected  
-					for(j = centerCoor.getCoord().getNum() - 1; j <= centerCoor.getCoord().getNum() + 1; j++) {	//iterates through the column above and below the column that was selected
+				for(j = centerCoor.getCoord().getLetter() - 1; j <= centerCoor.getCoord().getLetter() + 1; j++){ //iterates through the row above and below the row that was selected  
+					for(i = centerCoor.getCoord().getNum() - 1; i <= centerCoor.getCoord().getNum() + 1; i++) {	//iterates through the column above and below the column that was selected
 						if((i >= 0) && (i < 10) && (j >= 0) && (j < 10)) {	//if the location is within the bounds
 							//FIRE!!! make it so that it fires in an X
 							

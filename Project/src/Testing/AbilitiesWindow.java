@@ -31,19 +31,31 @@ import ships.*;
 	private JPanel contentPane;
 	private Player user;
 	private GameBoard board;
+	private Coordinate coord;
 	
+	//Exocet JFrame for Button Press
+	private JFrame ExocetPreferenceFrame;
 	private JButton okayExocet;
 	private JButton cancelExocet;
 	private JTextField exoShootCoor;
-	private JFrame ExocetPreferenceFrame;
-	private Coordinate coord;
-	JRadioButton crossExocet;
-	JRadioButton xExocet;
+	private JRadioButton crossExocet;
+	private JRadioButton xExocet;
 	
+	//Torpedo JFrame for Button Press
+	private JFrame TorpedoPreferenceFrame;
+	private JButton okayTorpedo;
+	private JButton cancelTorpedo;
+	private JTextField torpedoCoor;
+	
+	//Sonar JFrame for Button Press
 	private JFrame SonarPreferenceFrame;
 	private JButton okaySonar;
 	private JButton cancelSonar;
 	private JTextField sonarCoor;
+	
+	//other that Naomi Created
+	private boolean torpedoDir;	//Direction of Torpedo 
+	
 	/**
 	 * Create the frame.
 	 */
@@ -130,6 +142,45 @@ import ships.*;
 		JButton btnFireApacheMissile = new JButton("Fire Apache Missile");
 		
 		JButton btnFireTorpedo = new JButton("Fire Torpedo");
+		btnFireTorpedo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				TorpedoPreferenceFrame = new JFrame("Torpedo Preference");
+				TorpedoPreferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				TorpedoPreferenceFrame.getContentPane().setLayout(new GridLayout(2,2));
+				TorpedoPreferenceFrame.setSize(600, 125);
+				TorpedoPreferenceFrame.setResizable(false);
+				
+				
+				JPanel panel1 = new JPanel();
+				JPanel panel2 = new JPanel();
+				JPanel panel3 = new JPanel();
+				JPanel panel4 = new JPanel();
+				
+				JLabel torpedoLabel = new JLabel("<HTML><center>What row or column would you like to shoot?"
+									+ "<BR>Please enter it as A or 1, NOT A1</center></HTML>");
+				torpedoCoor = new JTextField(10);
+
+
+				okayTorpedo = new JButton("Okay");
+				okayTorpedo.addActionListener(new AbilitiesButtonListener());
+				cancelTorpedo = new JButton("Cancel");
+				cancelTorpedo.addActionListener(new AbilitiesButtonListener());
+				
+				panel1.add(torpedoLabel);
+				panel2.add(torpedoCoor);
+				panel3.add(okayTorpedo);
+				panel4.add(cancelTorpedo);
+				
+				TorpedoPreferenceFrame.getContentPane().add(panel1);
+				TorpedoPreferenceFrame.getContentPane().add(panel2);
+				TorpedoPreferenceFrame.getContentPane().add(panel3);
+				TorpedoPreferenceFrame.getContentPane().add(panel4);
+				
+				TorpedoPreferenceFrame.setVisible(true);
+
+			}
+		});
 		
 		JButton btnUseSonarScanner = new JButton("Use Sonar Scanner");
 		btnUseSonarScanner.addActionListener(new ActionListener() {
@@ -360,6 +411,34 @@ import ships.*;
 				ExocetPreferenceFrame.setVisible(false);
 				close();
 			}
+			if(source.equals(okayTorpedo)) {
+				if(user.getOwnedShips().get(3).getSpecialsLeft() > 0) {
+					if(checkTorpedoInputOK() == false) {		//Checks that the input was a coordinate and not random stuff
+						JOptionPane.showMessageDialog(null, "<HTML><center>Your input was incorrect."
+												+ "the launch of the Exocet missle was canceled.</center></HTML>");
+						TorpedoPreferenceFrame.dispose();
+						TorpedoPreferenceFrame.setVisible(false);
+					}
+					else {
+						Submarine s = new Submarine();
+						user.getOwnedShips().get(3).setSpecialsLeft(user.getOwnedShips().get(3).getSpecialsLeft()-1);	//Get submarines specials and decrease it by 1
+						s.Torpedo(coord, torpedoDir, board);
+						//FIXME NAOMI.
+					}
+					TorpedoPreferenceFrame.dispose();
+					TorpedoPreferenceFrame.setVisible(false);
+					close(); 
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "<HTML><center>You have no Torpedos left. "
+												+ "<BR>Please select a different option</center></HTML>");
+				}
+			}
+			if(source.equals(cancelTorpedo)) {
+				TorpedoPreferenceFrame.dispose();
+				TorpedoPreferenceFrame.setVisible(false);
+				close();
+			}
 			if(source.equals(okaySonar)) {
 				if(checkInputOK(4) == false) {		//Checks that the input was a coordinate and not random stuff
 					JOptionPane.showMessageDialog(null, "<HTML><center>Your input was incorrect."
@@ -396,18 +475,39 @@ import ships.*;
 		int num;
 		String checkString;
 		//String checkString = new String(exoShootCoor.toString());
-		if(buttonNum == 0) {
+		if(buttonNum == 0) {		//Aircraft Carrier's Exocet!
 			checkString = new String(exoShootCoor.getText());
 		}
-		else if(buttonNum == 4) {
+		else if(buttonNum == 1) {		//Battleship's Tomahawk!
+			//FIXME DARIO!
+			checkString = new String("FIXME DARIO");
+		}
+		else if(buttonNum == 2) {	//Destroyer's Apache!
+			//FIXME DARIO!
+			checkString = new String("FIXME DARIO");
+		}
+		//buttonNum == 3 is Submarine's Torpedo which is handled elsewhere
+		else if(buttonNum == 4) {	//Submarine's Scanner!
 			checkString = new String(sonarCoor.getText());
+		}
+		else if(buttonNum == 5) {	//ACC Plane's Plane Scanner!
+			//FIXME CJ!
+			checkString = new String("FIXME CJ");
+		}
+		else if(buttonNum == 6) {	//ACC Plane's Move Plane!
+			//FIXME CJ!
+			checkString = new String("FIXME CJ");
+		}
+		else if(buttonNum == 7) {	//Anti-Aircraft Carrier!
+			//FIXME CJ!
+			checkString = new String("FIXME CJ");
 		}
 		else {
 			return false;
 		}
-		
+		int length = checkString.length(); 
 		checkString.toCharArray();
-		if(checkString.length() > 1) {
+		if(length > 1) {
 			//Checking that the first character is a letter
 			if((checkString.charAt(0) >= 'A') && (checkString.charAt(0) <= 'J')) {
 				letter = checkString.charAt(0) - 65;
@@ -420,13 +520,17 @@ import ships.*;
 			}
 			
 			//Now checking that the second character is a number
-			if((checkString.charAt(1) >= 1) && (checkString.charAt(1) >= 9)){
-				if((checkString.charAt(1) == 1) && (checkString.charAt(2) == 0)){
-					num = 10;
+			int numAt1 = checkString.charAt(1) - 48;
+			int numAt2 = -1;
+			if(length > 2) { numAt2 = checkString.charAt(2) - 48;}
+			if((numAt1 >= 1) && (numAt1 <= 9)){
+				if((length > 2) && (numAt1 == 1)) {
+					if(numAt2 == 0){
 					coord = new Coordinate();
-					Location loc = new Location(letter,num);
+					Location loc = new Location(letter,9);
 					coord.setCoord(loc);
 					return true; //Yay!!! Correct shit was inputed!!
+					}
 				}
 				else {
 					num = checkString.charAt(1) - 49;
@@ -442,6 +546,91 @@ import ships.*;
 		}
 		return false;	//Not enough characters were written
 	}
+
+	public boolean checkTorpedoInputOK() {
+		int letter;
+		int num;
+		int length;
+		String checkString;
+		checkString = new String(torpedoCoor.getText());
+		length = checkString.length();
+		checkString.toCharArray();
+		
+		/*
+		 if((checkString.charAt(0) >= 'A') && (checkString.charAt(0) <= 'J')) {
+				letter = checkString.charAt(0) - 65;
+			}
+			else if((checkString.charAt(0) >= 'a') && (checkString.charAt(0) <= 'j')) {
+				letter = checkString.charAt(0) - 97;
+			}
+			else {
+				return false;	//Appropriate letter was not selected
+			}
+			
+			//Now checking that the second character is a number
+			int numAt1 = checkString.charAt(1) - 48;
+			int numAt2 = -1;
+			if(length > 2) { numAt2 = checkString.charAt(2) - 48;}
+			if((numAt1 >= 1) && (numAt1 <= 9)){
+				if((length > 2) && (numAt1 == 1)) {
+					if(numAt2 == 0){
+					coord = new Coordinate();
+					Location loc = new Location(letter,9);
+					coord.setCoord(loc);
+					return true; //Yay!!! Correct shit was inputed!!
+					}
+				}
+				else {
+					num = checkString.charAt(1) - 49;
+					coord = new Coordinate();
+					Location loc = new Location(letter,num);
+					coord.setCoord(loc);
+					return true; //Yay!! Correct shit was inputed!!
+				}
+			} 
+		 
+		 */
+		if(length > 0) {
+			if((checkString.charAt(0) >= 'A') && (checkString.charAt(0) <= 'J')) {
+				letter = checkString.charAt(0) - 65;
+				coord = new Coordinate();
+				Location loc = new Location(letter,0);	//FIXME NAOMI!!!
+				coord.setCoord(loc);
+				torpedoDir = true;
+				return true; //Yay!!! Correct shit was inputed!!
+			}
+			else if((checkString.charAt(0) >= 'a') && (checkString.charAt(0) <= 'j')) {
+				letter = checkString.charAt(0) - 97;
+				coord = new Coordinate();
+				Location loc = new Location(letter,0);	//FIXME NAOMI!!!
+				coord.setCoord(loc);
+				torpedoDir = true;
+				return true; //Yay!!! Correct shit was inputed!!
+			}
+			else if((checkString.charAt(0) >= '1') && (checkString.charAt(0) <= '9')){
+				if((length > 1) && (checkString.charAt(0) == '1')) {
+					if(checkString.charAt(1) == '0'){
+						//Row 10 was selected aka row 9 in our grid of buttons
+						coord = new Coordinate();
+						Location loc = new Location(0,9);	//FIXME NAOMI!!!
+						coord.setCoord(loc);
+						torpedoDir = false;
+						return true; //Yay!!! Correct shit was inputed!!
+					}
+				}
+				else {
+					num = checkString.charAt(0) - 49;
+					coord = new Coordinate();
+					Location loc = new Location(0,num); //FIXME NAOMI!!!
+					coord.setCoord(loc);
+					torpedoDir = false;
+					return true; //Yay!! Correct shit was inputed!!
+				}
+			}
+		}
+		return false;	//Not enough characters were written
+	}
+
 	public void close(){
 		WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
 		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);

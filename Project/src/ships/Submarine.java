@@ -67,18 +67,8 @@ public class Submarine extends Ship{
 		if(this.getSpecialsLeft() > 0) {
 			this.setSpecialsLeft(this.getSpecialsLeft()-1); //Update the amount of specials left
 			
-			if (this.getSpecialsLeft() <= 0) {
-				//Deactivate button??
-				//Simply print out an error msgs when you try to press the button again??
-				//Find out in the next episode of DBZ!!!
-			}
-			
-			/*
-			 * Deactivate button
-			 */
-			
 			if(direction == true) { //Torpedo is shot vertically, so column j stays the same
-				j = spotChosen.getCoord().getNum(); //column j stays the same since the torpedo is shot in the vertical direction
+				j = spotChosen.getCoord().getLetter(); //column j stays the same since the torpedo is shot in the vertical direction
 				for(i = 0; i < 10; i++) {			//iterate through the rows
 					
 					if(board.getSpaces()[i][j].getBeenHit() == false) {			//If this location hasn't been hit
@@ -104,7 +94,7 @@ public class Submarine extends Ship{
 				
 			}
 			else {					//Torpedo is shot horizontally
-				i = spotChosen.getCoord().getLetter();	//row i stays the same since the torpedo is shot in the horizontal direction
+				i = spotChosen.getCoord().getNum();	//row i stays the same since the torpedo is shot in the horizontal direction
 				for(j = 0; j < 10; j++) {				//iterate through the columns
 					
 					if(board.getSpaces()[i][j].getBeenHit() == false) {			//If this location hasn't been hit
