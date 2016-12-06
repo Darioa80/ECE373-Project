@@ -33,7 +33,7 @@ public abstract class Ship extends Equipment {
 		int frontCoordRow = frontCoordinate.getCoord().getLetter();
 		int frontCoordColumn = frontCoordinate.getCoord().getNum();
 		if(this.getDir() == false){ //if direction is horizontal 
-			if ((frontCoordinate.getCoord().getNum() + size) > (GRID_WIDTH - 1)){	//minus 1 because the grid goes from 0-9 not 1-10
+			if ((frontCoordinate.getCoord().getNum() + size) > (GRID_WIDTH)){	//minus 1 because the grid goes from 0-9 not 1-10....Updated by C.J. as the game would not allow the ships to be set on the endge of the grid
 				//One of more coordinates are off the grid
 				return 2;
 			}
@@ -51,8 +51,8 @@ public abstract class Ship extends Equipment {
 
 		}
 		else{	//direction is vertical
-			if((frontCoordinate.getCoord().getLetter()+size) > (GRID_HEIGHT -1)){
-				// One or more coordinates are off the grid
+			if((frontCoordinate.getCoord().getLetter()+size) > (GRID_HEIGHT)){
+				// One or more coordinates are off the grid						//updated by C.J. removed the -1 because the game would not allow me to place ships that ended on the end of the grid
 				return 2;	
 			}
 			for(i =0; i < size; i++){

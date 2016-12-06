@@ -8,6 +8,10 @@ public class AAGun {
 	private boolean enabled;
 	
 	
+	public AAGun(){
+		this.enabled = true;
+	}
+	
 	
 	public void setEnabled(boolean en){this.enabled = en; return; }
 	public boolean getEnabled(){return this.enabled;}

@@ -28,6 +28,7 @@ public class BattleshipMainGUI extends JFrame {
     public GameBoard userBoard;
     public GameBoard compBoard;
     public Player player;
+    public Oponent CPU;
 	
     private boolean dirHasBeenChosen = false;
     private Coordinate coor;
@@ -55,6 +56,9 @@ public class BattleshipMainGUI extends JFrame {
 		player = new Player();
 		ship = 0;
 		//SET THE ENEMIES SHIP
+		CPU.setShips();
+		compBoard = CPU.Board;
+		
 		
 		//TITLE:		
 		JPanel titlePanel = new JPanel();
@@ -189,6 +193,8 @@ public class BattleshipMainGUI extends JFrame {
 										"? It has a length of " + player.getOwnedShips().get(ship).getSize() + "." +
 										"<BR> Please Select a location on your grid, the left grid, "
 										+ "<BR>otherwise nothing will happen.</center></HTML>");
+			
+			
 	}
 
 	
@@ -196,6 +202,8 @@ public class BattleshipMainGUI extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			int i, j;
 
+			
+			
 			Object source = e.getSource();
 			for(i = 0; i < 10; i++) {
 				for(j = 0; j < 10; j++){
@@ -222,6 +230,8 @@ public class BattleshipMainGUI extends JFrame {
 					}
 				}
 			}
+			//C.J. Setting the enemy ships up after here
+			
 		}
 	}
 	
@@ -238,13 +248,13 @@ public class BattleshipMainGUI extends JFrame {
 							coor = new Coordinate();
 							Location loc = new Location(i,j);
 							coor.setCoord(loc);
-							Shoot();
-							/*if(shot!) {
-								userButtonGrid[m+i][n].setBackground(Color.RED);
+							if(Shoot())
+							{
+								enemyButtonGrid[i][j].setBackground(Color.RED);
 							}
-							if(missed:()) {
-								userButtonGrid[i][j].setBackground(Color.WHITE);
-							}*/
+							else {
+								enemyButtonGrid[i][j].setBackground(Color.WHITE);
+							}
 						}
 					}
 				}

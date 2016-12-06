@@ -24,7 +24,7 @@ public class Plane extends Equipment {
 	public Location getLoc(){return this.loc;}
 	public boolean isDestroyed(){return this.destroyed;}
 	
-	public void Scan(Location center, boolean pattern, GameBoard Board){
+	public ArrayList<Location> Scan(Location center, boolean pattern, GameBoard Board){
 		ArrayList<Location> Hits = new ArrayList<Location>();
 		Location Curr = new Location();
 		Coordinate Grid [][] = new Coordinate[10][10];
@@ -112,10 +112,10 @@ public class Plane extends Equipment {
 			
 		if(Hits.isEmpty())
 			//Display a GUI Message Telling Player that there were no hits found
-			return;
+			return Hits;
 		else
 			//display a GUI Message Telling player which spaces have a ship occupying them.
-			return;
+			return Hits;
 	}
 	
 	
