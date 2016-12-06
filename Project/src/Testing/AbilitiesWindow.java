@@ -1,6 +1,7 @@
 package Testing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -54,14 +55,16 @@ import ships.*;
 	private JTextField sonarCoor;
 	
 	//other that Naomi Created
-	private boolean torpedoDir;	//Direction of Torpedo 
+	private boolean torpedoDir;	//Direction of Torpedo
+	private JButton[][] enemyGridButton;
 	
 	/**
 	 * Create the frame.
 	 */
-	public AbilitiesWindow(Player aUser, GameBoard aBoard) {
+	public AbilitiesWindow(Player aUser, GameBoard aBoard, JButton[][] enemyBoard) {
 		user = aUser;
 		board = aBoard;
+		enemyGridButton = enemyBoard;
 		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -94,7 +97,7 @@ import ships.*;
 				ExocetPreferenceFrame = new JFrame("Exocet Preference");
 				ExocetPreferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				ExocetPreferenceFrame.getContentPane().setLayout(new GridLayout(3,4));
-				ExocetPreferenceFrame.setSize(375, 150);
+				ExocetPreferenceFrame.setSize(410, 200);
 				ExocetPreferenceFrame.setResizable(false);
 				
 				
@@ -105,7 +108,9 @@ import ships.*;
 				JPanel panel5 = new JPanel();
 				JPanel panel6 = new JPanel();
 				
-				JLabel shootLabel = new JLabel("Where would you like to shoot?");
+				JLabel shootLabel = new JLabel("<HTML><center>Where would you like to shoot?"
+										+ "<BR> If no Firing Pattern is selected, "
+										+ "<BR>the default pattern will be a cross.</center></HTML>");
 				exoShootCoor = new JTextField(10);
 				
 				crossExocet = new JRadioButton("Cross Firing Pattern");
@@ -390,12 +395,13 @@ import ships.*;
 					else {
 						AirCraftCarrier acc = new AirCraftCarrier();
 						user.getOwnedShips().get(0).setSpecialsLeft(user.getOwnedShips().get(0).getSpecialsLeft()-1);
-						if(crossExocet.isSelected()) {
-							acc.Exocet(true, coord, board);
-						}
-						else if (xExocet.isSelected()) {
+						if (xExocet.isSelected()) {
 							acc.Exocet(false, coord, board);
 						}
+						else {	//If no Pattern is selected the cross is the default
+							acc.Exocet(true, coord, board);
+						}
+						checkEnemyBoardChanges();	//Changes the colors on the enemy board
 					}
 					ExocetPreferenceFrame.dispose();
 					ExocetPreferenceFrame.setVisible(false);
@@ -423,7 +429,7 @@ import ships.*;
 						Submarine s = new Submarine();
 						user.getOwnedShips().get(3).setSpecialsLeft(user.getOwnedShips().get(3).getSpecialsLeft()-1);	//Get submarines specials and decrease it by 1
 						s.Torpedo(coord, torpedoDir, board);
-						//FIXME NAOMI.
+						checkEnemyBoardChanges();
 					}
 					TorpedoPreferenceFrame.dispose();
 					TorpedoPreferenceFrame.setVisible(false);
@@ -449,6 +455,8 @@ import ships.*;
 				else {
 					Submarine s = new Submarine();
 					boolean shipsFound = s.Sonar(coord, board);
+					sonarColorChange();
+					
 					if(shipsFound == false) {
 						JOptionPane.showMessageDialog(null, "<HTML><center>No ships were found "
 											+ "inside the 3x3 square.</center></HTML>");
@@ -458,6 +466,7 @@ import ships.*;
 											+ "<BR>But where?"
 											+ "<BR>dun DUN DUUUN!!!</center></HTML>");
 					}
+					checkEnemyBoardChanges();		//Changes the board back to the normal colors
 				}
 				SonarPreferenceFrame.dispose();
 				SonarPreferenceFrame.setVisible(false);
@@ -556,40 +565,6 @@ import ships.*;
 		length = checkString.length();
 		checkString.toCharArray();
 		
-		/*
-		 if((checkString.charAt(0) >= 'A') && (checkString.charAt(0) <= 'J')) {
-				letter = checkString.charAt(0) - 65;
-			}
-			else if((checkString.charAt(0) >= 'a') && (checkString.charAt(0) <= 'j')) {
-				letter = checkString.charAt(0) - 97;
-			}
-			else {
-				return false;	//Appropriate letter was not selected
-			}
-			
-			//Now checking that the second character is a number
-			int numAt1 = checkString.charAt(1) - 48;
-			int numAt2 = -1;
-			if(length > 2) { numAt2 = checkString.charAt(2) - 48;}
-			if((numAt1 >= 1) && (numAt1 <= 9)){
-				if((length > 2) && (numAt1 == 1)) {
-					if(numAt2 == 0){
-					coord = new Coordinate();
-					Location loc = new Location(letter,9);
-					coord.setCoord(loc);
-					return true; //Yay!!! Correct shit was inputed!!
-					}
-				}
-				else {
-					num = checkString.charAt(1) - 49;
-					coord = new Coordinate();
-					Location loc = new Location(letter,num);
-					coord.setCoord(loc);
-					return true; //Yay!! Correct shit was inputed!!
-				}
-			} 
-		 
-		 */
 		if(length > 0) {
 			if((checkString.charAt(0) >= 'A') && (checkString.charAt(0) <= 'J')) {
 				letter = checkString.charAt(0) - 65;
@@ -634,5 +609,39 @@ import ships.*;
 	public void close(){
 		WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
 		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
+	}
+	public void checkEnemyBoardChanges() {
+		//Checks the whole board after the ability button has been pressed.
+		//If a new board location has been hit, change its color 
+		
+		int i, j;
+		for(i = 0; i < 10; i++) {
+			for(j = 0; j < 10; j++) {
+				if (board.getSpaces()[i][j].getBeenHit() == true) {
+					if (board.getSpaces()[i][j].getisOccupied() == true) {
+						enemyGridButton[i][j].setBackground(Color.RED);
+					}
+					else {
+						enemyGridButton[i][j].setBackground(Color.WHITE);
+					}
+				}
+				else {
+					enemyGridButton[i][j].setBackground(Color.BLUE);
+				}
+			}
+		}
+	}
+	public void sonarColorChange() {
+		//It's going to highlight the 3x3 square yellow for half a 
+		//second to let the user know what 3x3 area was scanned
+		int i, j;
+		
+		for(i = coord.getCoord().getLetter() - 1; i <= coord.getCoord().getLetter() + 1; i++){ //iterates through the row above and below the row that was selected  
+			for(j = coord.getCoord().getNum() - 1; j <= coord.getCoord().getNum() + 1; j++) {	//iterates through the column above and below the column that was selected
+				if((i >= 0) && (i < 10) && (j >= 0) && (j < 10)) {	//if the location is within the bounds
+					enemyGridButton[j][i].setBackground(Color.YELLOW);
+				}
+			}
+		}
 	}
 }

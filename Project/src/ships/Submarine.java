@@ -23,32 +23,7 @@ public class Submarine extends Ship{
 	
 	public void Torpedo(Coordinate spotChosen, boolean direction, GameBoard board){
 		int i = 0, j =0, k=0;
-		int sizeOfHitArrayList = 0;
-		/*
-		 * In the GUI:
-		 * "Pick a spot along the edges of the grid."
-		 * if (spot != along the edge) {	//If the spot is not along the edge
-		 * 		Window("Error, the location you selected is not on the edge. 
-		 * 				Please select a location on the edge of the grid.");
-		 * }
-		 * else if ((spot == A1) || (spot == A10) || (spot == J1) || (spot == J10)) {	//If the spot is a corner
-		 * 		Window("Would you like to hit horizontally or vertically?");
-		 * 		if(vertically) {
-		 * 			Torpedo(spot, true);
-		 * 		else {
-		 * 			Torpedo(spot, false);
-		 * }
-		 * else {		//If the spot is along the edge and is not a corner
-		 * 		if((row == 1) || (row == 10)) {	//the direction they chose was vertical
-		 * 			Torpedo(spot, true);
-		 * 		}
-		 * 		if((col == 1) || (col == 10)) {	//the direction they chose was horizontal
-		 * 			Torpedo(spot, false);
-		 * 		}
-		 * }
-		 * 
-		 */
-		
+		int sizeOfHitArrayList = 0;		
 		
 		/*
 		 * For the Torpedo, a spot at the edge of the grid will be chosen. 
@@ -126,6 +101,8 @@ public class Submarine extends Ship{
 		
 		return;
 	}
+	
+	
 	public boolean Sonar(Coordinate centerCoor, GameBoard board){	//Returns true if it found a ship in that 3x3 square. Returns false otherwise
 		int i = 0, j = 0;
 		/*
@@ -134,17 +111,6 @@ public class Submarine extends Ship{
 		 * the player if any enemy ship is located there, but does not tell the user 
 		 * the exact location of the enemy ship.
 		 * If the submarine is sunk, the user can't use the Sonar. 
-		 */
-		
-		/*
-		 * IN THE GUI:
-		 * if (Sonar(coor, enemyBoard) == true) {
-		 * 		Window("There is a ship in one of these nine locations.");
-		 * }
-		 * else {
-		 * 		Window("There is no ship in one of these nine locations.");
-		 * }
-		 * 
 		 */
 		for(i = centerCoor.getCoord().getLetter() - 1; i <= centerCoor.getCoord().getLetter() + 1; i++){ //iterates through the row above and below the row that was selected  
 			for(j = centerCoor.getCoord().getNum() - 1; j <= centerCoor.getCoord().getNum() + 1; j++) {	//iterates through the column above and below the column that was selected
