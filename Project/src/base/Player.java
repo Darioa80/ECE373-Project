@@ -19,6 +19,13 @@ public class Player {
 		//Ship = 2 means Destroyer
 		//Ship = 3 means Submarine
 		//Ship = 4 means Patrol Boat
+		this.userACC = new AirCraftCarrier();
+		this.userBS = new Battleship();
+		this.userD = new Destroyer();
+		this.userS = new Submarine();
+		this.userPT = new PTBoat();
+		
+		
 		
 		this.OwnedShips = new ArrayList<Ship>(5);
 		

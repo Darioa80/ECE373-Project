@@ -17,6 +17,7 @@ public class Battleship extends Ship{
 		this.setName("BattleShip");
 		for(int i = 0; i < this.getSize(); i++){
 		this.getHits().add(false);
+		this.setSunk(false);
 		//this.getLocation().add(new Location());
 		}
 	}

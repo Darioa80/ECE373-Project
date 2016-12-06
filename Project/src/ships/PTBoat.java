@@ -16,6 +16,7 @@ public class PTBoat extends Ship {
 			for(int i = 0; i < this.getSize(); ++i) {
 				this.getHits().add(false);
 			}
+			this.setSunk(false);
 			//When is ownedBy set?			
 
 		//The variables in Ship

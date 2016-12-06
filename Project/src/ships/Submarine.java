@@ -13,6 +13,7 @@ public class Submarine extends Ship{
 			for(int i = 0; i < this.getSize(); ++i) {	//Set the hits array list to false since it hasn't been hit
 				this.getHits().add(false);
 			}
+			this.setSunk(false);
 			//ownedBy is be set in the driver.
 
 		//The variables in Ship

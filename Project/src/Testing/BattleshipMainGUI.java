@@ -61,8 +61,8 @@ public class BattleshipMainGUI extends JFrame {
 		//enemy.setShips(coor, userBoard);
 		
 		//SET THE ENEMIES SHIP
-		//enemy.setShips();
-		//compBoard = enemy.Board;
+		enemy.setShips();
+		compBoard = enemy.Board;
 		
 		//TITLE:		
 		JPanel titlePanel = new JPanel();
@@ -240,28 +240,36 @@ public class BattleshipMainGUI extends JFrame {
 	private class EnemyButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			int i, j;
+			Location loc;
 			Object source = e.getSource();
 			
 			for(i = 0; i < 10; i++) {
 				for(j = 0; j < 10; j++){
 					if (source == enemyButtonGrid[i][j]) {
 						if(gameOn == true) {		//If the game has started, it's time to fire some shots pew pew
-							if(turn % 2 == 0) {		//User's turn
+							//if(turn % 2 == 0) {		//User's turn
 								coor = new Coordinate();
-								Location loc = new Location(i,j);
+							    loc = new Location(i,j);
 								coor.setCoord(loc);
-								if(Shoot() == -1) {
+								
+								//modified to a case statement
+								switch(Shoot()) {
+								case -1: {
 									JOptionPane.showMessageDialog(null, "<HTML><center>You've already hit this spot!"
 															+ "<BR> Why not try a new location?</center></HTML>");
+									break;
 								}
-								else if(Shoot() == 0){
+								default: {
 									//missed!
-									turn++;
 									enemy.takeTurn(userBoard, player);
 									checkPlayerGrid();
-									turn++;
+									//turn++;
+									break;
+									
 								}
-								else {
+								//default: {
+								//	break;
+								//}
 									//SHOT! They get to go again
 								}
 							}
@@ -269,9 +277,34 @@ public class BattleshipMainGUI extends JFrame {
 								
 							}
 						}
-					}
+					//}
 				}
 			}
+			j = 0;
+			for(i = 0; i < 5; i++)
+				if(enemy.Ships.get(i).getSunk() == false)
+					j++;
+			if(j == 0){
+				JOptionPane.showMessageDialog(null, "<HTML><center>Congratulations!!!! You have won!!!!</center></HTML>");
+				dispose();
+				setVisible(false);
+				OpeningWindow mainMenu = new OpeningWindow();
+				mainMenu.setVisible(true);
+			}
+			
+
+			j = 0;
+			for(i = 0; i < 5; i++)
+				if(player.getOwnedShips().get(i).getSunk() == false)
+					j++;
+			if(j == 0){
+				JOptionPane.showMessageDialog(null, "<HTML><center>You have lost....</center></HTML>");
+				dispose();
+				setVisible(false);
+				OpeningWindow mainMenu = new OpeningWindow();
+				mainMenu.setVisible(true);
+			}
+			
 		}
 
 		private void checkPlayerGrid() {
@@ -470,10 +503,10 @@ public class BattleshipMainGUI extends JFrame {
 							compBoard.getSpaces()[i][j].getIsOccupiedBy().setAHit(k, true);
 							compBoard.getSpaces()[i][j].setBeenHit(true);
 							enemyButtonGrid[i][j].setBackground(Color.RED);
-							if (k == compBoard.getSpaces()[i][j].getIsOccupiedBy().getHits().size()){
+							if (k == compBoard.getSpaces()[i][j].getIsOccupiedBy().getHits().size() - 1){
 								compBoard.getSpaces()[i][j].getIsOccupiedBy().setSunk(true);
 							}		
-							break;
+							return 1;
 						}
 					}
 				}
@@ -482,6 +515,7 @@ public class BattleshipMainGUI extends JFrame {
 				}
 			}
 			else {	//Not occupied
+				compBoard.getSpaces()[i][j].setBeenHit(true);
 				enemyButtonGrid[i][j].setBackground(Color.WHITE);
 				return 0;
 			}

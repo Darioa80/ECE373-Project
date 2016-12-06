@@ -4,10 +4,10 @@ import java.util.*;
 import ships.*;
 
 public class Oponent {
-	private ArrayList<Ship> Ships;
-	private ArrayList<Plane> Planes;
+	public ArrayList<Ship> Ships = new ArrayList<Ship>();
+	private ArrayList<Plane> Planes = new ArrayList<Plane>();
 	private AAGun aa = new AAGun();
-	public GameBoard Board;
+	public GameBoard Board = new GameBoard();
 	private int lastHit;
 	private Location lastLocation;
 	private ArrayList<Location> lastFour;
@@ -18,7 +18,7 @@ public class Oponent {
 	
 	
 	
-	public void takeTurn(GameBoard Board, Player P){
+	public boolean takeTurn(GameBoard Board, Player P){
 		int i;
 		ArrayList<Location> Confirmed = new ArrayList<Location>();
 		int turnCount = 0;
@@ -33,6 +33,8 @@ public class Oponent {
 		int turnsleft = 0;
 		
 		switch(this.gamemode){
+		
+		//normal game
 		case 1: {
 			while(true){
 			Aim.setLetter(rn.nextInt(10));
@@ -51,7 +53,7 @@ ifcheck1:	if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == true
 							Board.Spaces[Aim.getLetter()][Aim.getNum()].getIsOccupiedBy().setAHit(j, true);
 							
 							hitCheck.add(true);
-							break ifcheck1;
+							return true;
 						}
 					}
 					
@@ -62,7 +64,7 @@ ifcheck1:	if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == true
 			hitCheck.add(false);
 			Board.Spaces[Aim.getLetter()][Aim.getNum()].setBeenHit(true);
 			lastLoc.add(Aim);
-			return;
+			return false;
 		}
 			
 			
@@ -252,7 +254,7 @@ ifcheck3:				if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == t
 		
 			}
 		}
-		return;
+		return true;
 	}
 	
 	
@@ -288,7 +290,7 @@ ifcheck3:				if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == t
 		
 		//sets the Battleship
 		while(true){
-			if(acc.getDir()){	
+			if(bs.getDir()){	
 				loc.setLetter(rn.nextInt(7));
 				loc.setNum(rn.nextInt(10));
 			}
@@ -296,7 +298,7 @@ ifcheck3:				if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == t
 				loc.setLetter(rn.nextInt(10));
 				loc.setNum(rn.nextInt(7));	
 			}
-			if(acc.setShip(this.Board.Spaces[loc.getLetter()][loc.getNum()] , this.Board) == 0){
+			if(bs.setShip(this.Board.Spaces[loc.getLetter()][loc.getNum()] , this.Board) == 0){
 				this.Ships.add(bs);
 				break;
 				
@@ -360,7 +362,7 @@ ifcheck3:				if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == t
 			}
 			
 		}
-		
+		if(this.gamemode == 3){
 		i = rn.nextInt(5);
 		Curr.setLoc(this.Ships.get(0).getLocation().get(i));
 		this.Planes.add(Curr);
@@ -376,7 +378,7 @@ ifcheck3:				if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == t
 			
 			
 		}
-		
+		}
 		return;
 	}
 	

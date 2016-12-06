@@ -13,6 +13,7 @@ public class AirCraftCarrier extends Ship {
 			for(int i = 0; i < this.getSize(); ++i) {
 				this.getHits().add(false);
 			}
+			this.setSunk(false);
 			//ownedBy is be set in the driver.
 
 		//The variables in Ship

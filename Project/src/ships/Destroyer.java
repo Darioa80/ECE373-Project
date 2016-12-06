@@ -20,6 +20,7 @@ public class Destroyer extends Ship {
 			//this.getLocation().add(new Location());
 			//this.getHits().set(i, false);
 		}
+		this.setSunk(false);
 		
 	}
 	
