@@ -25,7 +25,6 @@ public class AirCraftCarrier extends Ship {
 	}	
 	
 	public void Exocet(boolean firingPattern, Coordinate centerCoor, GameBoard board){
-		//FIXME
 		
 		// I changed it so that the window can ask the user which firingPattern
 		// And if they say in the shape of a cross, "firingPattern" will be true
@@ -40,25 +39,13 @@ public class AirCraftCarrier extends Ship {
 		 * missiles are used, the missiles will be lost along with the Carrier.
 		 */
 		
-		/*
-		 *  IN THE GUI:
-		 *  
-		 */
-		
 		int i = 0, j = 0, k =0;
 		int sizeOfHitArrayList = 0;
 		if(this.getSpecialsLeft() > 0) {			//There are exocet missiles that you can fire :)
 			
 			this.setSpecialsLeft(this.getSpecialsLeft()-1); //Update the amount of specials left
 			
-			if (this.getSpecialsLeft() <= 0) {				//Deactivate button if no specials are left???
-				//Deactivate button??
-				//Simply print out an error msgs when you try to press the button again??
-				//Find out in the next episode of DBZ!!!
-			}
-			
 			if (firingPattern == true) {		//attack using a firing pattern that resembles a cross	
-
 				//FIRING IN A CROSS: This fires in the horizontal direction of that cross
 				j = centerCoor.getCoord().getLetter();	//Row stays the same
 				for(i = centerCoor.getCoord().getNum() - 1; i <= centerCoor.getCoord().getNum() + 1; i++) {	//iterates through the column above and below the column that was selected

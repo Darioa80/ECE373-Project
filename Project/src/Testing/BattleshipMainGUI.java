@@ -19,7 +19,6 @@ public class BattleshipMainGUI extends JFrame {
     JButton helpButton;
     JButton restartButton;
     JButton abilityButton;
-    JButton refreshButton;
     
     public int ship;	//This iterates thru the OwnedShips ArrayList that the player has
     public JFrame frameAskForDirection;		//When a ship is lost at sea, it can ask the nearest ship for directions back home. JK it asks the player whether to set the ship vertically or horizontally
@@ -28,6 +27,8 @@ public class BattleshipMainGUI extends JFrame {
     public GameBoard userBoard;
     public GameBoard compBoard;
     public Player player;
+    public Oponent enemy;
+    public int turn;
 	
     private boolean dirHasBeenChosen = false;
     private Coordinate coor;
@@ -54,6 +55,9 @@ public class BattleshipMainGUI extends JFrame {
 		compBoard = new GameBoard();	//Set the computer's board
 		player = new Player();
 		ship = 0;
+		enemy = new Oponent();
+		//enemy.setShips(coor, userBoard);
+		
 		//SET THE ENEMIES SHIP
 		
 		//TITLE:		
@@ -86,13 +90,17 @@ public class BattleshipMainGUI extends JFrame {
 	    	
 	    }
 	    int k = 0;
-		for(i = 0; i < 10; i++) {
-			for(j = 0; j < 10; j++) {
+	    String buttonName;
+		for(i = 0; i < 10; i++) {			//iterates through rows aka nums
+			for(j = 0; j < 10; j++) {		//iterates through columns aka letter
 				if(j ==0) {
 					k = k + 1;
 					userPanel.add(new JLabel("                " + Integer.toString(k)));
 				}
-				userButtonGrid[i][j] = new JButton(); 
+				buttonName = Character.toString((char) (j + 65));
+				buttonName = buttonName.concat(Integer.toString(i+1));
+				
+				userButtonGrid[i][j] = new JButton(buttonName); 
 				userButtonGrid[i][j].setBackground(new Color(175, 238, 238));
 				userPanel.add(userButtonGrid[i][j]);
 				userButtonGrid[i][j].addActionListener(userGridButtonListener);
@@ -129,7 +137,10 @@ public class BattleshipMainGUI extends JFrame {
 					k = k + 1;
 					enemyPanel.add(new JLabel("            " + Integer.toString(k)));
 				}
-				enemyButtonGrid[i][j] = new JButton(); 
+				buttonName = Character.toString((char) (j + 65));
+				buttonName = buttonName.concat(Integer.toString(i+1));
+				
+				enemyButtonGrid[i][j] = new JButton(buttonName); 
 				enemyButtonGrid[i][j].setBackground(Color.BLUE);
 				enemyPanel.add(enemyButtonGrid[i][j]);
 				enemyButtonGrid[i][j].addActionListener(enemyGridButtonListener);
@@ -156,10 +167,6 @@ public class BattleshipMainGUI extends JFrame {
 		    abilityButton.setBackground(Color.GREEN);
 		    abilityButton.addActionListener(new SideButtonsListener());
 	    	gameButtonsPanel.add(abilityButton);
-	    	
-	    	refreshButton = new JButton("<HTML><center>Refresh:<BR>Use after<BR>Ability</center></HMTL>");
-	    	refreshButton.addActionListener(new SideButtonsListener());
-	    	gameButtonsPanel.add(refreshButton);
 	    }
 	    
 	    //SOUTH PANEL (Blank)
@@ -197,8 +204,8 @@ public class BattleshipMainGUI extends JFrame {
 			int i, j;
 
 			Object source = e.getSource();
-			for(i = 0; i < 10; i++) {
-				for(j = 0; j < 10; j++){
+			for(i = 0; i < 10; i++) {		//rows
+				for(j = 0; j < 10; j++){	//columns
 					if (source == userButtonGrid[i][j]) {
 						coor = new Coordinate();
 						Location loc = new Location(i,j);
@@ -234,17 +241,26 @@ public class BattleshipMainGUI extends JFrame {
 			for(i = 0; i < 10; i++) {
 				for(j = 0; j < 10; j++){
 					if (source == enemyButtonGrid[i][j]) {
-						if(gameOn == true) {	//If the game has started, it's time to fire some shots pew pew
-							coor = new Coordinate();
-							Location loc = new Location(i,j);
-							coor.setCoord(loc);
-							Shoot();
-							/*if(shot!) {
-								userButtonGrid[m+i][n].setBackground(Color.RED);
+						if(gameOn == true) {		//If the game has started, it's time to fire some shots pew pew
+							if(turn % 2 == 0) {		//User's turn
+								coor = new Coordinate();
+								Location loc = new Location(i,j);
+								coor.setCoord(loc);
+								if(Shoot() == -1) {
+									JOptionPane.showMessageDialog(null, "<HTML><center>You've already hit this spot!"
+															+ "<BR> Why not try a new location?</center></HTML>");
+								}
+								else if(Shoot() == 0){
+									//missed!
+									turn++;
+								}
+								else {
+									//SHOT! They get to go again
+								}
 							}
-							if(missed:()) {
-								userButtonGrid[i][j].setBackground(Color.WHITE);
-							}*/
+							else {	//Computers turn
+								//enemy.shoot(userBoard);
+							}
 						}
 					}
 				}
@@ -276,11 +292,19 @@ public class BattleshipMainGUI extends JFrame {
 				BattleshipMainGUI newGame = new BattleshipMainGUI(mode);
 			}
 			else if (source == abilityButton) {								//Calls the abilities window
-				AbilitiesWindow abilitiesMenu = new AbilitiesWindow(player, compBoard);
-				abilitiesMenu.setVisible(true);
-			}
-			else if (source == refreshButton) {
-				checkEnemyBoardChanges();
+				if(gameOn == true) {
+					if (turn % 2 == 0) {	//User's turn!
+						AbilitiesWindow abilitiesMenu = new AbilitiesWindow(player, compBoard, enemyButtonGrid);
+						abilitiesMenu.setVisible(true);
+					}
+					else {	//Computers turn
+						JOptionPane.showMessageDialog(null, "<HTML><center>You have to wait your turn before using an ability.</center></HTML>");
+					}
+				}
+				else {		//Ships aren't initialized yet
+					JOptionPane.showMessageDialog(null, "<HTML><center>You have to set your ships first "
+												+ "<BR>before attacking the enemy!</center></HTML>");
+				}
 			}
 		}
 	}
@@ -393,13 +417,13 @@ public class BattleshipMainGUI extends JFrame {
 		size = player.getOwnedShips().get(ship).getSize();
 		dir = player.getOwnedShips().get(ship).getDir();
 		if(dir == true) { 		//Vertical
-			//vertical so n stays the same
+			//vertical so n stays the same. aka the letter
 			for(i = 0; i <size; i++) {
 				userButtonGrid[m+i][n].setBackground(Color.GRAY);
 			}
 		}
 		else if(dir == false) {	//Horizontal
-			//horizontal so m stays the same
+			//horizontal so m stays the same. aka the number
 			for(i = 0; i <size; i++) {
 				userButtonGrid[m][n+i].setBackground(Color.GRAY);
 			}
@@ -408,13 +432,13 @@ public class BattleshipMainGUI extends JFrame {
 		return;
 	}
 	
-	public boolean Shoot(){
-		int j = coor.getCoord().getLetter();
-		int i = coor.getCoord().getNum();
-		if (compBoard.getSpaces()[i][j].getBeenHit() == true){
-			return false;
+	public int Shoot(){
+		int i = coor.getCoord().getLetter();
+		int j = coor.getCoord().getNum();
+		if (compBoard.getSpaces()[i][j].getBeenHit() == true){		//Spot has been hit in the past! Return a message saying so
+			return -1;
 		}
-		else {
+		else {		//Spot hasn't been hit before!
 			if (compBoard.getSpaces()[i][j].getisOccupied() == true){
 				if (compBoard.getSpaces()[i][j].getIsOccupiedBy().getSunk() == false){
 					for (int k = 0; k < compBoard.getSpaces()[i][j].getIsOccupiedBy().getHits().size(); k++){
@@ -429,18 +453,17 @@ public class BattleshipMainGUI extends JFrame {
 						}
 					}
 				}
-				else {
-					enemyButtonGrid[i][j].setBackground(Color.WHITE);
-					return false;
+				else { //the ship has sunk. Theoretically should never get here.
+					return -1;
 				}
 			}
-			else {
-				
-				return false;
+			else {	//Not occupied
+				enemyButtonGrid[i][j].setBackground(Color.WHITE);
+				return 0;
 			}
 		}
 		
-		return true;
+		return 1;
 	}
 }
 
