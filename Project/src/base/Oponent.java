@@ -11,7 +11,7 @@ public class Oponent {
 	private int lastHit;
 	private Location lastLocation;
 	private ArrayList<Location> lastFour;
-	int gamemode;
+	public int gamemode;
 	
 	
 	
@@ -34,11 +34,13 @@ public class Oponent {
 		
 		switch(this.gamemode){
 		case 1: {
+			while(true){
 			Aim.setLetter(rn.nextInt(10));
 			Aim.setNum(rn.nextInt(10));
 			
-			
-ifcheck1:if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == true){
+		if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getBeenHit() == false){
+
+ifcheck1:	if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == true){
 				//checks to see if space is occupied
 				for(j = 0; j < Board.Spaces[Aim.getLetter()][Aim.getNum()].getIsOccupiedBy().getSize(); j++){
 					//checks the spaces of the ship occupying the space
@@ -47,6 +49,7 @@ ifcheck1:if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == true)
 						//checks to see if the spot has been hit yet
 						if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getIsOccupiedBy().getHits().get(j) == false){
 							Board.Spaces[Aim.getLetter()][Aim.getNum()].getIsOccupiedBy().setAHit(j, true);
+							
 							hitCheck.add(true);
 							break ifcheck1;
 						}
@@ -57,11 +60,14 @@ ifcheck1:if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == true)
 				}
 			}
 			hitCheck.add(false);
-			
+			Board.Spaces[Aim.getLetter()][Aim.getNum()].setBeenHit(true);
 			lastLoc.add(Aim);
-			break;
+			return;
+		}
 			
 			
+			
+		}
 		}
 		//Salvo Mission
 		case 2: {
