@@ -21,14 +21,13 @@ public class Destroyer extends Ship {
 			//this.getHits().set(i, false);
 		}
 		this.setSunk(false);
-		
 	}
 	
 	public void Apache(Coordinate centerSpot, boolean direction, GameBoard Board){
 		int i;
 		int k;
-		int centerSpotColumn = centerSpot.getCoord().getNum();
-		int centerSpotRow = centerSpot.getCoord().getLetter();
+		int centerSpotColumn = centerSpot.getCoord().getLetter();
+		int centerSpotRow = centerSpot.getCoord().getNum();
 		//false => horizontal direction
 		
 		if (this.getSpecialsLeft() < 1){		//double checks special can be used
@@ -40,9 +39,9 @@ public class Destroyer extends Ship {
 				if(((centerSpotRow) > (GRID_HEIGHT -1)) || ((centerSpotColumn+i) > (GRID_WIDTH -1))){
 				}
 			else {
-			if(Board.getSpaces()[centerSpot.getCoord().getLetter()][centerSpot.getCoord().getNum()+i].getBeenHit() == true){
-			}
-			else{
+					if(Board.getSpaces()[centerSpot.getCoord().getNum()][centerSpot.getCoord().getLetter()+i].getBeenHit() == true){
+					}
+					else{
 					if (Board.getSpaces()[centerSpotRow][centerSpotColumn+i].getisOccupied() == true){
 						for (k = 0; k < Board.getSpaces()[centerSpotRow][centerSpotColumn+i].getIsOccupiedBy().getHits().size(); k++){		//now that we've identified an enemy ship the hits on that ship must be updated
 							if(Board.getSpaces()[centerSpotRow][centerSpotColumn+i].getIsOccupiedBy().getHits().get(k) == false){				//cycles through the hits arraylist until it finds a false 
@@ -56,6 +55,7 @@ public class Destroyer extends Ship {
 							}
 						}
 					}
+					Board.getSpaces()[centerSpotRow][centerSpotColumn+i].setBeenHit(true);
 				}
 			}
 		}
@@ -78,11 +78,11 @@ public class Destroyer extends Ship {
 						}
 				}
 				}
-			}
-			}	
+				Board.getSpaces()[centerSpotRow+i][centerSpotColumn].setBeenHit(true);
 		}
 		}
+	}
+	}
 		this.setSpecialsLeft(getSpecialsLeft()-1);
 	}
-	
 }

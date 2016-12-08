@@ -32,7 +32,7 @@ import ships.*;
 	private JPanel contentPane;
 	private Player user;
 	private GameBoard board;
-	private Coordinate coord;
+	private Coordinate coord;		//updated inside CheckInputOk
 	
 	//Exocet JFrame for Button Press
 	private JFrame ExocetPreferenceFrame;
@@ -54,6 +54,19 @@ import ships.*;
 	private JButton cancelSonar;
 	private JTextField sonarCoor;
 	
+	//TomaHawk JFrame and Button Press
+	private JFrame TomahawkPreferenceFrame;
+	private JButton okayTomahawk;
+	private JButton cancelTomahawk;
+	private JTextField tomahawkCoor;
+	
+	//Apache JFrame and Button Press
+	private JFrame ApachePreferenceFrame;
+	private JButton okayApache;
+	private JButton cancelApache;
+	private JTextField ApacheCoor;
+	private JRadioButton VerticalApache;
+	private JRadioButton HorizontalApache;
 	//other that Naomi Created
 	private boolean torpedoDir;	//Direction of Torpedo
 	private JButton[][] enemyGridButton;
@@ -143,8 +156,96 @@ import ships.*;
 		});
 		
 		JButton btnFireTomahawkMissile = new JButton("Fire Tomahawk Missile");
+		btnFireTomahawkMissile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				TomahawkPreferenceFrame = new JFrame("Tomahawk Preference");
+				TomahawkPreferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				TomahawkPreferenceFrame.getContentPane().setLayout(new GridLayout(2,2));
+				TomahawkPreferenceFrame.setSize(550, 150);
+				//TomahawkPreferenceFrame.setResizable(false);
+				
+				JPanel panel1 = new JPanel();
+				JPanel panel2 = new JPanel();
+				JPanel panel3 = new JPanel();
+				JPanel panel4 = new JPanel();
+				
+				JLabel tomahawkLabel = new JLabel("<HTML><center>Where would you like to fire the Tomahawk Missile? "
+									+ "<BR>Please enter the middle coordinate in this form, A1:</center></HTML>");
+				tomahawkCoor = new JTextField(10);
+
+				okayTomahawk = new JButton("Okay");
+				okayTomahawk.addActionListener(new AbilitiesButtonListener());
+				cancelTomahawk = new JButton("Cancel");
+				cancelTomahawk.addActionListener(new AbilitiesButtonListener());
+				
+				panel1.add(tomahawkLabel);
+				panel2.add(tomahawkCoor);
+				panel3.add(okayTomahawk);
+				panel4.add(cancelTomahawk);
+				
+				TomahawkPreferenceFrame.getContentPane().add(panel1);
+				TomahawkPreferenceFrame.getContentPane().add(panel2);
+				TomahawkPreferenceFrame.getContentPane().add(panel3);
+				TomahawkPreferenceFrame.getContentPane().add(panel4);
+				
+				TomahawkPreferenceFrame.setVisible(true);
+				
+			}
+		});
 		
 		JButton btnFireApacheMissile = new JButton("Fire Apache Missile");
+		btnFireApacheMissile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				ApachePreferenceFrame = new JFrame("Tomahawk Preference");
+				ApachePreferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				ApachePreferenceFrame.getContentPane().setLayout(new GridLayout(3,3));
+				ApachePreferenceFrame.setSize(600, 150);
+				ApachePreferenceFrame.setResizable(false);
+				
+				JPanel panel1 = new JPanel();
+				JPanel panel2 = new JPanel();
+				JPanel panel3 = new JPanel();
+				JPanel panel4 = new JPanel();
+				JPanel panel5 = new JPanel();
+				JPanel panel6 = new JPanel();
+				
+				JLabel ApacheLabel = new JLabel("<HTML><center>Where would you like to fire the Apache Missile? "
+										+ "<BR> If no direction is selected, "
+										+ "<BR>the default pattern will be a Vertical.</center></HTML>");
+				ApacheCoor = new JTextField(10);
+				
+				VerticalApache = new JRadioButton("Vertical direction");
+				HorizontalApache = new JRadioButton("Horizontal direction");
+				ButtonGroup bg = new ButtonGroup();
+				bg.add(VerticalApache);
+				bg.add(HorizontalApache);
+
+				okayApache = new JButton("Okay");
+				okayApache.addActionListener(new AbilitiesButtonListener());
+				cancelApache = new JButton("Cancel");
+				cancelApache.addActionListener(new AbilitiesButtonListener());
+				
+				panel1.add(ApacheLabel);
+				panel2.add(ApacheCoor);
+				panel3.add(VerticalApache);
+				panel4.add(HorizontalApache);
+				panel5.add(okayApache);
+				panel6.add(cancelApache);
+				
+				
+				ApachePreferenceFrame.getContentPane().add(panel1);
+				ApachePreferenceFrame.getContentPane().add(panel2);
+				ApachePreferenceFrame.getContentPane().add(panel3);
+				ApachePreferenceFrame.getContentPane().add(panel4);
+				ApachePreferenceFrame.getContentPane().add(panel5);
+				ApachePreferenceFrame.getContentPane().add(panel6);
+				
+				ApachePreferenceFrame.setVisible(true);
+			}
+		});
+		
 		
 		JButton btnFireTorpedo = new JButton("Fire Torpedo");
 		btnFireTorpedo.addActionListener(new ActionListener() {
@@ -417,6 +518,72 @@ import ships.*;
 				ExocetPreferenceFrame.setVisible(false);
 				close();
 			}
+			if(source.equals(okayTomahawk)){
+				if (user.getOwnedShips().get(1).getSpecialsLeft() > 0){
+					if(checkInputOK(1) == false) {		//Checks that the input was a coordinate and not random stuff
+						JOptionPane.showMessageDialog(null, "<HTML><center>Your input was incorrect."
+												+ "the launch of the Tomahawk missle was canceled.</center></HTML>");
+						TomahawkPreferenceFrame.dispose();
+						TomahawkPreferenceFrame.setVisible(false);
+					}
+					else {
+						Battleship BS = new Battleship();
+						user.getOwnedShips().get(1).setSpecialsLeft(user.getOwnedShips().get(1).getSpecialsLeft()-1);
+						BS.TomaHawk(coord, board);
+						checkEnemyBoardChanges();
+						TomahawkPreferenceFrame.dispose();
+						TomahawkPreferenceFrame.setVisible(false);
+						close();
+					}
+				}
+				else {
+						JOptionPane.showMessageDialog(null, "<HTML><center>You have no Tomahawk missles left. "
+													+ "<BR>Please select a different option</center></HTML>");
+					}
+				}
+			if (source.equals(cancelTomahawk)){
+				TomahawkPreferenceFrame.dispose();
+				TomahawkPreferenceFrame.setVisible(false);
+				close();
+				
+			}
+			
+			if (source.equals(okayApache)){
+				if (user.getOwnedShips().get(2).getSpecialsLeft() > 0){
+					if(checkInputOK(2) == false) {		//Checks that the input was a coordinate and not random stuff
+						JOptionPane.showMessageDialog(null, "<HTML><center>Your input was incorrect."
+												+ "the launch of the Apache missle was canceled.</center></HTML>");
+						ApachePreferenceFrame.dispose();
+						ApachePreferenceFrame.setVisible(false);
+					}
+					else {
+						Destroyer Dest = new Destroyer();
+						user.getOwnedShips().get(0).setSpecialsLeft(user.getOwnedShips().get(0).getSpecialsLeft()-1);
+						if (HorizontalApache.isSelected()) {
+							Dest.Apache(coord, false, board);
+						}
+						else {	//If no Pattern is selected the cross is the default
+							Dest.Apache(coord, true, board);
+						}
+						checkEnemyBoardChanges();	//Changes the colors on the enemy board
+					}
+					ApachePreferenceFrame.dispose();
+					ApachePreferenceFrame.setVisible(false);
+					close(); 
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "<HTML><center>You have no Exocet missles left. "
+												+ "<BR>Please select a different option</center></HTML>");
+				}
+			}
+			
+			if (source.equals(cancelApache)){
+				ApachePreferenceFrame.dispose();
+				ApachePreferenceFrame.setVisible(false);
+				close(); 
+			}
+			
+			//y luego el apache
 			if(source.equals(okayTorpedo)) {
 				if(user.getOwnedShips().get(3).getSpecialsLeft() > 0) {
 					if(checkTorpedoInputOK() == false) {		//Checks that the input was a coordinate and not random stuff
@@ -488,12 +655,10 @@ import ships.*;
 			checkString = new String(exoShootCoor.getText());
 		}
 		else if(buttonNum == 1) {		//Battleship's Tomahawk!
-			//FIXME DARIO!
-			checkString = new String("FIXME DARIO");
+			checkString = new String(tomahawkCoor.getText());
 		}
 		else if(buttonNum == 2) {	//Destroyer's Apache!
-			//FIXME DARIO!
-			checkString = new String("FIXME DARIO");
+			checkString = new String(ApacheCoor.getText());
 		}
 		//buttonNum == 3 is Submarine's Torpedo which is handled elsewhere
 		else if(buttonNum == 4) {	//Submarine's Scanner!
