@@ -33,8 +33,8 @@ public class Battleship extends Ship{
 		int j;			//Is used to go through three vertical spots
 		int k = 0;			//will cycle through the hits array
 		boolean hitAnything = false;
-		int centerSpotRow = centerSpot.getCoord().getLetter();
-		int centerSpotColumn = centerSpot.getCoord().getNum();
+		int centerSpotRow = centerSpot.getCoord().getNum();
+		int centerSpotColumn = centerSpot.getCoord().getLetter();
 		for (j=-1; j < 2; j++){
 			for (i=-1; i < 2; i++){						//The double for loop will go through the 3x3 area the tomahawk target
 				if(((centerSpotRow+j) > (GRID_HEIGHT -1)) || ((centerSpotColumn+i) > (GRID_WIDTH -1))){
@@ -54,9 +54,11 @@ public class Battleship extends Ship{
 								hitAnything = true;
 								break;
 							}
+					
 						}
 						//else check if the ship has already been destroyed or should be destroyed
 					}
+					Board.getSpaces()[centerSpotRow+j][centerSpotColumn + i].setBeenHit(true);
 				}
 			}
 		}

@@ -22,25 +22,7 @@ public class OpeningWindow extends JFrame {
 
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					OpeningWindow frame = new OpeningWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		*/
 
-	/**
-	 * Create the frame.
-	 */
 	public OpeningWindow() {
 		setBackground(Color.BLUE);
 		setForeground(Color.WHITE);
