@@ -1,6 +1,8 @@
 package ships;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import base.*;
 
 
@@ -18,55 +20,67 @@ public class Plane extends Equipment {
 
 	
 	//setters and getters
-	public void setLoc(Location L){this.loc = L; return;}
+	public void setLoc(Location L){this.loc.setLetter(L.getLetter()); this.loc.setNum(L.getNum()); return;}
 	public void setDestroyed(boolean D){ this.destroyed = D; return;}
 	
 	public Location getLoc(){return this.loc;}
 	public boolean isDestroyed(){return this.destroyed;}
 	
-	public ArrayList<Location> Scan(Location center, boolean pattern, GameBoard Board){
-		ArrayList<Location> Hits = new ArrayList<Location>();
+	public boolean Scan(Location center, boolean pattern, GameBoard Board){
+		boolean hit = false;
 		Location Curr = new Location();
 		Coordinate Grid [][] = new Coordinate[10][10];
-		Grid = Board.getSpaces();
 		
 		
 		//pattern true is for X pattern false is for +
 		if(pattern){
-			Curr.setLetter(center.getLetter() - 1);
-			Curr.setNum(center.getNum() - 1);
+				
 			
-			if(Grid[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-				Hits.add(Curr);
+			if(center.getLetter() != 0 && center.getNum() != 0){
+				Curr.setLetter(center.getLetter() - 1);
+				Curr.setNum(center.getNum() - 1);
+			
+				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
+					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+					hit = true;
+				}
 			}
 			
-			Curr.setLetter(center.getLetter() - 1);
-			Curr.setLetter(center.getNum() + 1);
+			if(center.getLetter() != 0 && center.getNum() != 9){
+				Curr.setLetter(center.getLetter() - 1);
+				Curr.setNum(center.getNum() + 1);
 			
-			if(Grid[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-				Hits.add(Curr);
-			}
-			
-			Curr.setLetter(center.getLetter());
-			Curr.setLetter(center.getNum());
-			
-			if(Grid[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-				Hits.add(Curr);
+				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
+					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+					hit = true;
+				}
 			}
 			
 			
-			Curr.setLetter(center.getLetter() +1);
-			Curr.setLetter(center.getNum() - 1);
-			
-			if(Grid[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-				Hits.add(Curr);
+			if(Board.Spaces[center.getLetter()][center.getNum()].getisOccupied()){
+				Board.Spaces[center.getLetter()][center.getNum()].setFound(true);
+				hit = true;
 			}
 			
-			Curr.setLetter(center.getLetter() +1);
-			Curr.setLetter(center.getNum() + 1);
+			if(center.getLetter() != 9 && center.getNum() != 0) {
+				Curr.setLetter(center.getLetter() +1);
+				Curr.setNum(center.getNum() - 1);
 			
-			if(Grid[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-				Hits.add(Curr);
+				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
+					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+					hit = true;
+				}
+			}
+			
+			
+			if(center.getLetter() != 9 && center.getNum() != 9){
+				Curr.setLetter(center.getLetter() +1);
+				Curr.setNum(center.getNum() + 1);
+			
+				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
+					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+					hit = true;
+				}
 			}
 			
 			
@@ -76,46 +90,59 @@ public class Plane extends Equipment {
 		}
 		else{
 			
-			Curr.setLetter(center.getLetter() -1);
-			Curr.setLetter(center.getNum());
 			
-			if(Grid[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-				Hits.add(Curr);
+			if(center.getLetter() != 0){
+				Curr.setLetter(center.getLetter() -1);
+				Curr.setNum(center.getNum());
+			
+				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
+					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+					hit = true;
+				}
 			}
 			
-			Curr.setLetter(center.getLetter());
-			Curr.setLetter(center.getNum() - 1);
-			
-			if(Grid[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-				Hits.add(Curr);
+			if(center.getNum() != 0){
+				Curr.setLetter(center.getLetter());
+				Curr.setNum(center.getNum() - 1);
+				
+				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
+					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+					hit = true;
+				}
 			}
-			Curr.setLetter(center.getLetter());
-			Curr.setLetter(center.getNum());
 			
-			if(Grid[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-				Hits.add(Curr);
+			
+			if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
+				Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+				hit = true;
 			}
-			Curr.setLetter(center.getLetter());
-			Curr.setLetter(center.getNum() + 1);
 			
-			if(Grid[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-				Hits.add(Curr);
+			if(center.getNum() != 9){
+				Curr.setLetter(center.getLetter());
+				Curr.setNum(center.getNum() + 1);
+			
+				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
+					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+					hit = true;
+				}
 			}
-			Curr.setLetter(center.getLetter() +1);
-			Curr.setLetter(center.getNum());
 			
-			if(Grid[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-				Hits.add(Curr);
+			if(center.getLetter() != 9){
+				
+				Curr.setLetter(center.getLetter() +1);
+				Curr.setNum(center.getNum());
+			
+				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
+					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+					hit = true;
+				}
 			}
 			
 		}
 			
-		if(Hits.isEmpty())
-			//Display a GUI Message Telling Player that there were no hits found
-			return Hits;
-		else
+		return hit;
 			//display a GUI Message Telling player which spaces have a ship occupying them.
-			return Hits;
+			
 	}
 	
 	

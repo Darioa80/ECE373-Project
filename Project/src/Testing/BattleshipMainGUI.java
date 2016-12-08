@@ -385,7 +385,7 @@ public class BattleshipMainGUI extends JFrame {
 			}
 			else if (source == restartButton) {								//Starts a brand spanking new game
 				dispose();			//Close the current window
-				setVisible(false);
+				setVisible(false); 
 				BattleshipMainGUI newGame = new BattleshipMainGUI(mode);
 			}
 			else if (source == abilityButton) {								//Calls the abilities window
@@ -476,6 +476,12 @@ public class BattleshipMainGUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "<HTML><center>Excellent! All your ships have been set. "
 										+ "Time to demolish the enemy.</center></HTML>");
 					gameOn = true;			//Time to shoot some villains!!
+					Plane p1 = new Plane();
+					Plane p2 = new Plane();
+					this.player.OwnedPlanes.add(p1);
+					this.player.OwnedPlanes.add(p2);
+					
+					
 				}
 				ship = ship + 1;			//Go to the next ship in the player's ships arrayList
 				dirHasBeenChosen = false;

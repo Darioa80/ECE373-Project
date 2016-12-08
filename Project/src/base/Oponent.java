@@ -20,7 +20,7 @@ public class Oponent {
 	
 	public boolean takeTurn(GameBoard Board, Player P){
 		int i;
-		ArrayList<Location> Confirmed = new ArrayList<Location>();
+		boolean Confirmed = false;
 		int turnCount = 0;
 		Location Aim = new Location();
 		boolean scan = false;

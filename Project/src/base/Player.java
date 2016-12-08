@@ -25,6 +25,14 @@ public class Player {
 		this.userS = new Submarine();
 		this.userPT = new PTBoat();
 		
+		Plane p1 = new Plane();
+		Plane p2 = new Plane();
+		
+		this.OwnedPlanes = new ArrayList<Plane>();
+		
+		this.OwnedPlanes.add(p1);
+		this.OwnedPlanes.add(p2);
+		
 		
 		
 		this.OwnedShips = new ArrayList<Ship>(5);

@@ -9,6 +9,7 @@ public class Coordinate {
 	private boolean isOccupied;
 	private Equipment isOccupiedBy;
 	private boolean beenHit;
+	private boolean shipFound;
 	
 	
 	public Coordinate(){
@@ -16,6 +17,7 @@ public class Coordinate {
 		this.isOccupied = false;
 		this.isOccupiedBy = null;		//cannot instantiate an abstract class, will leave this null once the ship is defined, it could be setter function
 		this.beenHit = false;			//been hit is updated if the coordinate has been targeted previously
+		this.shipFound = false;
 	}
 	
 	public Location getCoord(){
@@ -53,6 +55,10 @@ public class Coordinate {
 		this.beenHit = used;
 		return;
 	}
+	
+	public void setFound(boolean f){this.shipFound = f; return;}
+	
+	public boolean getFound(){return this.shipFound;}
 }
 	
 

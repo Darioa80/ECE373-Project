@@ -67,6 +67,17 @@ import ships.*;
 	private JTextField ApacheCoor;
 	private JRadioButton VerticalApache;
 	private JRadioButton HorizontalApache;
+	
+	//Recon Plane Scanner
+	private JFrame ReconPreferenceFrame;
+	private JButton okayRecon;
+	private JButton cancelRecon;
+	private JTextField ReconCoor;
+	private JRadioButton XRecon;
+	private JRadioButton CrossRecon;
+	private JRadioButton Recon1;
+	private JRadioButton Recon2;
+	
 	//other that Naomi Created
 	private boolean torpedoDir;	//Direction of Torpedo
 	private JButton[][] enemyGridButton;
@@ -198,7 +209,7 @@ import ships.*;
 		btnFireApacheMissile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			
-				ApachePreferenceFrame = new JFrame("Tomahawk Preference");
+				ApachePreferenceFrame = new JFrame("Apache Preference");
 				ApachePreferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				ApachePreferenceFrame.getContentPane().setLayout(new GridLayout(3,3));
 				ApachePreferenceFrame.setSize(600, 150);
@@ -328,7 +339,83 @@ import ships.*;
 			}
 		});
 		
+		
+		
 		JButton btnUseReconPlanes = new JButton("Use Recon Planes Scanner");
+		btnUseReconPlanes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				ReconPreferenceFrame = new JFrame("Recon Plane Scanner Preference");
+				ReconPreferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				ReconPreferenceFrame.getContentPane().setLayout(new GridLayout(4,2));
+				ReconPreferenceFrame.setSize(600, 375);
+				ReconPreferenceFrame.setResizable(false);
+				
+				JPanel panel1 = new JPanel();
+				JPanel panel2 = new JPanel();
+				JPanel panel3 = new JPanel();
+				JPanel panel4 = new JPanel();
+				
+				JPanel panel5 = new JPanel();
+				JPanel panel6 = new JPanel();
+				JPanel panel7 = new JPanel();
+				JPanel panel8 = new JPanel();
+				
+				
+				JLabel ReconLabel = new JLabel("<HTML><center>Where would you like to Scan? "
+										+ "<BR> If no Pattern is selected, "
+										+ "<BR>the default pattern will be an X Pattern." 
+										+ "<BR>If no Plane is Selected,"
+										+ "<BR>the default Plane will be Recon 1.</center></HTML>");
+				ReconCoor = new JTextField(10);
+				
+				XRecon = new JRadioButton("X Pattern");
+				CrossRecon = new JRadioButton("+ pattern");
+				ButtonGroup bg = new ButtonGroup();
+				bg.add(XRecon);
+				bg.add(CrossRecon);
+				
+				ButtonGroup bg2 = new ButtonGroup();
+				Recon1 = new JRadioButton("Recon Plane 1");
+				Recon2 = new JRadioButton("Recon Plane 2");
+				bg2.add(Recon1);
+				bg2.add(Recon2);
+				
+				
+				
+				okayRecon = new JButton("Okay");
+				okayRecon.addActionListener(new AbilitiesButtonListener());
+				cancelRecon = new JButton("Cancel");
+				cancelRecon.addActionListener(new AbilitiesButtonListener());
+				
+				panel1.add(ReconLabel);
+				panel2.add(ReconCoor);
+				panel3.add(XRecon);
+				
+				panel4.add(CrossRecon);
+				panel5.add(okayRecon);
+				panel6.add(cancelRecon);
+				
+				panel7.add(Recon1);
+				panel8.add(Recon2);
+				
+				
+				ReconPreferenceFrame.getContentPane().add(panel1);
+				ReconPreferenceFrame.getContentPane().add(panel2);
+				ReconPreferenceFrame.getContentPane().add(panel3);
+				ReconPreferenceFrame.getContentPane().add(panel4);
+				ReconPreferenceFrame.getContentPane().add(panel7);
+				ReconPreferenceFrame.getContentPane().add(panel8);
+				
+				ReconPreferenceFrame.getContentPane().add(panel5);
+				ReconPreferenceFrame.getContentPane().add(panel6);
+				
+				ReconPreferenceFrame.setVisible(true);
+			}
+		
+		});
+		
+		
 		
 		JButton btnMovePlane = new JButton("Move Plane");
 		
@@ -644,7 +731,82 @@ import ships.*;
 				SonarPreferenceFrame.setVisible(false);
 				close();
 			}
-		}
+			
+			
+			if (source.equals(okayRecon)){
+				boolean hit = false;
+				if(checkInputOK(5) == false) {		//Checks that the input was a coordinate and not random stuff
+					JOptionPane.showMessageDialog(null, "<HTML><center>Your input was incorrect."
+											+ "the Recon Plane Was unable to scann</center></HTML>");
+					ReconPreferenceFrame.dispose();
+					ReconPreferenceFrame.setVisible(false);
+				}
+				else {
+					Plane p = new Plane();
+						
+					if(Recon2.isSelected()){
+						if(user.OwnedPlanes.get(1).isDestroyed() == true){
+							JOptionPane.showMessageDialog(null, "<HTML><center>Recon 2 has been destroyed."
+															+ "<BR>Recon 2 is unable to scan</center></HTML>");
+							ReconPreferenceFrame.dispose();
+							ReconPreferenceFrame.setVisible(false);
+					    }
+						else{
+							user.OwnedPlanes.get(1).setLocation(coord.getCoord());
+							if (CrossRecon.isSelected()) {
+								hit = p.Scan(coord.getCoord(), false, board);
+							}
+							else {	//If no Pattern is selected the cross is the default
+								hit = p.Scan(coord.getCoord(), true, board);
+							}
+							checkEnemyBoardChanges();	//Changes the colors on the enemy board
+						}
+					}
+					else
+					{
+						if(user.OwnedPlanes.get(0).isDestroyed() == true){
+							JOptionPane.showMessageDialog(null, "<HTML><center>Recon 1 has been destroyed."
+															+ "<BR>Recon 1 is unable to scan</center></HTML>");
+							ReconPreferenceFrame.dispose();
+							ReconPreferenceFrame.setVisible(false);
+					    }
+						else{
+							user.OwnedPlanes.get(0).setLocation(coord.getCoord());
+							if (CrossRecon.isSelected()) {
+								hit = p.Scan(coord.getCoord(), false, board);
+							}
+							else {	//If no Pattern is selected the cross is the default
+								hit = p.Scan(coord.getCoord(), true, board);
+							}
+							checkEnemyBoardChanges();	//Changes the colors on the enemy board
+							
+						}
+					}
+					if(hit == false){
+						JOptionPane.showMessageDialog(null, "<HTML><center>No Ships were found within the search area.</center></HTML>");
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "<HTML><center>Ships were found within the area!!"
+																+"<BR>Enemy sighted at the green coordinates</center><HTML>");
+					}
+					
+				}
+					
+					ReconPreferenceFrame.dispose();
+					ReconPreferenceFrame.setVisible(false);
+					close(); 
+				}
+			
+				
+			
+			if (source.equals(cancelRecon)){
+				ReconPreferenceFrame.dispose();
+				ReconPreferenceFrame.setVisible(false);
+				close(); 
+			}
+			
+
+	}
 	}
 	public boolean checkInputOK(int buttonNum) {
 		int letter;
@@ -666,7 +828,7 @@ import ships.*;
 		}
 		else if(buttonNum == 5) {	//ACC Plane's Plane Scanner!
 			//FIXME CJ!
-			checkString = new String("FIXME CJ");
+			checkString = new String(ReconCoor.getText());
 		}
 		else if(buttonNum == 6) {	//ACC Plane's Move Plane!
 			//FIXME CJ!
@@ -782,18 +944,23 @@ import ships.*;
 		int i, j;
 		for(i = 0; i < 10; i++) {
 			for(j = 0; j < 10; j++) {
-				if (board.getSpaces()[i][j].getBeenHit() == true) {
-					if (board.getSpaces()[i][j].getisOccupied() == true) {
-						enemyGridButton[i][j].setBackground(Color.RED);
+					if (board.getSpaces()[i][j].getBeenHit() == true) {
+						if (board.getSpaces()[i][j].getisOccupied() == true) {
+							enemyGridButton[i][j].setBackground(Color.RED);
+						}
+						else {
+							enemyGridButton[i][j].setBackground(Color.WHITE);
+						}
 					}
+					
 					else {
-						enemyGridButton[i][j].setBackground(Color.WHITE);
+						if(board.getSpaces()[i][j].getFound() == true)
+							enemyGridButton[i][j].setBackground(Color.green);
+						else
+							enemyGridButton[i][j].setBackground(Color.BLUE);
+						
 					}
-				}
-				else {
-					enemyGridButton[i][j].setBackground(Color.BLUE);
-				}
-			}
+			}	
 		}
 	}
 	public void sonarColorChange() {
@@ -810,3 +977,4 @@ import ships.*;
 		}
 	}
 }
+
