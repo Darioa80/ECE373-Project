@@ -33,6 +33,7 @@ public class BattleshipMainGUI extends JFrame {
 	
     private boolean dirHasBeenChosen = false;
     private Coordinate coor;
+    private int iterate = 1;
     
     public boolean gameOn = false;		//If true, it means the player has set all the ships and is ready to play. 
     
@@ -223,11 +224,8 @@ public class BattleshipMainGUI extends JFrame {
 							}
 							else if(userBoard.getSpaces()[i][j].getisOccupied() == false) {	//Space clicked on is clear!!
 								SelectDirectionFrame();
-								//FIXME CJ, idk anything about the planes placement and shit							
+								//FIXME CJ, idk anything about the planes placement and stuff							
 							}
-						}
-						else if (mode == 3) {
-							//FIXME CJ, idk anything about the planes shooting and stuff
 						}
 						return;
 					}
@@ -242,44 +240,85 @@ public class BattleshipMainGUI extends JFrame {
 			int i, j;
 			Location loc;
 			Object source = e.getSource();
+			int userNumOfShips = 5;
+			int enemyNumOfShips = 5;
 			
 			for(i = 0; i < 10; i++) {
 				for(j = 0; j < 10; j++){
 					if (source == enemyButtonGrid[i][j]) {
 						if(gameOn == true) {		//If the game has started, it's time to fire some shots pew pew
-							//if(turn % 2 == 0) {		//User's turn
+							if(mode == 1) {
 								coor = new Coordinate();
 							    loc = new Location(i,j);
 								coor.setCoord(loc);
 								
-								//modified to a case statement
-								switch(Shoot()) {
-								case -1: {
-									JOptionPane.showMessageDialog(null, "<HTML><center>You've already hit this spot!"
-															+ "<BR> Why not try a new location?</center></HTML>");
-									break;
+								switch(Shoot()) {	
+									case -1: {		//Player shot a spot they had already hit. They get to go again
+										JOptionPane.showMessageDialog(null, "<HTML><center>You've already hit this spot!"
+																+ "<BR> Why not try a new location?</center></HTML>");
+										break;
+									}
+									case 1: {		//Player shot the enemy! They get to go again 
+										break;
+									}
+									default: {		//Missed! Enemy takes a Shot.
+										enemy.takeTurn(userBoard, player);
+										checkPlayerGrid();
+										break;
+									}
 								}
-								default: {
-									//missed!
-									enemy.takeTurn(userBoard, player);
-									checkPlayerGrid();
-									//turn++;
-									break;
+								CheckIfWinner();
+							}
+							else if(mode == 2) {		//SALVO MODE
+								userNumOfShips = player.getOwnedShips().size();		//Number of ships the user has
+								enemyNumOfShips = enemy.Ships.size();				//Number of ships the enemy has
+								if ((iterate % (userNumOfShips+1)) != 0) {			//Player goes 5 times!!!!! 
+									coor = new Coordinate();
+								    loc = new Location(i,j);
+									coor.setCoord(loc);
+									int shoot = Shoot();
+									if(shoot == -1) {		//If the user has already click that spot, tell them and they can go again
+										JOptionPane.showMessageDialog(null, "<HTML><center>You've already hit this spot!"
+																+ "<BR> Why not try a new location?</center></HTML>");
+									}
+									else {
+										iterate++;	
+									}
+									enemyNumOfShips = enemy.Ships.size();			//Update the number of ships 
+									if (CheckIfWinner() == 1) {
+										break;	
+									}
+								}
+								if((iterate-1) == 5) {	//ships turn. It says (iterate - 1) because iterate got incremented a few seconds ago when the player went 
+									enemy.takeTurn(userBoard, player);	//Enemy goes 5 times! (if they have 5 ships)
+									checkPlayerGrid();					//Player's board gets updated
 									
-								}
-								//default: {
-								//	break;
-								//}
-									//SHOT! They get to go again
+									//FIXME CJ!!! So this is the while loop:
+									/*while(enemyNumOfShips != 0) {			//Enemy goes 5 times! (if they have 5 ships)
+										enemy.takeTurn(userBoard, player);
+										checkPlayerGrid();
+										enemyNumOfShips--;
+									}*/
+									
+									userNumOfShips = player.getOwnedShips().size();		//The number of ships the user has get's updated (this variable is used elsewhere.)
+									iterate = 1;										//iterate gets reset to 1
+									if (CheckIfWinner() == -1) {						//Checks to see if the computer won while taking it's turn
+										break;	
+									}
 								}
 							}
-							else {	//Computers turn
+							else if(mode == 3) {		//ADVANCED MISSION
 								
 							}
 						}
-					//}
+					}
 				}
 			}
+			
+		}
+		
+		private int CheckIfWinner() {
+			int i,j;
 			j = 0;
 			for(i = 0; i < 5; i++)
 				if(enemy.Ships.get(i).getSunk() == false)
@@ -290,6 +329,7 @@ public class BattleshipMainGUI extends JFrame {
 				setVisible(false);
 				OpeningWindow mainMenu = new OpeningWindow();
 				mainMenu.setVisible(true);
+				return 1;
 			}
 			
 
@@ -303,8 +343,9 @@ public class BattleshipMainGUI extends JFrame {
 				setVisible(false);
 				OpeningWindow mainMenu = new OpeningWindow();
 				mainMenu.setVisible(true);
+				return -1;
 			}
-			
+			return 0;
 		}
 
 		private void checkPlayerGrid() {
