@@ -223,8 +223,7 @@ public class BattleshipMainGUI extends JFrame {
 								handlePlacingShips();
 							}
 							else if(userBoard.getSpaces()[i][j].getisOccupied() == false) {	//Space clicked on is clear!!
-								SelectDirectionFrame();
-								//FIXME CJ, idk anything about the planes placement and stuff							
+								SelectDirectionFrame();							
 							}
 						}
 						return;
