@@ -94,6 +94,7 @@ ifcheck2:	if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == true
 							if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getIsOccupiedBy().getHits().get(j) == false){
 								Board.Spaces[Aim.getLetter()][Aim.getNum()].getIsOccupiedBy().setAHit(j, true);
 								hitCheck.add(true);
+								turnsleft--;
 								break ifcheck2;
 							}
 						}
@@ -102,8 +103,8 @@ ifcheck2:	if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == true
 			hitCheck.add(false);
 			
 			lastLoc.add(Aim);
-			
-			
+			Board.Spaces[Aim.getLetter()][Aim.getNum()].setBeenHit(true);
+			turnsleft--;
 			
 			}
 			break;
