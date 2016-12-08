@@ -40,9 +40,12 @@ public class Plane extends Equipment {
 				Curr.setLetter(center.getLetter() - 1);
 				Curr.setNum(center.getNum() - 1);
 			
-				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+				if(Board.Spaces[Curr.getNum()][Curr.getLetter()].getisOccupied()){
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setFound(true);
 					hit = true;
+				}
+				else{
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
 				}
 			}
 			
@@ -50,25 +53,35 @@ public class Plane extends Equipment {
 				Curr.setLetter(center.getLetter() - 1);
 				Curr.setNum(center.getNum() + 1);
 			
-				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+				if(Board.Spaces[Curr.getNum()][Curr.getLetter()].getisOccupied()){
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setFound(true);
 					hit = true;
 				}
+				else{
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
+				}
+				
 			}
 			
 			
-			if(Board.Spaces[center.getLetter()][center.getNum()].getisOccupied()){
-				Board.Spaces[center.getLetter()][center.getNum()].setFound(true);
+			if(Board.Spaces[center.getNum()][center.getLetter()].getisOccupied()){
+				Board.Spaces[center.getNum()][center.getLetter()].setFound(true);
 				hit = true;
+			}
+			else{
+				Board.Spaces[center.getNum()][center.getLetter()].setBeenHit(true);
 			}
 			
 			if(center.getLetter() != 9 && center.getNum() != 0) {
 				Curr.setLetter(center.getLetter() +1);
 				Curr.setNum(center.getNum() - 1);
 			
-				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+				if(Board.Spaces[Curr.getNum()][Curr.getLetter()].getisOccupied()){
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setFound(true);
 					hit = true;
+				}
+				else{
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
 				}
 			}
 			
@@ -77,9 +90,12 @@ public class Plane extends Equipment {
 				Curr.setLetter(center.getLetter() +1);
 				Curr.setNum(center.getNum() + 1);
 			
-				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+				if(Board.Spaces[Curr.getNum()][Curr.getLetter()].getisOccupied()){
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setFound(true);
 					hit = true;
+				}
+				else{
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
 				}
 			}
 			
@@ -95,9 +111,12 @@ public class Plane extends Equipment {
 				Curr.setLetter(center.getLetter() -1);
 				Curr.setNum(center.getNum());
 			
-				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+				if(Board.Spaces[Curr.getNum()][Curr.getLetter()].getisOccupied()){
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setFound(true);
 					hit = true;
+				}
+				else{
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
 				}
 			}
 			
@@ -105,25 +124,34 @@ public class Plane extends Equipment {
 				Curr.setLetter(center.getLetter());
 				Curr.setNum(center.getNum() - 1);
 				
-				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+				if(Board.Spaces[Curr.getNum()][Curr.getLetter()].getisOccupied()){
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setFound(true);
 					hit = true;
+				}
+				else{
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
 				}
 			}
 			
 			
-			if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-				Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+			if(Board.Spaces[center.getNum()][center.getLetter()].getisOccupied()){
+				Board.Spaces[center.getNum()][center.getLetter()].setFound(true);
 				hit = true;
+			}
+			else{
+				Board.Spaces[center.getNum()][center.getLetter()].setBeenHit(true);
 			}
 			
 			if(center.getNum() != 9){
 				Curr.setLetter(center.getLetter());
 				Curr.setNum(center.getNum() + 1);
 			
-				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+				if(Board.Spaces[Curr.getNum()][Curr.getLetter()].getisOccupied()){
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setFound(true);
 					hit = true;
+				}
+				else{
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
 				}
 			}
 			
@@ -132,9 +160,12 @@ public class Plane extends Equipment {
 				Curr.setLetter(center.getLetter() +1);
 				Curr.setNum(center.getNum());
 			
-				if(Board.Spaces[Curr.getLetter()][Curr.getNum()].getisOccupied()){
-					Board.Spaces[Curr.getLetter()][Curr.getNum()].setFound(true);
+				if(Board.Spaces[Curr.getNum()][Curr.getLetter()].getisOccupied()){
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setFound(true);
 					hit = true;
+				}
+				else{
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
 				}
 			}
 			

@@ -139,7 +139,7 @@ ifcheck3:				if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == t
 							}
 						}
 						hitCheck.add(false);
-					
+						Board.Spaces[Aim.getLetter()][Aim.getNum()].setBeenHit(true);
 						lastLoc.add(Aim);
 						break loop;
 					

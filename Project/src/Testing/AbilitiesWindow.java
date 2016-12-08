@@ -431,9 +431,9 @@ import ships.*;
 		
 		JLabel lblUsesLeft_4 = new JLabel("Uses Left: No Limit");
 		
-		JLabel lblUsesLeft_5 = new JLabel("Uses Left: ");			//FIXME RECON PLANES SPECIALS LEFT
+		JLabel lblUsesLeft_5 = new JLabel("Uses Left: No Limit");			//FIXME RECON PLANES SPECIALS LEFT
 		
-		JLabel lblUsesLeft_6 = new JLabel("Uses Left: ");			//FIXME RECON MOVE LEFT
+		JLabel lblUsesLeft_6 = new JLabel("Uses Left: Remove this label");			//FIXME RECON MOVE LEFT
 		
 		JLabel lblUsesLeft_7 = new JLabel("Uses Left: ");			//FIXME ANTI AIRCRAFT SPECIALS LEFT
 		
