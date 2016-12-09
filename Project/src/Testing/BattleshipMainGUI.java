@@ -244,7 +244,7 @@ public class BattleshipMainGUI extends JFrame {
 				for(j = 0; j < 10; j++){
 					if (source == enemyButtonGrid[i][j]) {
 						if(gameOn == true) {		//If the game has started, it's time to fire some shots pew pew
-							if(mode == 1) {
+							if(mode == 1 || mode == 3) {
 								coor = new Coordinate();
 							    loc = new Location(i,j);
 								coor.setCoord(loc);
@@ -256,7 +256,9 @@ public class BattleshipMainGUI extends JFrame {
 										break;
 									}
 									case 1: {		//Player shot the enemy! They get to go again 
+										if (mode == 3){
 										break;
+										}
 									}
 									default: {		//Missed! Enemy takes a Shot.
 										enemy.takeTurn(userBoard, player);
