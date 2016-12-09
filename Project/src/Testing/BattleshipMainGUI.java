@@ -306,9 +306,6 @@ public class BattleshipMainGUI extends JFrame {
 									}
 								}
 							}
-							else if(mode == 3) {		//ADVANCED MISSION
-								
-							}
 						}
 					}
 				}
@@ -391,7 +388,7 @@ public class BattleshipMainGUI extends JFrame {
 			else if (source == abilityButton) {								//Calls the abilities window
 				if(gameOn == true) {
 					if (turn % 2 == 0) {	//User's turn!
-						AbilitiesWindow abilitiesMenu = new AbilitiesWindow(player, compBoard, enemyButtonGrid, enemy );
+						AbilitiesWindow abilitiesMenu = new AbilitiesWindow(player, compBoard, enemyButtonGrid, userBoard, enemy, userButtonGrid);
 						abilitiesMenu.setVisible(true);
 					}
 					else {	//Computers turn
