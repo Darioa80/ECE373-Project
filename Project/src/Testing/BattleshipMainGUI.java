@@ -256,7 +256,7 @@ public class BattleshipMainGUI extends JFrame {
 										break;
 									}
 									case 1: {		//Player shot the enemy! They get to go again 
-										if (mode == 3){
+										if (mode == 1){
 										break;
 										}
 									}
