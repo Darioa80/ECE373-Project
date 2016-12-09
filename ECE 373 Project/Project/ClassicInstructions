@@ -1,0 +1,7 @@
+You and the enemy each get 5 ships: an Aircraft Carrier, Battleship, Patrol Boat, Submarine, and a 
+Destroyer. The goal is to find all of the enemy’s ships and destroy them before he destroys all of your 
+ships. The winner is the one who destroys all of their opponent’s ships. 
+Classic Mode: The game is played in turns. In each turn, you have the opportunity to select a point on 
+the grid to shoot. If an enemy ship is occupying the selected spot, you get to go again and the location
+you selected turns red. If the spot is empty, the location turns white and it’s the enemy’s turn. The first 
+to sink all the ships on the opponent’s grid wins the game!

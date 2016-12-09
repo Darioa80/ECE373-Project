@@ -1,0 +1,50 @@
+Yeeeeeah . . . These notes might make no sense. Just a warning.
+
+- inside our specials (in each ship class) make it so that it
+  updates the spots shot at as either an explosion
+  or white dot.
+
+- Changed Sunk to Equipment since we needed to access that, 
+  but cannot access it since it's under ship and not equipment
+  (We're trying to access that through the board)
+
+ownedBy in Equipment
+ - We are going to assume that "true" means it is ownedBy the user
+   and "false" means it is ownedBy the computer.
+
+I haven't done anything for when the ship has been sunk (as in 
+remove the abilities button from the screen)
+
+
+Once the game starts, a pop up with two places to enter an 
+answer and it will say “Enter the location you want to place 
+your Aircraft carrier and its direction.” The user enters 
+that information, the grid gets updated, and more pop ups pop 
+up asking the user to place the other ships. 
+
+
+
+
+Naomi's Changes / Comments / Notes:
+- When the specials have already been completely used or
+  if the ship has been shot down, what should we do? 
+   - WE SHOULD REMOVE THE BUTTON because if they shoot down 
+     the ship or if the abilities have been complete used, 
+     we don't want that ship's ability to still be shown.
+
+- If the ship gets shot down, remember to make the number
+  of abilities that are able to be used equal zero
+   - should we make a function where if the ship has been
+     completely shot down, make the num of abilities = 0?
+
+- In the GUI, when we're about to place the ability buttons
+  we should probably have an if statement that checks whether
+  that ship is not shot down and has abilities left
+
+- In the GUI, when a ship / spot has been hit, it needs to 
+  update that spot either to a flame or a white dot. 
+  So should we check that? Kinda like "okay so you told me to
+  hit these coordinates. Now i'm going to see what those 
+  coordinates are set to (whether there was a ship there and it's
+  hit, or whether it was an empty space and it's not hit)
+
