@@ -59,7 +59,6 @@ public class BattleshipMainGUI extends JFrame {
 		ship = 0;
 		enemy = new Oponent();
 		enemy.gamemode = this.mode;
-		//enemy.setShips(coor, userBoard);
 		
 		//SET THE ENEMIES SHIP
 		enemy.setShips();
@@ -240,7 +239,6 @@ public class BattleshipMainGUI extends JFrame {
 			Location loc;
 			Object source = e.getSource();
 			int userNumOfShips = 5;
-			int enemyNumOfShips = 5;
 			
 			for(i = 0; i < 10; i++) {
 				for(j = 0; j < 10; j++){
@@ -270,7 +268,6 @@ public class BattleshipMainGUI extends JFrame {
 							}
 							else if(mode == 2) {		//SALVO MODE
 								userNumOfShips = player.getOwnedShips().size();		//Number of ships the user has
-								enemyNumOfShips = enemy.Ships.size();				//Number of ships the enemy has
 								if ((iterate % (userNumOfShips+1)) != 0) {			//Player goes 5 times!!!!! 
 									coor = new Coordinate();
 								    loc = new Location(i,j);
@@ -282,8 +279,7 @@ public class BattleshipMainGUI extends JFrame {
 									}
 									else {
 										iterate++;	
-									}
-									enemyNumOfShips = enemy.Ships.size();			//Update the number of ships 
+									} 
 									if (CheckIfWinner() == 1) {
 										break;	
 									}
@@ -291,13 +287,6 @@ public class BattleshipMainGUI extends JFrame {
 								if((iterate-1) == 5) {	//ships turn. It says (iterate - 1) because iterate got incremented a few seconds ago when the player went 
 									enemy.takeTurn(userBoard, player);	//Enemy goes 5 times! (if they have 5 ships)
 									checkPlayerGrid();					//Player's board gets updated
-									
-									//FIXME CJ!!! So this is the while loop:
-									/*while(enemyNumOfShips != 0) {			//Enemy goes 5 times! (if they have 5 ships)
-										enemy.takeTurn(userBoard, player);
-										checkPlayerGrid();
-										enemyNumOfShips--;
-									}*/
 									
 									userNumOfShips = player.getOwnedShips().size();		//The number of ships the user has get's updated (this variable is used elsewhere.)
 									iterate = 1;										//iterate gets reset to 1

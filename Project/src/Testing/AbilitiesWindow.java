@@ -23,7 +23,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
-import Testing.BattleshipMainGUI;
+
 import base.*;
 import ships.*;
 
@@ -123,11 +123,9 @@ import ships.*;
 		
 		JLabel lblTheSonarScanner = new JLabel("<HTML><center><b>Submarine:</b> The Sonar Scanner let\u2019s you know if any enemy ship is located in a 3x3 space, but it doesn't tell you where.</center></HTML>");
 		
-		JLabel lblMoveARecon = new JLabel("<HTML><center><b>Aircraft Carrier:</b> Move a recon plane.</center></HTML>");
-		
 		JLabel lblReconPlanesLet = new JLabel("<HTML><center><b>Aircraft Carrier</b> Recon Planes Scanner let you know if any enemy ship is located in a space pattern that resembles an X or a cross, and tells you where.</center></HTML>");
 		
-		JLabel lblAntiaircraftMissilesChecks = new JLabel("<HTML><center>Anti-Aircraft Missiles checks a spot to see if an enemy recon plane is located at that spot and shoots it.</center></HTML>");
+		JLabel lblAntiaircraftMissilesChecks = new JLabel("<HTML><center>Anti-Aircraft Missiles checks a spot to see if an enemy recon plane is located at that spot <BR>and shoots it.</center></HTML>");
 		
 		JButton btnFireExocetMissile = new JButton("Fire Exocet Missile");
 		btnFireExocetMissile.addActionListener(new ActionListener() {
@@ -430,10 +428,6 @@ import ships.*;
 		
 		});
 		
-		
-		
-		JButton btnMovePlane = new JButton("Move Plane");
-		
 		JButton btnFireAntiaircraftMissle = new JButton("Fire Anti-Aircraft Missle");
 		btnFireAntiaircraftMissle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -494,11 +488,7 @@ import ships.*;
 		
 		JLabel lblUsesLeft_4 = new JLabel("Uses Left: No Limit");
 		
-		JLabel lblUsesLeft_5 = new JLabel("Uses Left: No Limit");			//FIXME RECON PLANES SPECIALS LEFT
-		
-		JLabel lblUsesLeft_6 = new JLabel("Uses Left: Remove this label");			//FIXME RECON MOVE LEFT
-		
-		JLabel lblUsesLeft_7 = new JLabel("Uses Left: ");			//FIXME ANTI AIRCRAFT SPECIALS LEFT
+		JLabel lblUsesLeft_5 = new JLabel("Uses Left: No Limit");
 		
 		JLabel lblBattleship = new JLabel("ABILITIES");
 		lblBattleship.setFont(new Font("Impact", Font.PLAIN, 25));
@@ -518,21 +508,14 @@ import ships.*;
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 							.addGroup(gl_contentPane.createSequentialGroup()
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-												.addComponent(lblReconPlanesLet, 0, 0, Short.MAX_VALUE)
-												.addComponent(lblNewLabel, Alignment.TRAILING, 0, 0, Short.MAX_VALUE)
-												.addComponent(lblTheTomahawkMissile, 0, 0, Short.MAX_VALUE)
-												.addComponent(lblApacheMissilesTarget, 0, 0, Short.MAX_VALUE)
-												.addComponent(lblTheTorpedoHits, 0, 0, Short.MAX_VALUE)
-												.addComponent(lblTheSonarScanner, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
-											.addComponent(lblAntiaircraftMissilesChecks, 0, 0, Short.MAX_VALUE))
-										.addGap(37))
-									.addGroup(gl_contentPane.createSequentialGroup()
-										.addComponent(lblMoveARecon)
-										.addPreferredGap(ComponentPlacement.RELATED)))
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+									.addComponent(lblReconPlanesLet, 0, 0, Short.MAX_VALUE)
+									.addComponent(lblNewLabel, Alignment.TRAILING, 0, 0, Short.MAX_VALUE)
+									.addComponent(lblTheTomahawkMissile, 0, 0, Short.MAX_VALUE)
+									.addComponent(lblApacheMissilesTarget, 0, 0, Short.MAX_VALUE)
+									.addComponent(lblTheTorpedoHits, 0, 0, Short.MAX_VALUE)
+									.addComponent(lblTheSonarScanner, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
+								.addGap(37)
 								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 									.addGroup(gl_contentPane.createSequentialGroup()
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -551,20 +534,20 @@ import ships.*;
 									.addGroup(gl_contentPane.createSequentialGroup()
 										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 											.addComponent(btnUseReconPlanes)
-											.addComponent(btnMovePlane)
 											.addComponent(btnFireAntiaircraftMissle))
 										.addGap(18)
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-											.addComponent(lblUsesLeft_6)
-											.addComponent(lblUsesLeft_5)
-											.addComponent(lblUsesLeft_7))))
-								.addContainerGap())
+										.addComponent(lblUsesLeft_5)))
+								.addGap(56))
 							.addGroup(gl_contentPane.createSequentialGroup()
 								.addComponent(lblBattleship)
 								.addGap(243)))
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-							.addComponent(btnCancel)
-							.addGap(271))))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblAntiaircraftMissilesChecks, 0, 0, Short.MAX_VALUE)
+							.addGap(360))))
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addGap(278)
+					.addComponent(btnCancel)
+					.addContainerGap(291, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -609,26 +592,19 @@ import ships.*;
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(18)
-							.addComponent(lblReconPlanesLet)
-							.addGap(18)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-									.addComponent(btnMovePlane)
-									.addComponent(lblUsesLeft_6))
-								.addComponent(lblMoveARecon)))
+							.addComponent(lblReconPlanesLet))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(26)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(btnUseReconPlanes)
 								.addComponent(lblUsesLeft_5))))
 					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblAntiaircraftMissilesChecks)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblUsesLeft_7)
-							.addComponent(btnFireAntiaircraftMissle)))
-					.addPreferredGap(ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-					.addComponent(btnCancel))
+						.addComponent(btnFireAntiaircraftMissle))
+					.addGap(54)
+					.addComponent(btnCancel)
+					.addGap(21))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -950,15 +926,9 @@ import ships.*;
 			checkString = new String(sonarCoor.getText());
 		}
 		else if(buttonNum == 5) {	//ACC Plane's Plane Scanner!
-			//FIXME CJ!
 			checkString = new String(ReconCoor.getText());
 		}
-		else if(buttonNum == 6) {	//ACC Plane's Move Plane!
-			//FIXME CJ!
-			checkString = new String("FIXME CJ");
-		}
 		else if(buttonNum == 7) {	//Anti-Aircraft Carrier!
-			//FIXME CJ!
 			checkString = new String(AACoor.getText());
 		}
 		else {
@@ -1019,7 +989,7 @@ import ships.*;
 			if((checkString.charAt(0) >= 'A') && (checkString.charAt(0) <= 'J')) {
 				letter = checkString.charAt(0) - 65;
 				coord = new Coordinate();
-				Location loc = new Location(letter,0);	//FIXME NAOMI!!!
+				Location loc = new Location(letter,0);
 				coord.setCoord(loc);
 				torpedoDir = true;
 				return true; //Yay!!! Correct shit was inputed!!
@@ -1027,7 +997,7 @@ import ships.*;
 			else if((checkString.charAt(0) >= 'a') && (checkString.charAt(0) <= 'j')) {
 				letter = checkString.charAt(0) - 97;
 				coord = new Coordinate();
-				Location loc = new Location(letter,0);	//FIXME NAOMI!!!
+				Location loc = new Location(letter,0);
 				coord.setCoord(loc);
 				torpedoDir = true;
 				return true; //Yay!!! Correct shit was inputed!!
@@ -1037,7 +1007,7 @@ import ships.*;
 					if(checkString.charAt(1) == '0'){
 						//Row 10 was selected aka row 9 in our grid of buttons
 						coord = new Coordinate();
-						Location loc = new Location(0,9);	//FIXME NAOMI!!!
+						Location loc = new Location(0,9);
 						coord.setCoord(loc);
 						torpedoDir = false;
 						return true; //Yay!!! Correct shit was inputed!!
@@ -1046,7 +1016,7 @@ import ships.*;
 				else {
 					num = checkString.charAt(0) - 49;
 					coord = new Coordinate();
-					Location loc = new Location(0,num); //FIXME NAOMI!!!
+					Location loc = new Location(0,num);
 					coord.setCoord(loc);
 					torpedoDir = false;
 					return true; //Yay!! Correct shit was inputed!!
@@ -1064,30 +1034,30 @@ import ships.*;
 		//Checks the whole board after the ability button has been pressed.
 		//If a new board location has been hit, change its color 
 		if(boardNum == 1){
-		int i, j;
-		for(i = 0; i < 10; i++) {
-			for(j = 0; j < 10; j++) {
-					if (board.getSpaces()[i][j].getBeenHit() == true) {
-						if (board.getSpaces()[i][j].getisOccupied() == true) {
-							enemyGridButton[i][j].setBackground(Color.RED);
-						}
-						else {
-							enemyGridButton[i][j].setBackground(Color.WHITE);
-						}
-					}
-					
-					else {
-						if(board.getSpaces()[i][j].getFound() == true)
-							enemyGridButton[i][j].setBackground(Color.green);
-						else{
-							if(board.getSpaces()[i][j].getChecked())
+			int i, j;
+			for(i = 0; i < 10; i++) {
+				for(j = 0; j < 10; j++) {
+						if (board.getSpaces()[i][j].getBeenHit() == true) {
+							if (board.getSpaces()[i][j].getisOccupied() == true) {
+								enemyGridButton[i][j].setBackground(Color.RED);
+							}
+							else {
 								enemyGridButton[i][j].setBackground(Color.WHITE);
-							else	
-								enemyGridButton[i][j].setBackground(Color.BLUE);
+							}
 						}
-					}
-			}	
-		}
+						
+						else {
+							if(board.getSpaces()[i][j].getFound() == true)
+								enemyGridButton[i][j].setBackground(Color.green);
+							else{
+								if(board.getSpaces()[i][j].getChecked())
+									enemyGridButton[i][j].setBackground(Color.WHITE);
+								else	
+									enemyGridButton[i][j].setBackground(Color.BLUE);
+							}
+						}
+				}	
+			}
 		}
 		else {
 			int i, j;
