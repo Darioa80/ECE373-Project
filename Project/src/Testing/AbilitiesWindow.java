@@ -33,8 +33,6 @@ import ships.*;
 	private Player user;
 	private GameBoard board;
 	private Coordinate coord;		//updated inside CheckInputOk
-	private Oponent Enemy;
-	private GameBoard playerGrid;
 	
 	//Exocet JFrame for Button Press
 	private JFrame ExocetPreferenceFrame;
@@ -83,18 +81,14 @@ import ships.*;
 	//other that Naomi Created
 	private boolean torpedoDir;	//Direction of Torpedo
 	private JButton[][] enemyGridButton;
-	private JButton[][] playerGridButton;
 	
 	/**
 	 * Create the frame.
 	 */
-	public AbilitiesWindow(Player aUser, GameBoard aBoard, JButton[][] enemyBoard, GameBoard playerBoard, Oponent opp, JButton[][] playerButtonBoard) {
+	public AbilitiesWindow(Player aUser, GameBoard aBoard, JButton[][] enemyBoard) {
 		user = aUser;
 		board = aBoard;
 		enemyGridButton = enemyBoard;
-		playerGrid = playerBoard;
-		Enemy = opp;
-		playerGridButton = playerButtonBoard;
 		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -595,9 +589,7 @@ import ships.*;
 						else {	//If no Pattern is selected the cross is the default
 							acc.Exocet(true, coord, board);
 						}
-						checkBoardChanges(1);	//Changes the colors on the enemy board
-						Enemy.takeTurn(playerGrid, user);
-						checkBoardChanges(2);
+						checkEnemyBoardChanges();	//Changes the colors on the enemy board
 					}
 					ExocetPreferenceFrame.dispose();
 					ExocetPreferenceFrame.setVisible(false);
@@ -625,9 +617,7 @@ import ships.*;
 						Battleship BS = new Battleship();
 						user.getOwnedShips().get(1).setSpecialsLeft(user.getOwnedShips().get(1).getSpecialsLeft()-1);
 						BS.TomaHawk(coord, board);
-						checkBoardChanges(1);
-						Enemy.takeTurn(playerGrid, user);
-						checkBoardChanges(2);
+						checkEnemyBoardChanges();
 						TomahawkPreferenceFrame.dispose();
 						TomahawkPreferenceFrame.setVisible(false);
 						close();
@@ -662,9 +652,7 @@ import ships.*;
 						else {	//If no Pattern is selected the cross is the default
 							Dest.Apache(coord, true, board);
 						}
-						checkBoardChanges(1);	//Changes the colors on the enemy board
-						Enemy.takeTurn(playerGrid, user);
-						checkBoardChanges(2);
+						checkEnemyBoardChanges();	//Changes the colors on the enemy board
 					}
 					ApachePreferenceFrame.dispose();
 					ApachePreferenceFrame.setVisible(false);
@@ -695,9 +683,7 @@ import ships.*;
 						Submarine s = new Submarine();
 						user.getOwnedShips().get(3).setSpecialsLeft(user.getOwnedShips().get(3).getSpecialsLeft()-1);	//Get submarines specials and decrease it by 1
 						s.Torpedo(coord, torpedoDir, board);
-						checkBoardChanges(1);
-						Enemy.takeTurn(playerGrid, user);
-						checkBoardChanges(2);
+						checkEnemyBoardChanges();
 					}
 					TorpedoPreferenceFrame.dispose();
 					TorpedoPreferenceFrame.setVisible(false);
@@ -734,9 +720,7 @@ import ships.*;
 											+ "<BR>But where?"
 											+ "<BR>dun DUN DUUUN!!!</center></HTML>");
 					}
-					checkBoardChanges(1);		//Changes the board back to the normal colors
-					Enemy.takeTurn(playerGrid, user);	
-					checkBoardChanges(2);
+					checkEnemyBoardChanges();		//Changes the board back to the normal colors
 				}
 				SonarPreferenceFrame.dispose();
 				SonarPreferenceFrame.setVisible(false);
@@ -775,9 +759,7 @@ import ships.*;
 							else {	//If no Pattern is selected the cross is the default
 								hit = p.Scan(coord.getCoord(), true, board);
 							}
-							checkBoardChanges(1);	//Changes the colors on the enemy board
-							Enemy.takeTurn(playerGrid, user);
-							checkBoardChanges(2);
+							checkEnemyBoardChanges();	//Changes the colors on the enemy board
 						}
 					}
 					else
@@ -796,9 +778,8 @@ import ships.*;
 							else {	//If no Pattern is selected the cross is the default
 								hit = p.Scan(coord.getCoord(), true, board);
 							}
-							checkBoardChanges(1);	//Changes the colors on the enemy board
-							Enemy.takeTurn(playerGrid, user);
-							checkBoardChanges(2);
+							checkEnemyBoardChanges();	//Changes the colors on the enemy board
+							
 						}
 					}
 					if(hit == false){
@@ -956,10 +937,10 @@ import ships.*;
 		WindowEvent winClosingEvent = new WindowEvent(this,WindowEvent.WINDOW_CLOSING);
 		Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(winClosingEvent);
 	}
-	public void checkBoardChanges(int boardNum) {
+	public void checkEnemyBoardChanges() {
 		//Checks the whole board after the ability button has been pressed.
 		//If a new board location has been hit, change its color 
-		if (boardNum == 1){
+		
 		int i, j;
 		for(i = 0; i < 10; i++) {
 			for(j = 0; j < 10; j++) {
@@ -977,31 +958,9 @@ import ships.*;
 							enemyGridButton[i][j].setBackground(Color.green);
 						else
 							enemyGridButton[i][j].setBackground(Color.BLUE);
+						
 					}
 			}	
-		}
-		}
-		else {
-			int i, j;
-			for(i = 0; i < 10; i++) {
-				for(j = 0; j < 10; j++) {
-						if (playerGrid.getSpaces()[i][j].getBeenHit() == true) {
-							if (playerGrid.getSpaces()[i][j].getisOccupied() == true) {
-								playerGridButton[i][j].setBackground(Color.RED);
-							}
-							else {
-								playerGridButton[i][j].setBackground(Color.WHITE);
-							}
-						}
-						
-						else {
-							if(playerGrid.getSpaces()[i][j].getFound() == true)
-								playerGridButton[i][j].setBackground(Color.green);
-							else
-								playerGridButton[i][j].setBackground(Color.BLUE);
-						}
-				}	
-			}			
 		}
 	}
 	public void sonarColorChange() {
