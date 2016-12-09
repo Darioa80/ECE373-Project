@@ -246,7 +246,7 @@ public class BattleshipMainGUI extends JFrame {
 				for(j = 0; j < 10; j++){
 					if (source == enemyButtonGrid[i][j]) {
 						if(gameOn == true) {		//If the game has started, it's time to fire some shots pew pew
-							if(mode == 1) {
+							if(mode == 1 || mode == 3) {
 								coor = new Coordinate();
 							    loc = new Location(i,j);
 								coor.setCoord(loc);
@@ -258,7 +258,9 @@ public class BattleshipMainGUI extends JFrame {
 										break;
 									}
 									case 1: {		//Player shot the enemy! They get to go again 
+										if (mode == 1){
 										break;
+										}
 									}
 									default: {		//Missed! Enemy takes a Shot.
 										enemy.takeTurn(userBoard, player);
@@ -391,7 +393,7 @@ public class BattleshipMainGUI extends JFrame {
 			else if (source == abilityButton) {								//Calls the abilities window
 				if(gameOn == true) {
 					if (turn % 2 == 0) {	//User's turn!
-						AbilitiesWindow abilitiesMenu = new AbilitiesWindow(player, compBoard, enemyButtonGrid);
+						AbilitiesWindow abilitiesMenu = new AbilitiesWindow(player, compBoard, enemyButtonGrid, userBoard, enemy, userButtonGrid);
 						abilitiesMenu.setVisible(true);
 					}
 					else {	//Computers turn
