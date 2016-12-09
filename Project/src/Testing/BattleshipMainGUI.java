@@ -59,7 +59,6 @@ public class BattleshipMainGUI extends JFrame {
 		ship = 0;
 		enemy = new Oponent();
 		enemy.gamemode = this.mode;
-		//enemy.setShips(coor, userBoard);
 		
 		//SET THE ENEMIES SHIP
 		enemy.setShips();
