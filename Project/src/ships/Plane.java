@@ -45,7 +45,7 @@ public class Plane extends Equipment {
 					hit = true;
 				}
 				else{
-					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setChecked(true);
 				}
 			}
 			
@@ -58,7 +58,7 @@ public class Plane extends Equipment {
 					hit = true;
 				}
 				else{
-					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setChecked(true);
 				}
 				
 			}
@@ -69,7 +69,7 @@ public class Plane extends Equipment {
 				hit = true;
 			}
 			else{
-				Board.Spaces[center.getNum()][center.getLetter()].setBeenHit(true);
+				Board.Spaces[center.getNum()][center.getLetter()].setChecked(true);
 			}
 			
 			if(center.getLetter() != 9 && center.getNum() != 0) {
@@ -81,7 +81,7 @@ public class Plane extends Equipment {
 					hit = true;
 				}
 				else{
-					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setChecked(true);
 				}
 			}
 			
@@ -95,7 +95,7 @@ public class Plane extends Equipment {
 					hit = true;
 				}
 				else{
-					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setChecked(true);
 				}
 			}
 			
@@ -116,7 +116,7 @@ public class Plane extends Equipment {
 					hit = true;
 				}
 				else{
-					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setChecked(true);
 				}
 			}
 			
@@ -129,7 +129,7 @@ public class Plane extends Equipment {
 					hit = true;
 				}
 				else{
-					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setChecked(true);
 				}
 			}
 			
@@ -139,7 +139,7 @@ public class Plane extends Equipment {
 				hit = true;
 			}
 			else{
-				Board.Spaces[center.getNum()][center.getLetter()].setBeenHit(true);
+				Board.Spaces[center.getNum()][center.getLetter()].setChecked(true);
 			}
 			
 			if(center.getNum() != 9){
@@ -151,7 +151,7 @@ public class Plane extends Equipment {
 					hit = true;
 				}
 				else{
-					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setChecked(true);
 				}
 			}
 			
@@ -165,7 +165,7 @@ public class Plane extends Equipment {
 					hit = true;
 				}
 				else{
-					Board.Spaces[Curr.getNum()][Curr.getLetter()].setBeenHit(true);
+					Board.Spaces[Curr.getNum()][Curr.getLetter()].setChecked(true);
 				}
 			}
 			

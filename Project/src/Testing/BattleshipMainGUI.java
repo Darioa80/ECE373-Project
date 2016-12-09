@@ -391,7 +391,7 @@ public class BattleshipMainGUI extends JFrame {
 			else if (source == abilityButton) {								//Calls the abilities window
 				if(gameOn == true) {
 					if (turn % 2 == 0) {	//User's turn!
-						AbilitiesWindow abilitiesMenu = new AbilitiesWindow(player, compBoard, enemyButtonGrid);
+						AbilitiesWindow abilitiesMenu = new AbilitiesWindow(player, compBoard, enemyButtonGrid, enemy );
 						abilitiesMenu.setVisible(true);
 					}
 					else {	//Computers turn
@@ -551,6 +551,7 @@ public class BattleshipMainGUI extends JFrame {
 							enemyButtonGrid[i][j].setBackground(Color.RED);
 							if (k == compBoard.getSpaces()[i][j].getIsOccupiedBy().getHits().size() - 1){
 								compBoard.getSpaces()[i][j].getIsOccupiedBy().setSunk(true);
+								JOptionPane.showMessageDialog(null, "You have sunk the enemy's " + compBoard.getSpaces()[i][j].getIsOccupiedBy().getName() + "!!!");
 							}		
 							return 1;
 						}

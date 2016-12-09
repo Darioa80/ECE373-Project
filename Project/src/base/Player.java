@@ -12,6 +12,7 @@ public class Player {
 		Destroyer userD;
 		Submarine userS;
 		PTBoat userPT;
+	public AAGun AA;
 		
 	public Player(){
 		//Ship = 0 means Aircraft Carrier 
@@ -33,6 +34,8 @@ public class Player {
 		this.OwnedPlanes.add(p1);
 		this.OwnedPlanes.add(p2);
 		
+		
+		AA = new AAGun();
 		
 		
 		this.OwnedShips = new ArrayList<Ship>(5);

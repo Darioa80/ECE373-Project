@@ -31,6 +31,7 @@ import ships.*;
 
 	private JPanel contentPane;
 	private Player user;
+	private Oponent enemy;
 	private GameBoard board;
 	private Coordinate coord;		//updated inside CheckInputOk
 	
@@ -78,6 +79,14 @@ import ships.*;
 	private JRadioButton Recon1;
 	private JRadioButton Recon2;
 	
+	//AA Gun buttons
+	private JFrame AAPreferenceFrame;
+	private JButton okayAA;
+	private JButton cancelAA;
+	private JTextField ReconAA;
+	private JTextField AACoor;
+	
+	
 	//other that Naomi Created
 	private boolean torpedoDir;	//Direction of Torpedo
 	private JButton[][] enemyGridButton;
@@ -85,9 +94,10 @@ import ships.*;
 	/**
 	 * Create the frame.
 	 */
-	public AbilitiesWindow(Player aUser, GameBoard aBoard, JButton[][] enemyBoard) {
+	public AbilitiesWindow(Player aUser, GameBoard aBoard, JButton[][] enemyBoard, Oponent enemy) {
 		user = aUser;
 		board = aBoard;
+		this.enemy = enemy;
 		enemyGridButton = enemyBoard;
 		
 		setResizable(false);
@@ -420,6 +430,54 @@ import ships.*;
 		JButton btnMovePlane = new JButton("Move Plane");
 		
 		JButton btnFireAntiaircraftMissle = new JButton("Fire Anti-Aircraft Missle");
+		btnFireAntiaircraftMissle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			
+				AAPreferenceFrame = new JFrame("Anti-Aircraft Missile Preference");
+				AAPreferenceFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				AAPreferenceFrame.getContentPane().setLayout(new GridLayout(3,3));
+				AAPreferenceFrame.setSize(600, 150);
+				AAPreferenceFrame.setResizable(false);
+				
+				JPanel panel1 = new JPanel();
+				JPanel panel2 = new JPanel();
+				JPanel panel3 = new JPanel();
+				JPanel panel4 = new JPanel();
+				
+				JLabel AALabel = new JLabel("<HTML><center>Where would you like to fire the Anti-Aircraft Missile?</center></HTML>");
+				AACoor = new JTextField(10);
+				
+
+				okayAA = new JButton("Okay");
+				okayAA.addActionListener(new AbilitiesButtonListener());
+				cancelAA = new JButton("Cancel");
+				cancelAA.addActionListener(new AbilitiesButtonListener());
+				
+				panel1.add(AALabel);
+				panel2.add(AACoor);
+				panel3.add(okayAA);
+				panel4.add(cancelAA);
+				
+				
+				AAPreferenceFrame.getContentPane().add(panel1);
+				AAPreferenceFrame.getContentPane().add(panel2);
+				AAPreferenceFrame.getContentPane().add(panel3);
+				AAPreferenceFrame.getContentPane().add(panel4);
+				
+				
+				AAPreferenceFrame.setVisible(true);
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		JLabel lblUsesLeft = new JLabel("Uses Left: " + user.getOwnedShips().get(0).getSpecialsLeft() );				//AIRCRAFT CARRIER SPECIALS LEFT
 
@@ -752,7 +810,7 @@ import ships.*;
 							ReconPreferenceFrame.setVisible(false);
 					    }
 						else{
-							user.OwnedPlanes.get(1).setLocation(coord.getCoord());
+							user.OwnedPlanes.get(1).setLoc(coord.getCoord());
 							if (CrossRecon.isSelected()) {
 								hit = p.Scan(coord.getCoord(), false, board);
 							}
@@ -771,7 +829,7 @@ import ships.*;
 							ReconPreferenceFrame.setVisible(false);
 					    }
 						else{
-							user.OwnedPlanes.get(0).setLocation(coord.getCoord());
+							user.OwnedPlanes.get(0).setLoc(coord.getCoord());
 							if (CrossRecon.isSelected()) {
 								hit = p.Scan(coord.getCoord(), false, board);
 							}
@@ -802,6 +860,53 @@ import ships.*;
 			if (source.equals(cancelRecon)){
 				ReconPreferenceFrame.dispose();
 				ReconPreferenceFrame.setVisible(false);
+				close(); 
+			}
+			
+			if (source.equals(okayAA)){
+				int hit = 0;
+				if (user.AA.getEnabled()){
+					if(checkInputOK(7) == false) {		//Checks that the input was a coordinate and not random stuff
+						JOptionPane.showMessageDialog(null, "<HTML><center>Your input was incorrect."
+												+ "the launch of the Anti-Aircraft missle was canceled.</center></HTML>");
+						AAPreferenceFrame.dispose();
+						AAPreferenceFrame.setVisible(false);
+					}
+					else {
+						hit = user.AA.Fire(coord.getCoord(), enemy.Planes);
+					}
+					
+					switch(hit){
+					case -1: {
+						JOptionPane.showMessageDialog(null, "Cannot Use Anti-Aircraft Missile Battery.\nAll Enemy Aircraft have been Shot Down.");
+						break;
+					}
+					case 0: {
+						JOptionPane.showMessageDialog(null, "Anti-Aircraft Missile Battery missed\nEnemy Aircraft was not shot down");
+						break;
+					}
+					default:{
+						JOptionPane.showMessageDialog(null, "Success!!! Enemy Aircraft has been shot down successfully!!");
+						break;
+					}
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+					AAPreferenceFrame.dispose();
+					AAPreferenceFrame.setVisible(false);
+					close(); 
+				}
+			}
+			
+			if (source.equals(cancelAA)){
+				AAPreferenceFrame.dispose();
+				AAPreferenceFrame.setVisible(false);
 				close(); 
 			}
 			
@@ -836,7 +941,7 @@ import ships.*;
 		}
 		else if(buttonNum == 7) {	//Anti-Aircraft Carrier!
 			//FIXME CJ!
-			checkString = new String("FIXME CJ");
+			checkString = new String(AACoor.getText());
 		}
 		else {
 			return false;
@@ -956,9 +1061,12 @@ import ships.*;
 					else {
 						if(board.getSpaces()[i][j].getFound() == true)
 							enemyGridButton[i][j].setBackground(Color.green);
-						else
-							enemyGridButton[i][j].setBackground(Color.BLUE);
-						
+						else{
+							if(board.getSpaces()[i][j].getChecked())
+								enemyGridButton[i][j].setBackground(Color.WHITE);
+							else	
+								enemyGridButton[i][j].setBackground(Color.BLUE);
+						}
 					}
 			}	
 		}

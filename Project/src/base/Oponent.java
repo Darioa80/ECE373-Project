@@ -5,7 +5,7 @@ import ships.*;
 
 public class Oponent {
 	public ArrayList<Ship> Ships = new ArrayList<Ship>();
-	private ArrayList<Plane> Planes = new ArrayList<Plane>();
+	public ArrayList<Plane> Planes = new ArrayList<Plane>(2);
 	private AAGun aa = new AAGun();
 	public GameBoard Board = new GameBoard();
 	private int lastHit;
@@ -186,7 +186,7 @@ ifcheck3:				if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == t
 						Aim.setNum(rn.nextInt(10));
 						ori = rn.nextBoolean();
 						if(this.aa.getEnabled() == true){
-							aa.Fire(this.Board.Spaces[Aim.getLetter()][Aim.getNum()].getCoord(), Board, P.OwnedPlanes);
+							aa.Fire(this.Board.Spaces[Aim.getLetter()][Aim.getNum()].getCoord(), P.OwnedPlanes);
 							break loop;
 						}
 						break;
@@ -362,23 +362,9 @@ ifcheck3:				if(Board.Spaces[Aim.getLetter()][Aim.getNum()].getisOccupied() == t
 				
 			}
 			
-		}
-		if(this.gamemode == 3){
-		i = rn.nextInt(5);
-		Curr.setLoc(this.Ships.get(0).getLocation().get(i));
-		this.Planes.add(Curr);
+			this.Planes.add(new Plane());
+			this.Planes.add(new Plane());
 		
-		
-		while(true){
-			i = rn.nextInt(5);
-			if(Planes.get(0).getLoc() != this.Ships.get(0).getLocation().get(i)){
-				Curr.setLoc(this.Ships.get(0).getLocation().get(i));
-				break;
-			}
-		
-			
-			
-		}
 		}
 		return;
 	}
